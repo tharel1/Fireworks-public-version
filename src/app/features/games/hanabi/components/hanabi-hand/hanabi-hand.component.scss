@@ -1,0 +1,14 @@
+.hanabi-hand {
+  display: flex;
+  gap: 8px;
+  align-items: flex-end;
+  width: fit-content;
+}
+
+.cdk-drag-placeholder {
+  opacity: 0;
+}
+
+.cdk-drag-animating {
+  transition: transform 500ms cubic-bezier(0, 0, 0.2, 1);
+}

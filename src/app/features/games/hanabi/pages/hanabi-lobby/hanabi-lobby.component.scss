@@ -1,0 +1,16 @@
+.hanabi-rooms {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  .hanabi-rooms-content {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .hanabi-rooms-add {
+    width: 300px;
+  }
+}

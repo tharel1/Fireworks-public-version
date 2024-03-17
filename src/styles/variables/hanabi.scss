@@ -1,0 +1,15 @@
+@use "styles/functions/colors";
+@use "styles/palettes";
+
+$card-width: 75px;
+$card-height: 220px;
+$card-height-small: 180px;
+$card-clue-height: $card-height - $card-height-small;
+$card-border-radius: 10px;
+$card-shadow: -5px -5px 5px 0 rgba(0,0,0,.2);
+
+$red: colors.from-palette(palettes.$red);
+$yellow: colors.from-palette(palettes.$amber);
+$green: colors.from-palette(palettes.$green);
+$blue: colors.from-palette(palettes.$light-blue);
+$purple: colors.from-palette(palettes.$deep-purple, 300);

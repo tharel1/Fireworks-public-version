@@ -1,0 +1,49 @@
+@use "styles/functions/colors";
+@use "styles/palettes";
+
+.hanabi-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px 20px;
+
+  .hanabi {
+    display: flex;
+    justify-content: space-between;
+
+    .hanabi-left {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      margin-top: 40px;
+
+      .hanabi-state {
+        display: flex;
+        gap: 20px;
+      }
+    }
+
+    .hanabi-right {
+      display: flex;
+      gap: 40px;
+
+      .hanabi-players {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .hanabi-infos {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+
+        .hanabi-actions {
+          display: flex;
+          justify-content: space-between;
+          gap: 15px;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,4 @@
+<mat-card *ngIf="value || color" class="hanabi-clue" [ngClass]="color">
+  <b>{{value ?? ''}}</b>
+  <mat-icon *ngIf="color" color="'white'">auto_awesome</mat-icon>
+</mat-card>

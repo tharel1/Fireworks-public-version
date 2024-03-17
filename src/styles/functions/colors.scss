@@ -1,0 +1,21 @@
+@use "sass:map";
+@use "sass:meta";
+
+@function from-palette($palette, $hue: 500, $opacity: null) {
+  // We cast the $hue to a string, because some hues starting with a number, like `700-contrast`,
+  // might be inferred as numbers by Sass. Casting them to string fixes the map lookup.
+  $color: if(map.has-key($palette, $hue), map.get($palette, $hue), map.get($palette, $hue + ''));
+
+  @if (meta.type-of($color) != color) {
+    // If the $color resolved to something different from a color (e.g. a CSS variable),
+    // we can't apply the opacity anyway so we return the value as is, otherwise Sass can
+    // throw an error or output something invalid.
+    @return $color;
+  }
+
+  @return rgba($color, if($opacity == null, opacity($color), $opacity));
+}
+
+@function from-palette-contrast($palette, $hue: 500) {
+  @return map.get(map.get($palette, contrast), $hue);
+}

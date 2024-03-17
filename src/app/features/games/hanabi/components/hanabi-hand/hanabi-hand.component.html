@@ -1,0 +1,9 @@
+<div class="hanabi-hand">
+  <app-hanabi-card *ngFor="let card of cards"
+                   [card]="card"
+                   [visible]="visible"
+                   [canPlay]="canPlay"
+                   [inHand]="true"
+                   (command)="onCommand($event)"></app-hanabi-card>
+
+</div>

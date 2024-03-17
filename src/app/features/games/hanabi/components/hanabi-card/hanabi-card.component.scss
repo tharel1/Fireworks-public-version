@@ -1,0 +1,72 @@
+@use "styles/functions/colors";
+@use "styles/palettes";
+@use "styles/variables/hanabi";
+
+.hanabi-card {
+  display: flex;
+  flex-direction: column;
+  cursor: default;
+  transition: transform 250ms ease-out;
+
+  .hanabi-card-container {
+    width: hanabi.$card-width;
+    height: hanabi.$card-height;
+    box-shadow: hanabi.$card-shadow;
+    border-radius: hanabi.$card-border-radius;
+
+    .hanabi-card-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+
+      .hanabi-card-value {
+        font-size: 4em;
+        line-height: 1;
+      }
+
+      .hanabi-card-icon {
+        transform: scale(1.5);
+      }
+    }
+
+    .not-visible {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 100px;
+
+      .hanabi-card-icon {
+        color: colors.from-palette(palettes.$grey, 600);
+        transform: scale(2);
+      }
+    }
+  }
+
+  .in-hand {
+    height: hanabi.$card-height-small;
+  }
+}
+
+.clickable {
+  cursor: pointer;
+  &.hanabi-card:hover {
+    transform: translate(0px, -10px);
+  }
+}
+
+.red {
+  color: hanabi.$red;
+}
+.yellow {
+  color: hanabi.$yellow;
+}
+.green {
+  color: hanabi.$green;
+}
+.blue {
+  color: hanabi.$blue;
+}
+.purple {
+  color: hanabi.$purple;
+}

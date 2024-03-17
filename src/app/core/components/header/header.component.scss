@@ -1,0 +1,21 @@
+@use "styles/functions/colors";
+@use "styles/palettes";
+
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+
+  .toolbar-item {
+    display: flex;
+    align-items: center;
+
+    .toolbar-title {
+      display: flex;
+      gap: 5px
+    }
+  }
+}
+
+.active-link {
+  background-color: colors.from-palette(palettes.$brown, 800);
+}

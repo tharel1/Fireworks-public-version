@@ -1,0 +1,8 @@
+@use "styles/functions/colors";
+@use "styles/palettes";
+
+.hanabi-history {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}

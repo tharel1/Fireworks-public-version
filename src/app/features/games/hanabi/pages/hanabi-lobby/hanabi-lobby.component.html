@@ -1,0 +1,13 @@
+<div class="hanabi-rooms">
+  <button class="hanabi-rooms-add" mat-raised-button color="primary" (click)="addRoom()" [disabled]="!!currentRoom">New room</button>
+  <mat-card *ngFor="let room of rooms">
+    <mat-card-content class="hanabi-rooms-content">
+      <button mat-raised-button color="primary" (click)="joinRoom(room)" [disabled]="!!currentRoom" *ngIf="!isOwner()">Join</button>
+      <ng-container *ngIf="room.id === currentRoom?.id">
+        <button mat-raised-button color="primary" *ngIf="isOwner() && !starting$" (click)="start()">Start !</button>
+        <span *ngIf="starting$ | async as starting">Starting in {{starting-1}}...</span>
+      </ng-container>
+      <mat-icon *ngFor="let u of room.users" color="{{user.id === u.id ? 'warn' : ''}}" matTooltip="{{u.name}}">flag</mat-icon>
+    </mat-card-content>
+  </mat-card>
+</div>

@@ -1,0 +1,8 @@
+<div class="hanabi-board-card" [ngClass]="color">
+  <app-hanabi-card *ngIf="card; else placeholder"
+                   [card]="card"></app-hanabi-card>
+  <ng-template #placeholder>
+    <mat-card class="placeholder" [ngClass]="color"></mat-card>
+  </ng-template>
+
+</div>

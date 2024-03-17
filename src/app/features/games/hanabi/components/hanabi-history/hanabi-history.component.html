@@ -1,0 +1,26 @@
+<div class="hanabi-history">
+  <mat-icon matBadge="!"
+            matBadgeColor="warn"
+            matBadgeSize="small"
+            [matBadgeHidden]="!history"
+            matTooltip="You can't play while history mode is active"
+            [matTooltipDisabled]="!history">history</mat-icon>
+  <button mat-mini-fab color="primary"
+          (click)="back()"
+          matTooltip="Previous action"
+          [disabled]="this.historyIndex === game.history.size-1 || game.history.size === 0">
+    <mat-icon>keyboard_arrow_left</mat-icon>
+  </button>
+  <button mat-mini-fab color="primary"
+          (click)="forward()"
+          matTooltip="Next action"
+          [disabled]="!history">
+    <mat-icon>keyboard_arrow_right</mat-icon>
+  </button>
+  <button mat-mini-fab color="primary"
+          (click)="cancel()"
+          matTooltip="Return to game"
+          [disabled]="!history">
+    <mat-icon>keyboard_double_arrow_right</mat-icon>
+  </button>
+</div>

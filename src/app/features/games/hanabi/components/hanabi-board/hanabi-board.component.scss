@@ -1,0 +1,20 @@
+@use "styles/functions/colors";
+@use "styles/palettes";
+
+.hanabi-board {
+    display: flex;
+    gap: 10px;
+}
+
+.cdk-drop-list-dragging {
+  border: 5px solid red;
+  border-radius: 10px;
+}
+
+.card-placeholder {
+  background-color: black;
+  border-radius: 10px;
+  width: 75px;
+  height: 200px;
+}
+

@@ -1,0 +1,20 @@
+@use "@angular/material";
+@use "styles/palettes";
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+$my-primary: material.define-palette(palettes.$brown);
+$my-accent: material.define-palette(palettes.$green);
+$my-warn: material.define-palette(palettes.$deep-orange);
+
+$my-theme: material.define-dark-theme((
+  color: (
+    primary: $my-primary,
+    accent: $my-accent,
+    warn: $my-warn,
+  ),
+  density: 0,
+));
+
+@include material.all-component-themes($my-theme);

@@ -1,0 +1,11 @@
+<mat-card>
+  <mat-card-content class="hanabi-discard-pile">
+    <div *ngFor="let value of values" class="hanabi-discard-pile-column">
+      <div *ngFor="let color of colors" class="hanabi-discard-pile-item">
+        <span *ngFor="let i of [].constructor(calculatedDiscardPile.get(color)?.get(value) ?? 0)" [ngClass]="color">
+          <b>{{ value }}</b>
+        </span>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

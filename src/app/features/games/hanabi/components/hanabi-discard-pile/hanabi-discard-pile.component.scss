@@ -1,0 +1,37 @@
+@use "styles/functions/colors";
+@use "styles/palettes";
+
+.hanabi-discard-pile {
+  display: flex;
+  gap: 20px;
+  cursor: default;
+
+  .hanabi-discard-pile-column {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+
+    .hanabi-discard-pile-item {
+      display: flex;
+      gap: 10px;
+      min-height: 20px;
+      font-size: x-large;
+    }
+
+    .red {
+      color: colors.from-palette(palettes.$red);
+    }
+    .yellow {
+      color: colors.from-palette(palettes.$amber);
+    }
+    .green {
+      color: colors.from-palette(palettes.$green);
+    }
+    .blue {
+      color: colors.from-palette(palettes.$light-blue);
+    }
+    .purple {
+      color: colors.from-palette(palettes.$deep-purple, 300);
+    }
+  }
+}

@@ -1,0 +1,23 @@
+@use "styles/variables/hanabi";
+@use "styles/palettes";
+@use "styles/functions/colors";
+
+.hanabi-player {
+  display: flex;
+  flex-direction: column;
+
+  .hanabi-hand-container {
+    display: flex;
+    align-items: flex-end;
+    height: hanabi.$card-height;
+    padding: 0 10px;
+  }
+
+  .hanabi-player-infos {
+    display: flex;
+    flex-direction: row;
+    margin-top: -16px;
+    padding: 4px 0 0 8px;
+    background-color: colors.from-palette(palettes.$grey, 900);
+  }
+}

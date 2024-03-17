@@ -1,0 +1,43 @@
+<mat-progress-bar *ngIf="sending" color="warn" mode="indeterminate"></mat-progress-bar>
+<div class="hanabi-container">
+
+  <div class="hanabi">
+    <div class="hanabi-left">
+      <app-hanabi-board [board]="board"></app-hanabi-board>
+      <div class="hanabi-state">
+        <app-hanabi-draw-pile [drawPile]="board"></app-hanabi-draw-pile>
+        <app-hanabi-state></app-hanabi-state>
+      </div>
+      <app-hanabi-discard-pile [discardPile]="board"></app-hanabi-discard-pile>
+    </div>
+    <div class="hanabi-right">
+      <div class="hanabi-players">
+        <app-hanabi-player [player]="players.get(0) ?? HanabiPlayer.empty()"
+                           [isSelf]="true"
+                           [canPlay]="!history && selfPlayer.playing"
+                           (command)="applyCommand($event)"></app-hanabi-player>
+        <app-hanabi-player [player]="players.get(1) ?? HanabiPlayer.empty()"
+                           [isSelf]="false"
+                           [canPlay]="!history && selfPlayer.playing"
+                           (command)="applyCommand($event)"></app-hanabi-player>
+        <app-hanabi-player [player]="players.get(2) ?? HanabiPlayer.empty()"
+                           [isSelf]="false"
+                           [canPlay]="!history && selfPlayer.playing"
+                           (command)="applyCommand($event)"></app-hanabi-player>
+      </div>
+      <div class="hanabi-infos">
+        <mat-card>
+          <mat-card-content class="hanabi-actions">
+            <app-hanabi-history [game]="game" (onHistory)="onHistory($event)"></app-hanabi-history>
+            <mat-divider [vertical]="true"></mat-divider>
+            <mat-icon>auto_fix_high</mat-icon>
+            <mat-divider [vertical]="true"></mat-divider>
+            <mat-icon>auto_fix_high</mat-icon>
+          </mat-card-content>
+        </mat-card>
+        <app-hanabi-infos></app-hanabi-infos>
+      </div>
+    </div>
+  </div>
+
+</div>

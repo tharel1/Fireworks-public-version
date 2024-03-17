@@ -1,0 +1,6 @@
+<div class="hanabi-draw-pile"
+     matTooltip="Draw pile: {{drawPile.size}} cards left">
+  <app-hanabi-card [card]="drawPile.first()"
+                   [visible]="false"></app-hanabi-card>
+  <span class="hanabi-draw-pile-size">{{ drawPile.size }}</span>
+</div>
