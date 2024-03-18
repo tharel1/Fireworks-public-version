@@ -21,7 +21,7 @@ import {User} from "../../../../users/models/user.model";
 import {HanabiStore} from "../../../../../core/stores/hanabi.store";
 import {UserStore} from "../../../../../core/stores/user.store";
 import {SocketService} from "../../../../../core/sockets/socket.service";
-
+import {HanabiSettings} from "../../models/hanabi-settings.model";
 
 @Component({
   selector: 'app-hanabi',
@@ -44,8 +44,11 @@ import {SocketService} from "../../../../../core/sockets/socket.service";
   standalone: true
 })
 export class HanabiComponent implements OnInit {
-  protected user: User = User.empty();
+
   protected game: HanabiGame = HanabiGame.empty();
+  protected settings: HanabiSettings = HanabiSettings.empty();
+
+  protected user: User = User.empty();
   protected selfPlayer: HanabiPlayer = HanabiPlayer.empty();
   protected sending = false;
 
@@ -90,7 +93,7 @@ export class HanabiComponent implements OnInit {
       HanabiCard.builder().withId(4).withValue(4).withColor(HanabiCard.Color.BLUE).build(),
       HanabiCard.builder().withId(5).withValue(5).withColor(HanabiCard.Color.PURPLE).build(),
     )).build(),
-  )
+  );
 
   protected board = List.of(
     HanabiCard.builder().withId(1).withValue(1).withColor(HanabiCard.Color.RED).build(),
@@ -100,7 +103,11 @@ export class HanabiComponent implements OnInit {
     HanabiCard.builder().withId(6).withValue(2).withColor(HanabiCard.Color.RED).build(),
     HanabiCard.builder().withId(7).withValue(3).withColor(HanabiCard.Color.RED).build(),
     HanabiCard.builder().withId(8).withValue(4).withColor(HanabiCard.Color.RED).build(),
-    HanabiCard.builder().withId(9).withValue(2).withColor(HanabiCard.Color.PURPLE).build()
+    HanabiCard.builder().withId(9)
+      .withValue(2)
+      .withColor(HanabiCard.Color.PURPLE)
+      .withColorClue(List.of(HanabiCard.Color.PURPLE))
+      .build()
   );
 
   constructor(
@@ -110,16 +117,22 @@ export class HanabiComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.user = this.userStore.user;
     this.game = this.store.game;
+    this.settings = HanabiSettings.builder()
+      .withPlayersNumber(0)
+      .withMaxValue(5)
+      .withColors(List.of(HanabiCard.Color.RED, HanabiCard.Color.YELLOW, HanabiCard.Color.GREEN, HanabiCard.Color.BLUE, HanabiCard.Color.PURPLE))
+      .build();
+
+    this.user = this.userStore.user;
     this.selfPlayer = this.game.players.find(p => p.user.equals(this.user)) ?? HanabiPlayer.empty();
+
     this.socketService.fromEvent<HanabiGame>('updated').pipe(
       map(game => HanabiGame.fromJson(game)),
       tap(game => {
         this.sending = false;
         this.history = undefined;
         this.game = game;
-        console.log(game);
         this.selfPlayer = this.game.players.find(p => p.user.equals(this.user)) ?? HanabiPlayer.empty();
       })
     ).subscribe();

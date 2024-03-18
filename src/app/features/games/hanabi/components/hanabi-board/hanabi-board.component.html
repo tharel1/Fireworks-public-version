@@ -1,5 +1,5 @@
 <div class="hanabi-board">
-  <app-hanabi-board-card *ngFor="let color of colors"
+  <app-hanabi-board-card *ngFor="let color of settings.colors"
                          [color]="color"
                          [card]="calculatedBoard.get(color)"></app-hanabi-board-card>
 </div>

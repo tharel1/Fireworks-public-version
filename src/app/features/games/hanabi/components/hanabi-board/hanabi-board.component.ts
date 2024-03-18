@@ -7,6 +7,7 @@ import {HanabiCard} from "../../models/hanabi-card.model";
 import {HanabiBoardCardComponent} from "../hanabi-board-card/hanabi-board-card.component";
 import {MatCardModule} from "@angular/material/card";
 import {Changes} from "../../../../../core/utils/changes.model";
+import {HanabiSettings} from "../../models/hanabi-settings.model";
 
 @Component({
   selector: 'app-hanabi-board',
@@ -18,24 +19,11 @@ import {Changes} from "../../../../../core/utils/changes.model";
 })
 export class HanabiBoardComponent implements OnInit, OnChanges {
   @Input() board: List<HanabiCard> = List.of();
+  @Input() settings: HanabiSettings = HanabiSettings.empty();
+
   protected calculatedBoard: Map<HanabiCard.Color, HanabiCard | undefined> = Map();
 
-  protected readonly colors = List.of(
-    HanabiCard.Color.RED,
-    HanabiCard.Color.YELLOW,
-    HanabiCard.Color.GREEN,
-    HanabiCard.Color.BLUE,
-    HanabiCard.Color.PURPLE,
-  );
-
   ngOnInit(): void {
-    this.calculatedBoard = Map([
-      [HanabiCard.Color.RED, undefined],
-      [HanabiCard.Color.YELLOW, undefined],
-      [HanabiCard.Color.GREEN, undefined],
-      [HanabiCard.Color.BLUE, undefined],
-      [HanabiCard.Color.PURPLE, undefined]
-    ]);
     this.calculatedBoard = this.board.groupBy(c => c.color).map(c => c.last());
   }
 

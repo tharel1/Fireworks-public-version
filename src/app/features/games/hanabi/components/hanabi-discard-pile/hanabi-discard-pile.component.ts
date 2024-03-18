@@ -1,9 +1,10 @@
 import {ChangeDetectionStrategy, Component, Input, OnChanges, OnInit} from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {CommonModule} from '@angular/common';
 import {List, Map} from "immutable";
 import {HanabiCard} from "../../models/hanabi-card.model";
 import {MatCardModule} from "@angular/material/card";
 import {Changes} from "../../../../../core/utils/changes.model";
+import {HanabiSettings} from "../../models/hanabi-settings.model";
 
 @Component({
   selector: 'app-hanabi-discard-pile',
@@ -15,22 +16,11 @@ import {Changes} from "../../../../../core/utils/changes.model";
 })
 export class HanabiDiscardPileComponent implements OnInit, OnChanges {
   @Input() discardPile: List<HanabiCard> = List.of();
+  @Input() settings: HanabiSettings = HanabiSettings.empty();
+
   protected calculatedDiscardPile: Map<HanabiCard.Color, Map<number, number>> = Map();
 
-  protected readonly colors = List.of(
-    HanabiCard.Color.RED,
-    HanabiCard.Color.YELLOW,
-    HanabiCard.Color.GREEN,
-    HanabiCard.Color.BLUE,
-    HanabiCard.Color.PURPLE,
-  );
-  protected readonly values = List.of(
-    1,
-    2,
-    3,
-    4,
-    5
-  );
+  protected readonly Array = Array;
 
   ngOnInit(): void {
     this.calculatedDiscardPile = this.discardPile

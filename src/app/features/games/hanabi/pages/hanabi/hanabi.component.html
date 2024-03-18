@@ -3,12 +3,14 @@
 
   <div class="hanabi">
     <div class="hanabi-left">
-      <app-hanabi-board [board]="board"></app-hanabi-board>
+      <app-hanabi-board [board]="board"
+                        [settings]="settings"></app-hanabi-board>
       <div class="hanabi-state">
         <app-hanabi-draw-pile [drawPile]="board"></app-hanabi-draw-pile>
         <app-hanabi-state></app-hanabi-state>
       </div>
-      <app-hanabi-discard-pile [discardPile]="board"></app-hanabi-discard-pile>
+      <app-hanabi-discard-pile [discardPile]="board"
+                               [settings]="settings"></app-hanabi-discard-pile>
     </div>
     <div class="hanabi-right">
       <div class="hanabi-players">

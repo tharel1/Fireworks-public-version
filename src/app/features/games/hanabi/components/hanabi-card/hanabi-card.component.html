@@ -1,6 +1,7 @@
 <div class="hanabi-card" [class.clickable]="canPlay">
 
-  <app-hanabi-clue [valueClue]="card.valueClue"
+  <app-hanabi-clue *ngIf="inHand"
+                   [valueClue]="card.valueClue"
                    [colorClue]="card.colorClue"></app-hanabi-clue>
 
   <mat-card class="hanabi-card-container"
