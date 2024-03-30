@@ -1,6 +1,10 @@
-<div class="hanabi-draw-pile"
-     matTooltip="Draw pile: {{drawPile.size}} cards left">
-  <app-hanabi-card [card]="drawPile.first()"
-                   [visible]="false"></app-hanabi-card>
-  <span class="hanabi-draw-pile-size">{{ drawPile.size }}</span>
+<div class="hanabi-drawpile" matTooltip="Draw pile: {{drawPile.size}} cards left">
+  <app-hanabi-card *ngFor="let card of drawPile"
+                   id="card-{{card.id}}"
+                   class="hanabi-drawpile-card"
+                   [card]="card"
+                   [visible]="false"
+                   [noShadow]="true"></app-hanabi-card>
+  <mat-card class="placeholder"></mat-card>
+  <span class="hanabi-drawpile-size">{{ drawPile.size }}</span>
 </div>

@@ -4,7 +4,6 @@ import {HanabiCardComponent} from "../hanabi-card/hanabi-card.component";
 import {List} from "immutable";
 import {DragDropModule} from "@angular/cdk/drag-drop";
 import {HanabiCard} from "../../models/hanabi-card.model";
-import {HanabiCommand} from "../../models/hanabi-command/hanabi-command.model";
 import {MatCardModule} from "@angular/material/card";
 
 @Component({
@@ -16,13 +15,23 @@ import {MatCardModule} from "@angular/material/card";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HanabiHandComponent {
-  @Input() cards: List<HanabiCard> = List.of();
+  @Input() hand: List<HanabiCard> = List.of();
   @Input() visible: boolean = false;
   @Input() canPlay: boolean = false;
 
-  @Output() command: EventEmitter<HanabiCommand> = new EventEmitter<HanabiCommand>();
+  @Output() play: EventEmitter<HanabiCard> = new EventEmitter<HanabiCard>();
+  @Output() clueColor: EventEmitter<HanabiCard> = new EventEmitter<HanabiCard>();
+  @Output() clueValue: EventEmitter<HanabiCard> = new EventEmitter<HanabiCard>();
 
-  protected onCommand(command: HanabiCommand): void {
-    this.command.emit(command);
+  protected onPlay(card: HanabiCard): void {
+    this.play.emit(card);
+  }
+
+  protected onClueColor(card: HanabiCard): void {
+    this.clueColor.emit(card);
+  }
+
+  protected onClueValue(card: HanabiCard): void {
+    this.clueValue.emit(card);
   }
 }

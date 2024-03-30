@@ -1,5 +1,9 @@
 import {List, ValueObject} from "immutable";
 import {HanabiCard} from "./hanabi-card.model";
+import {HanabiGame} from "./hanabi-game.model";
+import {User} from "../../../users/models/user.model";
+import {RandomUtil} from "../../../../core/utils/random.util";
+import {HanabiPlayer} from "./hanabi-player.model";
 
 export class HanabiSettings implements ValueObject {
 
@@ -42,6 +46,45 @@ export class HanabiSettings implements ValueObject {
 
   hashCode(): number {
     return 0;
+  }
+
+  buildGame(users: List<User>): HanabiGame {
+    const firstPlayerIndex = RandomUtil.random(users.size);
+
+    let cards = this.colors
+      .flatMap(color => this.cardsByColor(color))
+      .map((c, i) => HanabiCard.copy(c).withId(i).build());
+    cards = RandomUtil.shuffle(cards);
+
+    return HanabiGame.builder()
+      .withPlayers(users.map((u: User, i: number) => {
+        const hand = cards.slice(0, 5);
+        cards = cards.slice(5);
+
+        return HanabiPlayer.builder()
+          .withUser(u)
+          .withPlaying(firstPlayerIndex === i)
+          .withCards(hand)
+          .build();
+      }))
+      .withDrawPile(cards)
+      .withClues(8)
+      .build();
+  }
+
+  private cardsByColor(color: HanabiCard.Color): List<HanabiCard> {
+    return List.of(
+      HanabiCard.builder().withValue(1).withColor(color).build(),
+      HanabiCard.builder().withValue(1).withColor(color).build(),
+      HanabiCard.builder().withValue(1).withColor(color).build(),
+      HanabiCard.builder().withValue(2).withColor(color).build(),
+      HanabiCard.builder().withValue(2).withColor(color).build(),
+      HanabiCard.builder().withValue(3).withColor(color).build(),
+      HanabiCard.builder().withValue(3).withColor(color).build(),
+      HanabiCard.builder().withValue(4).withColor(color).build(),
+      HanabiCard.builder().withValue(4).withColor(color).build(),
+      HanabiCard.builder().withValue(5).withColor(color).build(),
+    );
   }
 
 }

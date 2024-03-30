@@ -1,5 +1,12 @@
 <div class="hanabi-board">
-  <app-hanabi-board-card *ngFor="let color of settings.colors"
-                         [color]="color"
-                         [card]="calculatedBoard.get(color)"></app-hanabi-board-card>
+  <div *ngFor="let color of settings.colors"
+       class="hanabi-board-cards"
+       [class]="color">
+    <app-hanabi-card *ngFor="let card of calculatedBoard.get(color)"
+                     id="card-{{card.id}}"
+                     class="hanabi-board-card"
+                     [card]="card"
+                     [noShadow]="true"></app-hanabi-card>
+    <mat-card class="placeholder" [ngClass]="color"></mat-card>
+  </div>
 </div>

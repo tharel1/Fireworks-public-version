@@ -1,20 +1,58 @@
 @use "styles/functions/colors";
 @use "styles/palettes";
+@use "styles/variables/hanabi";
 
 .hanabi-board {
-    display: flex;
-    gap: 10px;
-}
+  display: flex;
+  gap: 10px;
 
-.cdk-drop-list-dragging {
-  border: 5px solid red;
-  border-radius: 10px;
-}
+  .hanabi-board-cards {
+    border: 5px solid;
+    border-radius: 15px;
+    box-shadow: hanabi.$card-shadow;
+    position: relative;
 
-.card-placeholder {
-  background-color: black;
-  border-radius: 10px;
-  width: 75px;
-  height: 200px;
-}
+    &.red {
+      border-color: hanabi.$red;
+    }
+    &.yellow {
+      border-color: hanabi.$yellow;
+    }
+    &.green {
+      border-color: hanabi.$green;
+    }
+    &.blue {
+      border-color: hanabi.$blue;
+    }
+    &.purple {
+      border-color: hanabi.$purple;
+    }
 
+    .placeholder {
+      width: hanabi.$card-width;
+      height: hanabi.$card-height;
+      z-index: -1;
+      opacity: 20%;
+
+      &.red {
+        background-color: hanabi.$red;
+      }
+      &.yellow {
+        background-color: hanabi.$yellow;
+      }
+      &.green {
+        background-color: hanabi.$green;
+      }
+      &.blue {
+        background-color: hanabi.$blue;
+      }
+      &.purple {
+        background-color: hanabi.$purple;
+      }
+    }
+
+    .hanabi-board-card {
+      position: absolute;
+    }
+  }
+}

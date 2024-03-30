@@ -5,15 +5,16 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatButtonModule} from "@angular/material/button";
 import {Router} from "@angular/router";
 import {map, Observable, tap, timer} from "rxjs";
-import {Set} from "immutable";
+import {List, Set} from "immutable";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {HanabiGame} from "../../models/hanabi-game.model";
-import {HanabiPlayer} from "../../models/hanabi-player.model";
 import {User} from "../../../../users/models/user.model";
 import {Room} from "../../../../users/models/room.model";
 import {HanabiStore} from "../../../../../core/stores/hanabi.store";
 import {UserStore} from "../../../../../core/stores/user.store";
 import {SocketService} from "../../../../../core/sockets/socket.service";
+import {HanabiSettings} from "../../models/hanabi-settings.model";
+import {HanabiCard} from "../../models/hanabi-card.model";
 
 @Component({
   selector: 'app-hanabi-lobby',
@@ -28,6 +29,12 @@ export class HanabiLobbyComponent implements OnInit {
   protected rooms: Set<Room> = Set.of();
   protected currentRoom?: Room;
   protected starting$?: Observable<number>;
+
+  protected settings: HanabiSettings = HanabiSettings.builder()
+      .withPlayersNumber(0)
+      .withMaxValue(5)
+      .withColors(List.of(HanabiCard.Color.RED, HanabiCard.Color.YELLOW, HanabiCard.Color.GREEN, HanabiCard.Color.BLUE, HanabiCard.Color.PURPLE))
+      .build();
 
   constructor(
     private socketService: SocketService,
@@ -63,6 +70,7 @@ export class HanabiLobbyComponent implements OnInit {
     this.socketService.fromEvent<HanabiGame>('started').pipe(
       map(game => HanabiGame.fromJson(game)),
       tap(game => {
+        this.hanabiStore.settings = this.settings;
         this.hanabiStore.game = game;
         this.starting$ = timer(0, 1000).pipe(
           map(value => 3 - value),
@@ -89,16 +97,7 @@ export class HanabiLobbyComponent implements OnInit {
   protected start(): void {
     if (!this.currentRoom) return;
 
-    const randomFirstPlayerIdx = Math.floor(Math.random() * this.currentRoom.users.size);
-
-    this.socketService.emit('start', HanabiGame.builder()
-      .withPlayers(this.currentRoom.users.map((u: User, i: number) => HanabiPlayer.builder()
-        .withUser(u)
-        .withPlaying(randomFirstPlayerIdx === i)
-        .build()
-      ))
-      .withCounter(10)
-      .build());
+    this.socketService.emit('start', this.settings.buildGame(this.currentRoom.users));
   }
 
   protected isOwner(): boolean {

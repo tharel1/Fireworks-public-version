@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {CommonModule} from '@angular/common';
 import {List} from "immutable";
 import {HanabiCard} from "../../models/hanabi-card.model";
 import {HanabiCardComponent} from "../hanabi-card/hanabi-card.component";

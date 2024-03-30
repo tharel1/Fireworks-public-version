@@ -1,29 +1,22 @@
 <mat-progress-bar *ngIf="sending" color="warn" mode="indeterminate"></mat-progress-bar>
 <div class="hanabi-container">
 
-  <div class="hanabi">
+  <div class="hanabi" *ngIf="(history ?? game) as gameOrHistory">
     <div class="hanabi-left">
-      <app-hanabi-board [board]="board"
+      <app-hanabi-board [board]="gameOrHistory.board"
                         [settings]="settings"></app-hanabi-board>
       <div class="hanabi-state">
-        <app-hanabi-draw-pile [drawPile]="board"></app-hanabi-draw-pile>
+        <app-hanabi-draw-pile [drawPile]="gameOrHistory.drawPile"></app-hanabi-draw-pile>
         <app-hanabi-state></app-hanabi-state>
       </div>
-      <app-hanabi-discard-pile [discardPile]="board"
+      <app-hanabi-discard-pile [discardPile]="gameOrHistory.discardPile"
                                [settings]="settings"></app-hanabi-discard-pile>
     </div>
     <div class="hanabi-right">
       <div class="hanabi-players">
-        <app-hanabi-player [player]="players.get(0) ?? HanabiPlayer.empty()"
-                           [isSelf]="true"
-                           [canPlay]="!history && selfPlayer.playing"
-                           (command)="applyCommand($event)"></app-hanabi-player>
-        <app-hanabi-player [player]="players.get(1) ?? HanabiPlayer.empty()"
-                           [isSelf]="false"
-                           [canPlay]="!history && selfPlayer.playing"
-                           (command)="applyCommand($event)"></app-hanabi-player>
-        <app-hanabi-player [player]="players.get(2) ?? HanabiPlayer.empty()"
-                           [isSelf]="false"
+        <app-hanabi-player *ngFor="let player of gameOrHistory.players"
+                           [player]="player"
+                           [isSelf]="player.equals(selfPlayer)"
                            [canPlay]="!history && selfPlayer.playing"
                            (command)="applyCommand($event)"></app-hanabi-player>
       </div>
@@ -42,4 +35,5 @@
     </div>
   </div>
 
+  <button mat-raised-button (click)="addCardToBoard()">Add card to board</button>
 </div>

@@ -12,7 +12,6 @@ export class HanabiGame implements ValueObject {
   readonly board: List<HanabiCard>;
   readonly clues: number;
   readonly bombs: number;
-  readonly counter: number;
 
   constructor(builder: Builder) {
     this.history = builder.history;
@@ -22,7 +21,6 @@ export class HanabiGame implements ValueObject {
     this.board = builder.board;
     this.clues = builder.clues;
     this.bombs = builder.bombs;
-    this.counter = builder.counter;
   }
 
   static builder(): Builder {
@@ -42,7 +40,6 @@ export class HanabiGame implements ValueObject {
       .withBoard(copy.board)
       .withClues(copy.clues)
       .withBombs(copy.bombs)
-      .withCounter(copy.counter)
   }
 
   static fromJson(json: any): HanabiGame {
@@ -54,7 +51,6 @@ export class HanabiGame implements ValueObject {
       .withBoard(List(json.board).map((c: any) => HanabiCard.fromJson(c)))
       .withClues(json.clues)
       .withBombs(json.bombs)
-      .withCounter(json.counter)
       .build();
   }
 
@@ -97,7 +93,6 @@ class Builder {
   board: List<HanabiCard> = List.of();
   clues: number = 0;
   bombs: number = 0;
-  counter: number = 0;
 
   withHistory(history: List<HanabiCommand>): Builder {
     this.history = history;
@@ -131,11 +126,6 @@ class Builder {
 
   withBombs(bombs: number): Builder {
     this.bombs = bombs;
-    return this;
-  }
-
-  withCounter(counter: number): Builder {
-    this.counter = counter;
     return this;
   }
 

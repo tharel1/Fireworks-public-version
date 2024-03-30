@@ -1,14 +1,28 @@
 @use "styles/functions/colors";
 @use "styles/palettes";
+@use "styles/variables/hanabi";
 
-.hanabi-draw-pile {
+.hanabi-drawpile {
   display: flex;
   flex-direction: column;
   align-items: center;
   width: fit-content;
   cursor: default;
+  position: relative;
 
-  .hanabi-draw-pile-size {
+  .hanabi-drawpile-card {
+    position: absolute;
+  }
+
+  .placeholder {
+    width: hanabi.$card-width;
+    height: hanabi.$card-height;
+    box-shadow: hanabi.$card-shadow;
+    border-radius: hanabi.$card-border-radius;
+    z-index: -1;
+  }
+
+  .hanabi-drawpile-size {
     color: colors.from-palette(palettes.$grey, 300);
     font-size: xxx-large;
     z-index: 1;

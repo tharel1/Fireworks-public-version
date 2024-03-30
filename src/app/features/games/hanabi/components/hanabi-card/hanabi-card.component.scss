@@ -41,6 +41,10 @@
         transform: scale(2);
       }
     }
+
+    &.no-shadow {
+      box-shadow: none;
+    }
   }
 
   .in-hand {

@@ -1,8 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, HostListener, OnInit} from '@angular/core';
 import {HanabiGame} from "../../models/hanabi-game.model";
 import {HanabiPlayer} from "../../models/hanabi-player.model";
 import {map, tap, timer} from "rxjs";
-import {NgIf} from "@angular/common";
+import {NgForOf, NgIf} from "@angular/common";
 import {MatProgressBarModule} from "@angular/material/progress-bar";
 import {HanabiCommand} from "../../models/hanabi-command/hanabi-command.model";
 import {HanabiBoardComponent} from "../../components/hanabi-board/hanabi-board.component";
@@ -22,6 +22,8 @@ import {HanabiStore} from "../../../../../core/stores/hanabi.store";
 import {UserStore} from "../../../../../core/stores/user.store";
 import {SocketService} from "../../../../../core/sockets/socket.service";
 import {HanabiSettings} from "../../models/hanabi-settings.model";
+import {MatButton} from "@angular/material/button";
+import {HanabiCardAnimator} from "../../services/hanabi-card.animator";
 
 @Component({
   selector: 'app-hanabi',
@@ -39,7 +41,9 @@ import {HanabiSettings} from "../../models/hanabi-settings.model";
     HanabiStateComponent,
     HanabiPlayerComponent,
     MatDividerModule,
-    MatIconModule
+    MatIconModule,
+    MatButton,
+    NgForOf
   ],
   standalone: true
 })
@@ -54,75 +58,20 @@ export class HanabiComponent implements OnInit {
 
   protected history?: HanabiGame;
 
-  protected players = List.of(
-    HanabiPlayer.builder()
-      .withCards(List.of(
-        HanabiCard.builder().withId(1).withValue(1).withColor(HanabiCard.Color.RED).build(),
-        HanabiCard.builder().withId(2)
-          .withValue(2)
-          .withColor(HanabiCard.Color.YELLOW)
-          .withColorClue(List.of(HanabiCard.Color.YELLOW))
-          .build(),
-        HanabiCard.builder().withId(3).withValue(3).withColor(HanabiCard.Color.GREEN).build(),
-        HanabiCard.builder().withId(4)
-          .withValue(4)
-          .withColor(HanabiCard.Color.BLUE)
-          .withValueClue(List.of(4))
-          .build(),
-        HanabiCard.builder().withId(5).withValue(5).withColor(HanabiCard.Color.PURPLE).build()
-      ))
-      .withUser(User.builder().withName('Thibault').build())
-      .withPlaying(true)
-      .build(),
-    HanabiPlayer.builder().withCards(List.of(
-      HanabiCard.builder().withId(5)
-        .withValue(5)
-        .withColor(HanabiCard.Color.RED)
-        .withValueClue(List.of(5, 5, 5))
-        .withColorClue(List.of(HanabiCard.Color.RED))
-        .build(),
-      HanabiCard.builder().withId(4).withValue(4).withColor(HanabiCard.Color.GREEN).build(),
-      HanabiCard.builder().withId(3).withValue(2).withColor(HanabiCard.Color.YELLOW).build(),
-      HanabiCard.builder().withId(2).withValue(3).withColor(HanabiCard.Color.YELLOW).build(),
-      HanabiCard.builder().withId(1).withValue(1).withColor(HanabiCard.Color.YELLOW).build(),
-    )).build(),
-    HanabiPlayer.builder().withCards(List.of(
-      HanabiCard.builder().withId(1).withValue(1).withColor(HanabiCard.Color.RED).build(),
-      HanabiCard.builder().withId(2).withValue(2).withColor(HanabiCard.Color.YELLOW).build(),
-      HanabiCard.builder().withId(3).withValue(3).withColor(HanabiCard.Color.GREEN).withColorClue(List.of(HanabiCard.Color.GREEN)).build(),
-      HanabiCard.builder().withId(4).withValue(4).withColor(HanabiCard.Color.BLUE).build(),
-      HanabiCard.builder().withId(5).withValue(5).withColor(HanabiCard.Color.PURPLE).build(),
-    )).build(),
-  );
-
-  protected board = List.of(
-    HanabiCard.builder().withId(1).withValue(1).withColor(HanabiCard.Color.RED).build(),
-    HanabiCard.builder().withId(3).withValue(1).withColor(HanabiCard.Color.GREEN).build(),
-    HanabiCard.builder().withId(4).withValue(1).withColor(HanabiCard.Color.BLUE).build(),
-    HanabiCard.builder().withId(5).withValue(1).withColor(HanabiCard.Color.PURPLE).build(),
-    HanabiCard.builder().withId(6).withValue(2).withColor(HanabiCard.Color.RED).build(),
-    HanabiCard.builder().withId(7).withValue(3).withColor(HanabiCard.Color.RED).build(),
-    HanabiCard.builder().withId(8).withValue(4).withColor(HanabiCard.Color.RED).build(),
-    HanabiCard.builder().withId(9)
-      .withValue(2)
-      .withColor(HanabiCard.Color.PURPLE)
-      .withColorClue(List.of(HanabiCard.Color.PURPLE))
-      .build()
-  );
-
   constructor(
     private socketService: SocketService,
     private store: HanabiStore,
-    private userStore: UserStore
+    private userStore: UserStore,
+    private animator: HanabiCardAnimator
   ) {}
 
   ngOnInit(): void {
-    this.game = this.store.game;
-    this.settings = HanabiSettings.builder()
+    this.settings = this.store.settings ?? HanabiSettings.builder()
       .withPlayersNumber(0)
       .withMaxValue(5)
       .withColors(List.of(HanabiCard.Color.RED, HanabiCard.Color.YELLOW, HanabiCard.Color.GREEN, HanabiCard.Color.BLUE, HanabiCard.Color.PURPLE))
       .build();
+    this.game = this.store.game ?? this.settings.buildGame(List.of(this.userStore.user, User.empty(), User.empty()));
 
     this.user = this.userStore.user;
     this.selfPlayer = this.game.players.find(p => p.user.equals(this.user)) ?? HanabiPlayer.empty();
@@ -155,5 +104,25 @@ export class HanabiComponent implements OnInit {
     this.history = history;
   }
 
-  protected readonly HanabiPlayer = HanabiPlayer;
+
+  // Animator
+  @HostListener('window:resize')
+  private onResize() {
+    console.log('resize');
+    List.of(
+      ...this.game.drawPile,
+      ...this.game.board,
+      ...this.game.discardPile,
+      ...this.game.players.flatMap(p => p.cards)
+    ).forEach(c => this.animator.savePosition(c));
+  }
+
+  addCardToBoard(): void {
+    const card =
+      HanabiCard.builder().withId(15).withValue(5).withColor(HanabiCard.Color.PURPLE).build();
+    this.game = HanabiGame.copy(this.game)
+      .withBoard(this.game.board.push(card))
+      .build();
+    this.animator.startAnimation(card);
+  }
 }

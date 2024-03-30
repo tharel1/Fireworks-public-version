@@ -3,10 +3,7 @@ import {MatCardModule} from "@angular/material/card";
 import {CommonModule} from "@angular/common";
 import {HanabiCard} from "../../models/hanabi-card.model";
 import {MatIconModule} from "@angular/material/icon";
-import {HanabiCommand} from "../../models/hanabi-command/hanabi-command.model";
-import {HanabiCommandAdd} from "../../models/hanabi-command/hanabi-command-add.model";
 import {MatMenuModule, MatMenuTrigger} from "@angular/material/menu";
-import {HanabiCommandRemove} from "../../models/hanabi-command/hanabi-command-remove.model";
 import {MatChipsModule} from "@angular/material/chips";
 import {HanabiNumberPipe} from "../../pipes/hanabi-number.pipe";
 import {HanabiClueComponent} from "../hanabi-clue/hanabi-clue.component";
@@ -32,22 +29,26 @@ export class HanabiCardComponent {
   @Input() visible: boolean = true;
   @Input() canPlay: boolean = false;
   @Input() inHand: boolean = false;
+  @Input() noShadow: boolean = false;
 
-  @Output() command: EventEmitter<HanabiCommand> = new EventEmitter<HanabiCommand>();
+  @Output() play: EventEmitter<HanabiCard> = new EventEmitter<HanabiCard>();
+  @Output() clueColor: EventEmitter<HanabiCard> = new EventEmitter<HanabiCard>();
+  @Output() clueValue: EventEmitter<HanabiCard> = new EventEmitter<HanabiCard>();
 
   @ViewChild(MatMenuTrigger) trigger!: MatMenuTrigger;
 
-  protected onAdd(): void {
+  protected onPlay(): void {
     this.trigger.closeMenu();
-    this.command.emit(HanabiCommandAdd.builder()
-      .withValue(this.card.value)
-      .build());
+    this.play.emit(this.card);
   }
 
-  protected onRemove(): void {
+  protected onClueColor(): void {
     this.trigger.closeMenu();
-    this.command.emit(HanabiCommandRemove.builder()
-      .withValue(this.card.value)
-      .build());
+    this.clueColor.emit(this.card);
+  }
+
+  protected onClueValue(): void {
+    this.trigger.closeMenu();
+    this.clueValue.emit(this.card);
   }
 }

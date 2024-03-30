@@ -1,9 +1,11 @@
 <div class="hanabi-player">
   <app-hanabi-hand class="hanabi-hand-container"
-                   [cards]="player.cards"
+                   [hand]="player.cards"
                    [visible]="!isSelf"
                    [canPlay]="canPlay"
-                   (command)="onCommand($event)"></app-hanabi-hand>
+                   (play)="onPlay($event)"
+                   (clueColor)="onClueColor($event)"
+                   (clueValue)="onClueValue($event)"></app-hanabi-hand>
 
   <mat-card class="hanabi-player-infos">
     <span>{{ player.user.name }}&nbsp;</span>

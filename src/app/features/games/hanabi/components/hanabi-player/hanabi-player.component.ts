@@ -5,6 +5,10 @@ import {HanabiHandComponent} from "../hanabi-hand/hanabi-hand.component";
 import {HanabiPlayer} from "../../models/hanabi-player.model";
 import {MatCardModule} from "@angular/material/card";
 import {PlayerWaitingComponent} from "../../../../../shared/components/player-waiting/player-waiting.component";
+import {HanabiCard} from "../../models/hanabi-card.model";
+import {HanabiCommandClueColor} from "../../models/hanabi-command/hanabi-command-clue-color.model";
+import {HanabiCommandClueValue} from "../../models/hanabi-command/hanabi-command-clue-value.model";
+import {HanabiCommandPlay} from "../../models/hanabi-command/hanabi-command-play.model";
 
 @Component({
   selector: 'app-hanabi-player',
@@ -21,7 +25,28 @@ export class HanabiPlayerComponent {
 
   @Output() command: EventEmitter<HanabiCommand> = new EventEmitter<HanabiCommand>();
 
-  protected onCommand(command: HanabiCommand): void {
-    this.command.emit(command);
+  protected onPlay(card: HanabiCard): void {
+    this.command.emit(HanabiCommandPlay.builder()
+      .withTarget(this.player)
+      .withCard(card)
+      .withIndex(this.player.cards.findIndex(c => c.equals(card)))
+      .build()
+    );
+  }
+
+  protected onClueColor(card: HanabiCard): void {
+    this.command.emit(HanabiCommandClueColor.builder()
+      .withTarget(this.player)
+      .withColor(card.color)
+      .build()
+    );
+  }
+
+  protected onClueValue(card: HanabiCard): void {
+    this.command.emit(HanabiCommandClueValue.builder()
+      .withTarget(this.player)
+      .withValue(card.value)
+      .build()
+    );
   }
 }

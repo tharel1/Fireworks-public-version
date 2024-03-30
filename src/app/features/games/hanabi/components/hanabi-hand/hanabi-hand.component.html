@@ -1,9 +1,12 @@
 <div class="hanabi-hand">
-  <app-hanabi-card *ngFor="let card of cards"
+  <app-hanabi-card *ngFor="let card of hand"
+                   id="card-{{card.id}}"
+                   class="hanabi-hand-card"
                    [card]="card"
                    [visible]="visible"
                    [canPlay]="canPlay"
                    [inHand]="true"
-                   (command)="onCommand($event)"></app-hanabi-card>
-
+                   (play)="onPlay($event)"
+                   (clueColor)="onClueColor($event)"
+                   (clueValue)="onClueValue($event)"></app-hanabi-card>
 </div>

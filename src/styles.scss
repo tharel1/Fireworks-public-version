@@ -4,6 +4,8 @@
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
+
+// THEMING
 $my-primary: material.define-palette(palettes.$brown);
 $my-accent: material.define-palette(palettes.$green);
 $my-warn: material.define-palette(palettes.$deep-orange);
@@ -18,3 +20,16 @@ $my-theme: material.define-dark-theme((
 ));
 
 @include material.all-component-themes($my-theme);
+
+
+
+// ANIMATIONS
+.start-animation {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  transition:
+    top 800ms ease-in-out,
+    left 800ms ease-in-out;
+}
