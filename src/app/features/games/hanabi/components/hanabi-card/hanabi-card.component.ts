@@ -32,6 +32,7 @@ export class HanabiCardComponent {
   @Input() noShadow: boolean = false;
 
   @Output() play: EventEmitter<HanabiCard> = new EventEmitter<HanabiCard>();
+  @Output() discard: EventEmitter<HanabiCard> = new EventEmitter<HanabiCard>();
   @Output() clueColor: EventEmitter<HanabiCard> = new EventEmitter<HanabiCard>();
   @Output() clueValue: EventEmitter<HanabiCard> = new EventEmitter<HanabiCard>();
 
@@ -40,6 +41,11 @@ export class HanabiCardComponent {
   protected onPlay(): void {
     this.trigger.closeMenu();
     this.play.emit(this.card);
+  }
+
+  protected onDiscard(): void {
+    this.trigger.closeMenu();
+    this.discard.emit(this.card);
   }
 
   protected onClueColor(): void {

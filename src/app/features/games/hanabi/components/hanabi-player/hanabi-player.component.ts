@@ -9,6 +9,7 @@ import {HanabiCard} from "../../models/hanabi-card.model";
 import {HanabiCommandClueColor} from "../../models/hanabi-command/hanabi-command-clue-color.model";
 import {HanabiCommandClueValue} from "../../models/hanabi-command/hanabi-command-clue-value.model";
 import {HanabiCommandPlay} from "../../models/hanabi-command/hanabi-command-play.model";
+import {HanabiCommandDiscard} from "../../models/hanabi-command/hanabi-command-discard.model";
 
 @Component({
   selector: 'app-hanabi-player',
@@ -27,6 +28,15 @@ export class HanabiPlayerComponent {
 
   protected onPlay(card: HanabiCard): void {
     this.command.emit(HanabiCommandPlay.builder()
+      .withTarget(this.player)
+      .withCard(card)
+      .withIndex(this.player.cards.findIndex(c => c.equals(card)))
+      .build()
+    );
+  }
+
+  protected onDiscard(card: HanabiCard): void {
+    this.command.emit(HanabiCommandDiscard.builder()
       .withTarget(this.player)
       .withCard(card)
       .withIndex(this.player.cards.findIndex(c => c.equals(card)))

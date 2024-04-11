@@ -1,10 +1,11 @@
-import {ChangeDetectionStrategy, Component, Input, OnChanges} from '@angular/core';
+import {ChangeDetectionStrategy, Component, ElementRef, Input, OnChanges} from '@angular/core';
 import {List} from "immutable";
 import {HanabiCard} from "../../models/hanabi-card.model";
 import {MatCard, MatCardContent} from "@angular/material/card";
 import {Changes} from "../../../../../core/utils/changes.model";
 import {NgClass, NgIf} from "@angular/common";
 import {MatIcon} from "@angular/material/icon";
+import {timer} from "rxjs";
 
 @Component({
   selector: 'app-hanabi-clue',
@@ -27,8 +28,14 @@ export class HanabiClueComponent implements OnChanges {
   protected value?: number;
   protected color?: HanabiCard.Color;
 
+  constructor(private element: ElementRef) {
+  }
+
   ngOnChanges(changes: Changes<HanabiClueComponent>): void {
     if (changes.valueClue) this.value = this.valueClue.last(undefined);
     if (changes.colorClue) this.color = this.colorClue.last(undefined);
+
+    if (this.value || this.color)
+      timer(0).subscribe(() => this.element.nativeElement.querySelector('.hanabi-clue').classList.add('active'));
   }
 }

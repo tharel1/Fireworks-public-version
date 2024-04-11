@@ -51,10 +51,9 @@ export class HanabiSettings implements ValueObject {
   buildGame(users: List<User>): HanabiGame {
     const firstPlayerIndex = RandomUtil.random(users.size);
 
-    let cards = this.colors
-      .flatMap(color => this.cardsByColor(color))
+    let cards = RandomUtil.shuffle(this.colors
+      .flatMap(color => this.cardsByColor(color)))
       .map((c, i) => HanabiCard.copy(c).withId(i).build());
-    cards = RandomUtil.shuffle(cards);
 
     return HanabiGame.builder()
       .withPlayers(users.map((u: User, i: number) => {

@@ -1,6 +1,6 @@
 import {HanabiGame} from "../hanabi-game.model";
 import {ValueObject} from "immutable";
-import {HanabiCommandPlay, HanabiCommandClueColor, HanabiCommandClueValue} from "./internal";
+import {HanabiCommandPlay, HanabiCommandClueColor, HanabiCommandClueValue, HanabiCommandDiscard} from "./internal";
 
 export abstract class HanabiCommand implements ValueObject {
 
@@ -15,6 +15,7 @@ export abstract class HanabiCommand implements ValueObject {
       case HanabiCommand.Type.PLAY:
         return HanabiCommandPlay.fromJson(json);
       case HanabiCommand.Type.DISCARD:
+        return HanabiCommandDiscard.fromJson(json);
       case HanabiCommand.Type.CLUE_COLOR:
         return HanabiCommandClueColor.fromJson(json);
       case HanabiCommand.Type.CLUE_VALUE:

@@ -1,7 +1,7 @@
-import {Component, HostListener, OnInit} from '@angular/core';
+import {AfterViewInit, Component, HostListener, OnDestroy, OnInit} from '@angular/core';
 import {HanabiGame} from "../../models/hanabi-game.model";
 import {HanabiPlayer} from "../../models/hanabi-player.model";
-import {map, tap, timer} from "rxjs";
+import {map, Subscription, tap, timer} from "rxjs";
 import {NgForOf, NgIf} from "@angular/common";
 import {MatProgressBarModule} from "@angular/material/progress-bar";
 import {HanabiCommand} from "../../models/hanabi-command/hanabi-command.model";
@@ -24,6 +24,9 @@ import {SocketService} from "../../../../../core/sockets/socket.service";
 import {HanabiSettings} from "../../models/hanabi-settings.model";
 import {MatButton} from "@angular/material/button";
 import {HanabiCardAnimator} from "../../services/hanabi-card.animator";
+import {HanabiCommandPlay} from "../../models/hanabi-command/hanabi-command-play.model";
+import {HanabiCommandDiscard} from "../../models/hanabi-command/hanabi-command-discard.model";
+import {HanabiHistory} from "../../models/hanabi-history.model";
 
 @Component({
   selector: 'app-hanabi',
@@ -47,7 +50,7 @@ import {HanabiCardAnimator} from "../../services/hanabi-card.animator";
   ],
   standalone: true
 })
-export class HanabiComponent implements OnInit {
+export class HanabiComponent implements OnInit, OnDestroy, AfterViewInit {
 
   protected game: HanabiGame = HanabiGame.empty();
   protected settings: HanabiSettings = HanabiSettings.empty();
@@ -56,7 +59,9 @@ export class HanabiComponent implements OnInit {
   protected selfPlayer: HanabiPlayer = HanabiPlayer.empty();
   protected sending = false;
 
-  protected history?: HanabiGame;
+  protected history: HanabiHistory = HanabiHistory.empty();
+
+  private readonly watcher = new Subscription();
 
   constructor(
     private socketService: SocketService,
@@ -76,53 +81,90 @@ export class HanabiComponent implements OnInit {
     this.user = this.userStore.user;
     this.selfPlayer = this.game.players.find(p => p.user.equals(this.user)) ?? HanabiPlayer.empty();
 
-    this.socketService.fromEvent<HanabiGame>('updated').pipe(
+    this.watcher.add(this.socketService.fromEvent<HanabiGame>('updated').pipe(
       map(game => HanabiGame.fromJson(game)),
       tap(game => {
         this.sending = false;
-        this.history = undefined;
+        this.history = HanabiHistory.empty();
         this.game = game;
         this.selfPlayer = this.game.players.find(p => p.user.equals(this.user)) ?? HanabiPlayer.empty();
+        this.animateForward(this.game, this.game.history.last());
       })
-    ).subscribe();
+    ).subscribe());
+  }
+
+  ngOnDestroy(): void {
+    this.animator.resetPositions();
+    this.watcher.unsubscribe();
   }
 
 
+
+  // Game
   protected applyCommand(command: HanabiCommand): void {
     this.sending = true;
     this.selfPlayer = HanabiPlayer.copy(this.selfPlayer).withPlaying(false).build();
     const game = HanabiGame.copy(command.update(this.game))
-      .withHistory(this.game.history.insert(0, command))
+      .withHistory(this.game.history.push(command))
       .build();
     timer(150).pipe(tap(() => this.socketService.emit('update', game))).subscribe();
   }
 
 
 
-  // History
-  protected onHistory(history: HanabiGame): void {
-    this.history = history;
-  }
-
-
   // Animator
-  @HostListener('window:resize')
-  private onResize() {
-    console.log('resize');
-    List.of(
-      ...this.game.drawPile,
-      ...this.game.board,
-      ...this.game.discardPile,
-      ...this.game.players.flatMap(p => p.cards)
-    ).forEach(c => this.animator.savePosition(c));
+  ngAfterViewInit(): void {
+    timer(0).subscribe(() => this.animator.savePositions(this.game));
   }
 
-  addCardToBoard(): void {
-    const card =
-      HanabiCard.builder().withId(15).withValue(5).withColor(HanabiCard.Color.PURPLE).build();
-    this.game = HanabiGame.copy(this.game)
-      .withBoard(this.game.board.push(card))
-      .build();
-    this.animator.startAnimation(card);
+  @HostListener('window:resize')
+  private onResize(): void {
+    this.animator.savePositions(this.game);
+  }
+
+  protected onHistory(history: HanabiHistory): void {
+    this.history = history;
+
+    switch (this.history.lastDirection) {
+      case HanabiHistory.Direction.FORWARD:
+        this.animateForward(this.history.state ?? this.game, this.history.lastCommand);
+        return;
+      case HanabiHistory.Direction.BACKWARD:
+        this.animateBackward(this.history.state ?? this.game, this.history.lastCommand);
+        return;
+      default:
+        timer(0).subscribe(() => this.animator.savePositions(this.game));
+        return;
+    }
+  }
+
+  private animateForward(state: HanabiGame, command?: HanabiCommand): void {
+    switch (command?.type) {
+      case HanabiCommand.Type.PLAY:
+        const playCommand = command as HanabiCommandPlay;
+        this.animator.startAnimation(0, state, playCommand.card);
+        this.animator.startAnimation(850, state, state.players.find(p => p.equals(playCommand.target))?.cards.first());
+        return;
+      case HanabiCommand.Type.DISCARD:
+        const discardCommand = command as HanabiCommandDiscard;
+        return;
+      default:
+        return;
+    }
+  }
+
+  private animateBackward(state: HanabiGame, command?: HanabiCommand): void {
+    switch (command?.type) {
+      case HanabiCommand.Type.PLAY:
+        const playCommand = command as HanabiCommandPlay;
+        this.animator.startAnimation(0, state, state.drawPile.last());
+        this.animator.startAnimation(850, state, playCommand.card);
+        return;
+      case HanabiCommand.Type.DISCARD:
+        const discardCommand = command as HanabiCommandDiscard;
+        return;
+      default:
+        return;
+    }
   }
 }

@@ -20,11 +20,16 @@ export class HanabiHandComponent {
   @Input() canPlay: boolean = false;
 
   @Output() play: EventEmitter<HanabiCard> = new EventEmitter<HanabiCard>();
+  @Output() discard: EventEmitter<HanabiCard> = new EventEmitter<HanabiCard>();
   @Output() clueColor: EventEmitter<HanabiCard> = new EventEmitter<HanabiCard>();
   @Output() clueValue: EventEmitter<HanabiCard> = new EventEmitter<HanabiCard>();
 
   protected onPlay(card: HanabiCard): void {
     this.play.emit(card);
+  }
+
+  protected onDiscard(card: HanabiCard): void {
+    this.discard.emit(card);
   }
 
   protected onClueColor(card: HanabiCard): void {

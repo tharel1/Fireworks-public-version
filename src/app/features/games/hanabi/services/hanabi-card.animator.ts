@@ -1,7 +1,8 @@
 import {Injectable} from '@angular/core';
 import {HanabiCard} from "../models/hanabi-card.model";
 import {timer} from "rxjs";
-import {Map} from "immutable";
+import {List, Map} from "immutable";
+import {HanabiGame} from "../models/hanabi-game.model";
 
 @Injectable({
   providedIn: 'root'
@@ -10,27 +11,42 @@ export class HanabiCardAnimator {
 
   private positions: Map<number, Position> = Map();
 
-  savePosition(card: HanabiCard): void {
-    const elem = this.getElement(card);
-    if (elem)
-      this.positions = this.positions.set(card.id, this.getPosition(elem));
+  savePositions(game: HanabiGame): void {
+    List.of(
+      ...game.drawPile,
+      ...game.board,
+      ...game.discardPile,
+      ...game.players.flatMap(p => p.cards)
+    ).forEach(c => {
+      const elem = this.getElement(c);
+      if (elem) this.positions = this.positions.set(c.id, this.getPosition(elem));
+    });
   }
 
-  startAnimation(card: HanabiCard): void {
+  resetPositions(): void {
+    this.positions = Map();
+  }
+
+  startAnimation(delay: number, game: HanabiGame, card?: HanabiCard): void {
+    if (!card) throw new Error('startAnimation: No card to animate');
+
     timer(0).subscribe(() => {
       const elem = this.getElement(card);
       if (elem) {
-        const prevPosition = this.positions.get(card.id) ?? {top: 0, left: 0};
+        const prevPosition = this.positions.get(card.id);
+        if (!prevPosition) throw new Error('startAnimation: No prev position');
         const newPosition = this.getPosition(elem);
         elem.style.top = `${prevPosition.top - newPosition.top}px`;
         elem.style.left = `${prevPosition.left - newPosition.left}px`;
-        timer(10).subscribe(() => {
+        timer(10+delay).subscribe(() => {
           elem.style.top = `0px`;
           elem.style.left = `0px`;
           elem.classList.add('start-animation');
         });
-        timer(860).subscribe(() => {
-          this.savePosition(card);
+        timer(860+delay).subscribe(() => {
+          this.savePositions(game);
+          elem.style.top = ``;
+          elem.style.left = ``;
           elem.classList.remove('start-animation');
         });
       }

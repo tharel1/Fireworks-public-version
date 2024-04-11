@@ -4,7 +4,8 @@
 
 .hanabi-clue {
   height: hanabi.$card-clue-height + 20px;
-  transform: translateY(20px);
+  transform: translateY(hanabi.$card-clue-height + 20px);
+  transition: transform 250ms ease-out;
   margin: 0 2px 0 2px;
   border-radius: hanabi.$card-border-radius;
   background-color: colors.from-palette(palettes.$grey, 700);
@@ -16,6 +17,12 @@
   color: black;
   padding: 12px 10px;
   font-size: xx-large;
+}
+
+.active {
+  &.hanabi-clue {
+    transform: translateY(20px);
+  }
 }
 
 .red {

@@ -3,14 +3,14 @@ import {HanabiPlayer} from "../hanabi-player.model";
 import {HanabiCommand} from "./internal";
 import {HanabiCard} from "../hanabi-card.model";
 
-export class HanabiCommandPlay extends HanabiCommand {
+export class HanabiCommandDiscard extends HanabiCommand {
 
   readonly target: HanabiPlayer;
   readonly card: HanabiCard;
   readonly index: number;
 
   constructor(builder: Builder) {
-    super(HanabiCommand.Type.PLAY);
+    super(HanabiCommand.Type.DISCARD);
     this.target = builder.target;
     this.card = builder.card;
     this.index = builder.index;
@@ -20,19 +20,19 @@ export class HanabiCommandPlay extends HanabiCommand {
     return new Builder();
   }
 
-  static empty(): HanabiCommandPlay {
-    return HanabiCommandPlay.builder().build();
+  static empty(): HanabiCommandDiscard {
+    return HanabiCommandDiscard.builder().build();
   }
 
-  static copy(copy: HanabiCommandPlay): Builder {
-    return HanabiCommandPlay.builder()
+  static copy(copy: HanabiCommandDiscard): Builder {
+    return HanabiCommandDiscard.builder()
       .withTarget(copy.target)
       .withCard(copy.card)
       .withIndex(copy.index)
   }
 
-  static override fromJson(json: any): HanabiCommandPlay {
-    return HanabiCommandPlay.builder()
+  static override fromJson(json: any): HanabiCommandDiscard {
+    return HanabiCommandDiscard.builder()
       .withTarget(HanabiPlayer.fromJson(json.target))
       .withCard(HanabiCard.fromJson(json.card))
       .withIndex(json.index)
@@ -41,45 +41,33 @@ export class HanabiCommandPlay extends HanabiCommand {
 
   update(game: HanabiGame): HanabiGame {
     const nextPlayer = game.nextPlayer();
-    const cardToDraw = game.drawPile.last();
-
     return HanabiGame.copy(game)
       .withPlayers(game.players.map((p) => HanabiPlayer.copy(p)
         .withPlaying(p.equals(nextPlayer))
         .withCards(p.equals(this.target)
-          ? (cardToDraw
-               ? p.cards.remove(this.index).insert(0, cardToDraw)
-               : p.cards.remove(this.index))
+          ? p.cards.remove(this.index)
           : p.cards)
         .build()))
-      .withBoard(game.board.push(this.card))
-      .withDrawPile(game.drawPile.remove(-1))
+      .withDiscardPile(game.discardPile.push(this.card))
       .build();
   }
 
   revert(game: HanabiGame): HanabiGame {
     const previousPlayer = game.previousPlayer();
-    let cardToReturn = HanabiCard.empty();
-
     return HanabiGame.copy(game)
-      .withPlayers(game.players.map((p) => {
-        cardToReturn = p.cards.first(HanabiCard.empty());
-
-        return HanabiPlayer.copy(p)
-          .withPlaying(p.equals(previousPlayer))
-          .withCards(p.equals(this.target)
-            ? p.cards.remove(0).insert(this.index, this.card)
-            : p.cards)
-          .build()
-      }))
-      .withBoard(game.board.remove(-1))
-      .withDrawPile(game.drawPile.push(cardToReturn))
+      .withPlayers(game.players.map((p) => HanabiPlayer.copy(p)
+        .withPlaying(p.equals(previousPlayer))
+        .withCards(p.equals(this.target)
+          ? p.cards.insert(this.index, this.card)
+          : p.cards)
+        .build()))
+      .withDiscardPile(game.discardPile.remove(-1))
       .build();
   }
 
 }
 
-export namespace HanabiCommandPlay {
+export namespace HanabiCommandDiscard {
 
 }
 
@@ -103,7 +91,7 @@ class Builder {
     return this;
   }
 
-  build(): HanabiCommandPlay {
-    return new HanabiCommandPlay(this);
+  build(): HanabiCommandDiscard {
+    return new HanabiCommandDiscard(this);
   }
 }

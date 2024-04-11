@@ -4,6 +4,7 @@
                    [visible]="!isSelf"
                    [canPlay]="canPlay"
                    (play)="onPlay($event)"
+                   (discard)="onDiscard($event)"
                    (clueColor)="onClueColor($event)"
                    (clueValue)="onClueValue($event)"></app-hanabi-hand>
 

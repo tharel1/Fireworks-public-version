@@ -6,6 +6,7 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatCardModule} from "@angular/material/card";
 import {MatBadgeModule} from "@angular/material/badge";
 import {MatTooltipModule} from "@angular/material/tooltip";
+import {HanabiHistory} from "../../models/hanabi-history.model";
 
 @Component({
   selector: 'app-hanabi-history',
@@ -18,46 +19,19 @@ import {MatTooltipModule} from "@angular/material/tooltip";
 export class HanabiHistoryComponent {
 
   @Input() game: HanabiGame = HanabiGame.empty();
+  @Input() history: HanabiHistory = HanabiHistory.empty();
 
-  @Output() onHistory: EventEmitter<HanabiGame> = new EventEmitter<HanabiGame>();
-
-  protected historyIndex?: number;
-  protected history?: HanabiGame;
+  @Output() onHistory: EventEmitter<HanabiHistory> = new EventEmitter<HanabiHistory>();
 
   back(): void {
-    if (this.historyIndex===undefined || !this.history) {
-      this.historyIndex = 0;
-      this.history = this.game;
-    } else {
-      this.historyIndex++;
-    }
-
-    const command = this.game.history.get(this.historyIndex);
-    if (command) {
-      this.history = command.revert(this.history);
-      this.onHistory.emit(this.history);
-    }
+    this.onHistory.emit(this.history.backward(this.game));
   }
 
   forward(): void {
-    if (this.historyIndex===undefined || !this.history) return;
-
-    if (this.historyIndex === 0) {
-      this.cancel()
-      return;
-    }
-
-    const command = this.game.history.get(this.historyIndex);
-    if (command) {
-      this.history = command.update(this.history);
-      this.onHistory.emit(this.history);
-    }
-    this.historyIndex--;
+    this.onHistory.emit(this.history.forward(this.game));
   }
 
   cancel(): void {
-    this.historyIndex = undefined;
-    this.history = undefined;
-    this.onHistory.emit(this.history);
+    this.onHistory.emit(this.history.cancel());
   }
 }

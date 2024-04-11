@@ -1,10 +1,10 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {MatCardModule} from "@angular/material/card";
 import {MatIconModule} from "@angular/material/icon";
 import {MatButtonModule} from "@angular/material/button";
 import {Router} from "@angular/router";
-import {map, Observable, tap, timer} from "rxjs";
+import {map, Observable, Subscription, tap, timer} from "rxjs";
 import {List, Set} from "immutable";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {HanabiGame} from "../../models/hanabi-game.model";
@@ -23,7 +23,7 @@ import {HanabiCard} from "../../models/hanabi-card.model";
   standalone: true,
   imports: [CommonModule, MatCardModule, MatIconModule, MatButtonModule, MatTooltipModule],
 })
-export class HanabiLobbyComponent implements OnInit {
+export class HanabiLobbyComponent implements OnInit, OnDestroy {
 
   protected user: User = User.empty();
   protected rooms: Set<Room> = Set.of();
@@ -36,6 +36,8 @@ export class HanabiLobbyComponent implements OnInit {
       .withColors(List.of(HanabiCard.Color.RED, HanabiCard.Color.YELLOW, HanabiCard.Color.GREEN, HanabiCard.Color.BLUE, HanabiCard.Color.PURPLE))
       .build();
 
+  private readonly watcher = new Subscription();
+
   constructor(
     private socketService: SocketService,
     private router: Router,
@@ -46,7 +48,7 @@ export class HanabiLobbyComponent implements OnInit {
   ngOnInit(): void {
     this.user = this.userStore.user;
 
-    this.socketService.fromEvent<Room[]>('rooms').pipe(
+    this.watcher.add(this.socketService.fromEvent<Room[]>('rooms').pipe(
       map(rooms => Set(rooms.map(r => Room.fromJson(r)))),
       tap(rooms => {
         this.rooms = rooms;
@@ -54,9 +56,9 @@ export class HanabiLobbyComponent implements OnInit {
           this.currentRoom = undefined;
         }
       })
-    ).subscribe();
+    ).subscribe());
 
-    this.socketService.fromEvent<Room>('joined').pipe(
+    this.watcher.add(this.socketService.fromEvent<Room>('joined').pipe(
       map(room => Room.fromJson(room)),
       tap(room => {
         this.rooms = this.rooms.map(r => {
@@ -65,9 +67,9 @@ export class HanabiLobbyComponent implements OnInit {
         });
         if (this.currentRoom?.id === room.id) this.currentRoom = room;
       })
-    ).subscribe();
+    ).subscribe());
 
-    this.socketService.fromEvent<HanabiGame>('started').pipe(
+    this.watcher.add(this.socketService.fromEvent<HanabiGame>('started').pipe(
       map(game => HanabiGame.fromJson(game)),
       tap(game => {
         this.hanabiStore.settings = this.settings;
@@ -79,7 +81,11 @@ export class HanabiLobbyComponent implements OnInit {
           })
         );
       })
-    ).subscribe();
+    ).subscribe());
+  }
+
+  ngOnDestroy(): void {
+    this.watcher.unsubscribe();
   }
 
   protected addRoom(): void {
