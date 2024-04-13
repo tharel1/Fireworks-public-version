@@ -1,13 +1,14 @@
 import {Injectable} from '@angular/core';
 import {HanabiCard} from "../models/hanabi-card.model";
 import {timer} from "rxjs";
-import {List, Map} from "immutable";
+import {List, Map, Set} from "immutable";
 import {HanabiGame} from "../models/hanabi-game.model";
 
 @Injectable({
   providedIn: 'root'
 })
 export class HanabiCardAnimator {
+  movingCards: Set<HanabiCard> = Set.of();
 
   private positions: Map<number, Position> = Map();
 

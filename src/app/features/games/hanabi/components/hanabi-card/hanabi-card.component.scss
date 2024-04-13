@@ -59,6 +59,12 @@
   }
 }
 
+.hide {
+  &.hanabi-card {
+    opacity: 0;
+  }
+}
+
 .red {
   color: hanabi.$red;
 }

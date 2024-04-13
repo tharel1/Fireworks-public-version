@@ -1,4 +1,4 @@
-<div class="hanabi-card" [class.clickable]="canPlay">
+<div class="hanabi-card" [class.clickable]="canPlay" [class.hide]="hide">
 
   <app-hanabi-clue *ngIf="inHand"
                    [valueClue]="card.valueClue"

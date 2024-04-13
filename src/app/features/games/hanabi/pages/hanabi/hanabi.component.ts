@@ -6,7 +6,7 @@ import {NgForOf, NgIf} from "@angular/common";
 import {MatProgressBarModule} from "@angular/material/progress-bar";
 import {HanabiCommand} from "../../models/hanabi-command/hanabi-command.model";
 import {HanabiBoardComponent} from "../../components/hanabi-board/hanabi-board.component";
-import {List} from "immutable";
+import {List, Set} from "immutable";
 import {HanabiHistoryComponent} from "../../components/hanabi-history/hanabi-history.component";
 import {HanabiCard} from "../../models/hanabi-card.model";
 import {MatCardModule} from "@angular/material/card";
@@ -139,11 +139,18 @@ export class HanabiComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private animateForward(state: HanabiGame, command?: HanabiCommand): void {
+    this.animator.movingCards = Set.of();
+
     switch (command?.type) {
       case HanabiCommand.Type.PLAY:
         const playCommand = command as HanabiCommandPlay;
+        this.animator.movingCards = this.animator.movingCards.add(playCommand.card);
         this.animator.startAnimation(0, state, playCommand.card);
-        this.animator.startAnimation(850, state, state.players.find(p => p.equals(playCommand.target))?.cards.first());
+        const drawnCard = state.players.find(p => p.equals(playCommand.target))?.cards.first();
+        if (drawnCard) {
+          this.animator.movingCards = this.animator.movingCards.add(drawnCard);
+          this.animator.startAnimation(850, state, drawnCard);
+        }
         return;
       case HanabiCommand.Type.DISCARD:
         const discardCommand = command as HanabiCommandDiscard;

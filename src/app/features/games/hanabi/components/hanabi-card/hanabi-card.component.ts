@@ -1,4 +1,13 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewChild} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild
+} from '@angular/core';
 import {MatCardModule} from "@angular/material/card";
 import {CommonModule} from "@angular/common";
 import {HanabiCard} from "../../models/hanabi-card.model";
@@ -7,6 +16,8 @@ import {MatMenuModule, MatMenuTrigger} from "@angular/material/menu";
 import {MatChipsModule} from "@angular/material/chips";
 import {HanabiNumberPipe} from "../../pipes/hanabi-number.pipe";
 import {HanabiClueComponent} from "../hanabi-clue/hanabi-clue.component";
+import {HanabiCardAnimator} from "../../services/hanabi-card.animator";
+import {timer} from "rxjs";
 
 @Component({
   selector: 'app-hanabi-card',
@@ -24,12 +35,14 @@ import {HanabiClueComponent} from "../hanabi-clue/hanabi-clue.component";
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class HanabiCardComponent {
+export class HanabiCardComponent implements OnInit {
   @Input() card: HanabiCard = HanabiCard.empty();
   @Input() visible: boolean = true;
   @Input() canPlay: boolean = false;
   @Input() inHand: boolean = false;
   @Input() noShadow: boolean = false;
+
+  protected hide: boolean = false;
 
   @Output() play: EventEmitter<HanabiCard> = new EventEmitter<HanabiCard>();
   @Output() discard: EventEmitter<HanabiCard> = new EventEmitter<HanabiCard>();
@@ -37,6 +50,18 @@ export class HanabiCardComponent {
   @Output() clueValue: EventEmitter<HanabiCard> = new EventEmitter<HanabiCard>();
 
   @ViewChild(MatMenuTrigger) trigger!: MatMenuTrigger;
+
+  constructor(
+    private element: ElementRef,
+    private animator: HanabiCardAnimator
+  ) { }
+
+  ngOnInit(): void {
+    if (this.animator.movingCards.some(c => c.equals(this.card))) {
+      this.hide = true;
+      timer(0).subscribe(() => this.element.nativeElement.querySelector('.hanabi-card').classList.remove('hide'));
+    }
+  }
 
   protected onPlay(): void {
     this.trigger.closeMenu();
