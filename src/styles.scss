@@ -25,6 +25,7 @@ $my-theme: material.define-dark-theme((
 
 // ANIMATIONS
 .start-animation {
+  border: solid red;
   position: absolute;
   z-index: 1;
   transition:

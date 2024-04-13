@@ -16,7 +16,7 @@ import {MatMenuModule, MatMenuTrigger} from "@angular/material/menu";
 import {MatChipsModule} from "@angular/material/chips";
 import {HanabiNumberPipe} from "../../pipes/hanabi-number.pipe";
 import {HanabiClueComponent} from "../hanabi-clue/hanabi-clue.component";
-import {HanabiCardAnimator} from "../../services/hanabi-card.animator";
+import {HanabiAnimator} from "../../services/hanabi-animator.service";
 import {timer} from "rxjs";
 
 @Component({
@@ -53,11 +53,11 @@ export class HanabiCardComponent implements OnInit {
 
   constructor(
     private element: ElementRef,
-    private animator: HanabiCardAnimator
+    private animator: HanabiAnimator
   ) { }
 
   ngOnInit(): void {
-    if (this.animator.movingCards.some(c => c.equals(this.card))) {
+    if (this.animator.moveScheduledCard(this.card)) {
       this.hide = true;
       timer(0).subscribe(() => this.element.nativeElement.querySelector('.hanabi-card').classList.remove('hide'));
     }

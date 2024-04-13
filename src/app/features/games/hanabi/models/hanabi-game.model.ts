@@ -1,4 +1,4 @@
-import {List, ValueObject} from "immutable";
+import {List, Set, ValueObject} from "immutable";
 import {HanabiPlayer} from "./hanabi-player.model";
 import {HanabiCommand} from "./hanabi-command/internal";
 import {HanabiCard} from "./hanabi-card.model";
@@ -76,6 +76,15 @@ export class HanabiGame implements ValueObject {
     const currentPlayer = this.currentPlayer();
     const currentIndex = this.players.findIndex(p => p.equals(currentPlayer));
     return this.players.get(currentIndex === 0 ? this.players.size-1 : currentIndex-1);
+  }
+
+  allCards(): Set<HanabiCard> {
+    return Set.of(
+      ...this.drawPile,
+      ...this.board,
+      ...this.discardPile,
+      ...this.players.flatMap(p => p.cards)
+    );
   }
 
 }

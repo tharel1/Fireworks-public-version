@@ -59,19 +59,18 @@ export class HanabiCommandPlay extends HanabiCommand {
 
   revert(game: HanabiGame): HanabiGame {
     const previousPlayer = game.previousPlayer();
-    let cardToReturn = HanabiCard.empty();
+    let cardToReturn = game.players.find(p => p.equals(this.target))?.cards.first();
+
+    if (!cardToReturn) throw new Error(`No card to return to draw pile`);
 
     return HanabiGame.copy(game)
-      .withPlayers(game.players.map((p) => {
-        cardToReturn = p.cards.first(HanabiCard.empty());
-
-        return HanabiPlayer.copy(p)
+      .withPlayers(game.players.map((p) => HanabiPlayer.copy(p)
           .withPlaying(p.equals(previousPlayer))
           .withCards(p.equals(this.target)
             ? p.cards.remove(0).insert(this.index, this.card)
             : p.cards)
           .build()
-      }))
+      ))
       .withBoard(game.board.remove(-1))
       .withDrawPile(game.drawPile.push(cardToReturn))
       .build();

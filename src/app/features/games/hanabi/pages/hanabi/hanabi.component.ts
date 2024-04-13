@@ -6,7 +6,7 @@ import {NgForOf, NgIf} from "@angular/common";
 import {MatProgressBarModule} from "@angular/material/progress-bar";
 import {HanabiCommand} from "../../models/hanabi-command/hanabi-command.model";
 import {HanabiBoardComponent} from "../../components/hanabi-board/hanabi-board.component";
-import {List, Set} from "immutable";
+import {List} from "immutable";
 import {HanabiHistoryComponent} from "../../components/hanabi-history/hanabi-history.component";
 import {HanabiCard} from "../../models/hanabi-card.model";
 import {MatCardModule} from "@angular/material/card";
@@ -23,7 +23,7 @@ import {UserStore} from "../../../../../core/stores/user.store";
 import {SocketService} from "../../../../../core/sockets/socket.service";
 import {HanabiSettings} from "../../models/hanabi-settings.model";
 import {MatButton} from "@angular/material/button";
-import {HanabiCardAnimator} from "../../services/hanabi-card.animator";
+import {HanabiAnimator} from "../../services/hanabi-animator.service";
 import {HanabiCommandPlay} from "../../models/hanabi-command/hanabi-command-play.model";
 import {HanabiCommandDiscard} from "../../models/hanabi-command/hanabi-command-discard.model";
 import {HanabiHistory} from "../../models/hanabi-history.model";
@@ -67,7 +67,7 @@ export class HanabiComponent implements OnInit, OnDestroy, AfterViewInit {
     private socketService: SocketService,
     private store: HanabiStore,
     private userStore: UserStore,
-    private animator: HanabiCardAnimator
+    private animator: HanabiAnimator
   ) {}
 
   ngOnInit(): void {
@@ -94,7 +94,7 @@ export class HanabiComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnDestroy(): void {
-    this.animator.resetPositions();
+    this.animator.resetCardPositions();
     this.watcher.unsubscribe();
   }
 
@@ -114,12 +114,12 @@ export class HanabiComponent implements OnInit, OnDestroy, AfterViewInit {
 
   // Animator
   ngAfterViewInit(): void {
-    timer(0).subscribe(() => this.animator.savePositions(this.game));
+    timer(0).subscribe(() => this.animator.saveAllCardPositions(this.game));
   }
 
   @HostListener('window:resize')
   private onResize(): void {
-    this.animator.savePositions(this.game);
+    this.animator.saveAllCardPositions(this.game);
   }
 
   protected onHistory(history: HanabiHistory): void {
@@ -132,25 +132,18 @@ export class HanabiComponent implements OnInit, OnDestroy, AfterViewInit {
       case HanabiHistory.Direction.BACKWARD:
         this.animateBackward(this.history.state ?? this.game, this.history.lastCommand);
         return;
-      default:
-        timer(0).subscribe(() => this.animator.savePositions(this.game));
+      case HanabiHistory.Direction.CANCEL:
+        timer(0).subscribe(() => this.animator.saveAllCardPositions(this.game));
         return;
     }
   }
 
   private animateForward(state: HanabiGame, command?: HanabiCommand): void {
-    this.animator.movingCards = Set.of();
-
     switch (command?.type) {
       case HanabiCommand.Type.PLAY:
         const playCommand = command as HanabiCommandPlay;
-        this.animator.movingCards = this.animator.movingCards.add(playCommand.card);
-        this.animator.startAnimation(0, state, playCommand.card);
-        const drawnCard = state.players.find(p => p.equals(playCommand.target))?.cards.first();
-        if (drawnCard) {
-          this.animator.movingCards = this.animator.movingCards.add(drawnCard);
-          this.animator.startAnimation(850, state, drawnCard);
-        }
+        this.animator.scheduleCardToMove(1000, state, playCommand.card);
+        this.animator.scheduleCardToMove(850, state, state.players.find(p => p.equals(playCommand.target))?.cards.first());
         return;
       case HanabiCommand.Type.DISCARD:
         const discardCommand = command as HanabiCommandDiscard;
@@ -164,8 +157,8 @@ export class HanabiComponent implements OnInit, OnDestroy, AfterViewInit {
     switch (command?.type) {
       case HanabiCommand.Type.PLAY:
         const playCommand = command as HanabiCommandPlay;
-        this.animator.startAnimation(0, state, state.drawPile.last());
-        this.animator.startAnimation(850, state, playCommand.card);
+        this.animator.scheduleCardToMove(1000, state, state.drawPile.last());
+        this.animator.scheduleCardToMove(850, state, playCommand.card);
         return;
       case HanabiCommand.Type.DISCARD:
         const discardCommand = command as HanabiCommandDiscard;

@@ -92,7 +92,12 @@ export class HanabiHistory implements ValueObject {
   }
 
   cancel(): HanabiHistory {
-    return HanabiHistory.empty();
+    return HanabiHistory.builder()
+      .withState(undefined)
+      .withIndex(undefined)
+      .withLastCommand(undefined)
+      .withLastDirection(HanabiHistory.Direction.CANCEL)
+      .build();
   }
 
 }
@@ -100,7 +105,8 @@ export class HanabiHistory implements ValueObject {
 export namespace HanabiHistory {
   export enum Direction {
     FORWARD = 'forward',
-    BACKWARD = 'backward'
+    BACKWARD = 'backward',
+    CANCEL = 'cancel'
   }
 
 }
