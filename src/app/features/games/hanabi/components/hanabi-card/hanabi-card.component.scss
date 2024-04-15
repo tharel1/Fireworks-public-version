@@ -2,67 +2,78 @@
 @use "styles/palettes";
 @use "styles/variables/hanabi";
 
-.hanabi-card {
-  display: flex;
-  flex-direction: column;
-  cursor: default;
-  transition: transform 250ms ease-out;
+.hanabi-card-container {
+  position: relative;
 
-  .hanabi-card-container {
-    width: hanabi.$card-width;
-    height: hanabi.$card-height;
-    box-shadow: hanabi.$card-shadow;
-    border-radius: hanabi.$card-border-radius;
+  .hanabi-card {
+    display: flex;
+    flex-direction: column;
+    cursor: default;
+    transition: transform 250ms ease-out;
 
-    .hanabi-card-content {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 10px;
+    .hanabi-card-content-container {
+      width: hanabi.$card-width;
+      height: hanabi.$card-height;
+      box-shadow: hanabi.$card-shadow;
+      border-radius: hanabi.$card-border-radius;
 
-      .hanabi-card-value {
-        font-size: 4em;
-        line-height: 1;
+      .hanabi-card-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+
+        .hanabi-card-value {
+          font-size: 4em;
+          line-height: 1;
+        }
+
+        .hanabi-card-icon {
+          transform: scale(1.5);
+        }
       }
 
-      .hanabi-card-icon {
-        transform: scale(1.5);
+      .not-visible {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-top: 100px;
+
+        .hanabi-card-icon {
+          color: colors.from-palette(palettes.$grey, 600);
+          transform: scale(2);
+        }
+      }
+
+      &.no-shadow {
+        box-shadow: none;
       }
     }
 
-    .not-visible {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding-top: 100px;
-
-      .hanabi-card-icon {
-        color: colors.from-palette(palettes.$grey, 600);
-        transform: scale(2);
-      }
-    }
-
-    &.no-shadow {
-      box-shadow: none;
+    .in-hand {
+      height: hanabi.$card-height-small;
     }
   }
 
-  .in-hand {
-    height: hanabi.$card-height-small;
+  .clickable {
+    cursor: pointer;
+    &.hanabi-card:hover {
+      transform: translate(0px, -10px);
+    }
+  }
+
+  .hide {
+    &.hanabi-card {
+      opacity: 0;
+    }
   }
 }
 
-.clickable {
-  cursor: pointer;
-  &.hanabi-card:hover {
-    transform: translate(0px, -10px);
-  }
-}
-
-.hide {
-  &.hanabi-card {
-    opacity: 0;
-  }
+.start-animation {
+  z-index: 1;
+  transition:
+    top 800ms ease-in-out,
+    left 800ms ease-in-out;
 }
 
 .red {

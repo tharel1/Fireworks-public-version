@@ -1,6 +1,5 @@
 <div class="hanabi-drawpile" matTooltip="Draw pile: {{drawPile.size}} cards left">
   <app-hanabi-card *ngFor="let card of drawPile"
-                   id="card-{{card.id}}"
                    class="hanabi-drawpile-card"
                    [card]="card"
                    [visible]="false"

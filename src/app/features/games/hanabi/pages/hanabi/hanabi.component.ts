@@ -142,8 +142,8 @@ export class HanabiComponent implements OnInit, OnDestroy, AfterViewInit {
     switch (command?.type) {
       case HanabiCommand.Type.PLAY:
         const playCommand = command as HanabiCommandPlay;
-        this.animator.scheduleCardToMove(1000, state, playCommand.card);
-        this.animator.scheduleCardToMove(850, state, state.players.find(p => p.equals(playCommand.target))?.cards.first());
+        this.animator.scheduleCardToMove(100, state, playCommand.card);
+        this.animator.scheduleCardToMove(600, state, state.players.find(p => p.equals(playCommand.target))?.cards.first());
         return;
       case HanabiCommand.Type.DISCARD:
         const discardCommand = command as HanabiCommandDiscard;
@@ -157,8 +157,8 @@ export class HanabiComponent implements OnInit, OnDestroy, AfterViewInit {
     switch (command?.type) {
       case HanabiCommand.Type.PLAY:
         const playCommand = command as HanabiCommandPlay;
-        this.animator.scheduleCardToMove(1000, state, state.drawPile.last());
-        this.animator.scheduleCardToMove(850, state, playCommand.card);
+        this.animator.scheduleCardToMove(100, state, state.drawPile.last());
+        this.animator.scheduleCardToMove(600, state, playCommand.card);
         return;
       case HanabiCommand.Type.DISCARD:
         const discardCommand = command as HanabiCommandDiscard;

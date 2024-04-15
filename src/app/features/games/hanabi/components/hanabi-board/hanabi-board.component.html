@@ -3,7 +3,6 @@
        class="hanabi-board-cards"
        [class]="color">
     <app-hanabi-card *ngFor="let card of calculatedBoard.get(color)"
-                     id="card-{{card.id}}"
                      class="hanabi-board-card"
                      [card]="card"
                      [noShadow]="true"></app-hanabi-card>

@@ -1,7 +1,5 @@
 <div class="hanabi-hand">
   <app-hanabi-card *ngFor="let card of hand"
-                   id="card-{{card.id}}"
-                   class="hanabi-hand-card"
                    [card]="card"
                    [visible]="visible"
                    [canPlay]="canPlay"
