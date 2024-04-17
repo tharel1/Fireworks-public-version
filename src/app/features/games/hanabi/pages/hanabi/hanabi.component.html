@@ -23,10 +23,7 @@
       <div class="hanabi-infos">
         <mat-card>
           <mat-card-content class="hanabi-actions">
-            <app-hanabi-history
-              [game]="game"
-              [history]="history"
-              (onHistory)="onHistory($event)"></app-hanabi-history>
+            <app-hanabi-history [history]="history" (onHistory)="onHistory($event)"></app-hanabi-history>
             <mat-divider [vertical]="true"></mat-divider>
             <mat-icon>auto_fix_high</mat-icon>
             <mat-divider [vertical]="true"></mat-divider>

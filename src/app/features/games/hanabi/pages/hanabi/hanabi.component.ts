@@ -85,8 +85,10 @@ export class HanabiComponent implements OnInit, OnDestroy, AfterViewInit {
       map(game => HanabiGame.fromJson(game)),
       tap(game => {
         this.sending = false;
-        this.history = HanabiHistory.empty();
         this.game = game;
+        this.history = HanabiHistory.builder()
+          .withGame(this.game)
+          .build();
         this.selfPlayer = this.game.players.find(p => p.user.equals(this.user)) ?? HanabiPlayer.empty();
         this.animateForward(this.game, this.game.history.last());
       })
@@ -125,14 +127,14 @@ export class HanabiComponent implements OnInit, OnDestroy, AfterViewInit {
   protected onHistory(history: HanabiHistory): void {
     this.history = history;
 
-    switch (this.history.lastDirection) {
-      case HanabiHistory.Direction.FORWARD:
-        this.animateForward(this.history.state ?? this.game, this.history.lastCommand);
+    switch (this.history.lastAction) {
+      case HanabiHistory.Action.GO_FORWARD:
+        this.animateForward(this.history.state ?? this.game, this.history.lastCommand());
         return;
-      case HanabiHistory.Direction.BACKWARD:
-        this.animateBackward(this.history.state ?? this.game, this.history.lastCommand);
+      case HanabiHistory.Action.GO_BACKWARD:
+        this.animateBackward(this.history.state ?? this.game, this.history.lastCommand());
         return;
-      case HanabiHistory.Direction.CANCEL:
+      case HanabiHistory.Action.CANCEL:
         timer(0).subscribe(() => this.animator.saveAllCardPositions(this.game));
         return;
     }

@@ -4,19 +4,19 @@ import {HanabiCommand} from "./hanabi-command/hanabi-command.model";
 
 export class HanabiHistory implements ValueObject {
 
+  readonly game: HanabiGame;
   readonly state?: HanabiGame;
   readonly index?: number;
-  readonly lastCommand?: HanabiCommand;
-  readonly lastDirection?: HanabiHistory.Direction;
+  readonly lastAction: HanabiHistory.Action;
 
   constructor(builder: Builder) {
+    this.game = builder.game;
     this.state = builder.state;
     this.index = builder.index;
-    this.lastCommand = builder.lastCommand;
-    this.lastDirection = builder.lastDirection;
+    this.lastAction = builder.lastAction;
   }
 
-  private static builder(): Builder {
+  static builder(): Builder {
     return new Builder();
   }
 
@@ -24,20 +24,20 @@ export class HanabiHistory implements ValueObject {
     return HanabiHistory.builder().build();
   }
 
-  private static copy(copy: HanabiHistory): Builder {
+  static copy(copy: HanabiHistory): Builder {
     return HanabiHistory.builder()
+      .withGame(copy.game)
       .withState(copy.state)
       .withIndex(copy.index)
-      .withLastCommand(copy.lastCommand)
-      .withLastDirection(copy.lastDirection)
+      .withLastAction(copy.lastAction)
   }
 
-  private static fromJson(json: any): HanabiHistory {
+  static fromJson(json: any): HanabiHistory {
     return HanabiHistory.builder()
+      .withState(HanabiGame.fromJson(json.game))
       .withState(HanabiGame.fromJson(json.state))
       .withIndex(json.index)
-      .withLastCommand(HanabiCommand.fromJson(json.lastCommand))
-      .withLastDirection(json.lastDirection)
+      .withLastAction(json.lastAction)
       .build();
   }
 
@@ -49,73 +49,98 @@ export class HanabiHistory implements ValueObject {
     return 0;
   }
 
-  backward(game: HanabiGame): HanabiHistory {
-    let index = game.history.size - 1;
-    let state = game;
+  goBackward(): HanabiHistory {
+    let index = this.game.history.size - 1;
+    let state = this.game;
     if (this.state && this.index) {
       index = this.index - 1;
       state = this.state;
     }
 
-    const command = game.history.get(index);
+    const command = this.game.history.get(index);
     if (!command) throw new Error(`HanabiHistory can't go back: no command found at index <${index}>.`);
 
     return HanabiHistory.copy(this)
       .withState(command.revert(state))
       .withIndex(index)
-      .withLastCommand(command)
-      .withLastDirection(HanabiHistory.Direction.BACKWARD)
+      .withLastAction(HanabiHistory.Action.GO_BACKWARD)
       .build();
   }
 
-  forward(game: HanabiGame): HanabiHistory {
+  goForward(): HanabiHistory {
     if (!this.state || this.index===undefined) throw new Error(`HanabiHistory can't go forward: state and index must already exist.`);
 
-    const command = game.history.get(this.index);
+    const command = this.game.history.get(this.index);
     if (!command) throw new Error(`HanabiHistory can't go forward: no command found at index <${this.index}>.`);
 
-    if (this.index === game.history.size - 1) {
-      return HanabiHistory.builder()
+    if (this.index === this.game.history.size - 1) {
+      return HanabiHistory.copy(this)
         .withState(undefined)
         .withIndex(undefined)
-        .withLastCommand(command)
-        .withLastDirection(HanabiHistory.Direction.FORWARD)
+        .withLastAction(HanabiHistory.Action.GO_FORWARD)
         .build();
     }
 
-    return HanabiHistory.builder()
+    return HanabiHistory.copy(this)
       .withState(command.update(this.state))
       .withIndex(this.index + 1)
-      .withLastCommand(command)
-      .withLastDirection(HanabiHistory.Direction.FORWARD)
+      .withLastAction(HanabiHistory.Action.GO_FORWARD)
       .build();
   }
 
   cancel(): HanabiHistory {
-    return HanabiHistory.builder()
+    return HanabiHistory.copy(this)
       .withState(undefined)
       .withIndex(undefined)
-      .withLastCommand(undefined)
-      .withLastDirection(HanabiHistory.Direction.CANCEL)
+      .withLastAction(HanabiHistory.Action.CANCEL)
       .build();
+  }
+
+  canGoBack(): boolean {
+    return this.index !== 0 && !this.game.history.isEmpty();
+  }
+
+  isInHistory(): boolean {
+    return !!this.state;
+  }
+
+  lastCommand(): HanabiCommand | undefined {
+    switch (this.lastAction) {
+
+      case HanabiHistory.Action.GO_BACKWARD:
+        return this.index === undefined
+          ? this.game.history.last()
+          : this.game.history.get(this.index);
+
+      case HanabiHistory.Action.GO_FORWARD:
+        return this.game.history.get((this.index ?? 0) - 1);
+
+      default:
+        return undefined;
+    }
   }
 
 }
 
 export namespace HanabiHistory {
-  export enum Direction {
-    FORWARD = 'forward',
-    BACKWARD = 'backward',
+  export enum Action {
+    GO_FORWARD = 'go_forward',
+    GO_BACKWARD = 'go_backward',
     CANCEL = 'cancel'
   }
 
 }
 
 class Builder {
+  game: HanabiGame = HanabiGame.empty();
   state?: HanabiGame = undefined;
   index?: number = undefined;
-  lastCommand?: HanabiCommand = undefined;
-  lastDirection?: HanabiHistory.Direction = undefined;
+  lastAction: HanabiHistory.Action = HanabiHistory.Action.CANCEL;
+
+  withGame(game: HanabiGame): Builder {
+    this.game = game;
+    return this;
+  }
 
   withState(state?: HanabiGame): Builder {
     this.state = state;
@@ -127,13 +152,8 @@ class Builder {
     return this;
   }
 
-  withLastCommand(lastCommand?: HanabiCommand): Builder {
-    this.lastCommand = lastCommand;
-    return this;
-  }
-
-  withLastDirection(lastDirection?: HanabiHistory.Direction) {
-    this.lastDirection = lastDirection;
+  withLastAction(lastAction: HanabiHistory.Action) {
+    this.lastAction = lastAction;
     return this;
   }
 
