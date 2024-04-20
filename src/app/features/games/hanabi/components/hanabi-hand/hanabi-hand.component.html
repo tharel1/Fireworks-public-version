@@ -2,10 +2,10 @@
   <app-hanabi-card *ngFor="let card of hand"
                    [card]="card"
                    [visible]="visible"
-                   [canPlay]="canPlay"
-                   [inHand]="true"
+                   [clickable]="canPlay"
+                   [small]="true"
                    (play)="onPlay($event)"
                    (discard)="onDiscard($event)"
                    (clueColor)="onClueColor($event)"
-                   (clueValue)="onClueValue($event)"></app-hanabi-card>
+                   (clueValue)="onClueValue($event)"/>
 </div>

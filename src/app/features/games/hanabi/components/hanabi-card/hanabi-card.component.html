@@ -1,16 +1,14 @@
-<div id="card-{{card.id}}" class="hanabi-card-container">
-  <div class="hanabi-card" [class.clickable]="canPlay" [class.hide]="hide">
+<div id="card-{{card.id}}" class="hanabi-card-container" [ngClass]="classes">
+  <div class="hanabi-card">
 
-    <app-hanabi-clue *ngIf="inHand"
+    <app-hanabi-clue *ngIf="!noClues"
                      [valueClue]="card.valueClue"
-                     [colorClue]="card.colorClue"></app-hanabi-clue>
+                     [colorClue]="card.colorClue"/>
 
     <mat-card class="hanabi-card-content-container"
-              [class.in-hand]="inHand"
-              [class.no-shadow]="noShadow"
-              [matMenuTriggerFor]="canPlay ? (visible ? clueMenu : playMenu) : null">
+              [matMenuTriggerFor]="clickable ? (visible ? clueMenu : playMenu) : null">
       <mat-card-content *ngIf="!visible"
-                        class="not-visible">
+                        class="hanabi-card-content-invisible">
         <mat-icon class="hanabi-card-icon">auto_awesome</mat-icon>
       </mat-card-content>
       <mat-card-content *ngIf="visible"

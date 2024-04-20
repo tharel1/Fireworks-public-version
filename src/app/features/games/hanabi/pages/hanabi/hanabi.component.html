@@ -4,13 +4,13 @@
   <div class="hanabi" *ngIf="(history.state ?? game) as gameOrHistory">
     <div class="hanabi-left">
       <app-hanabi-board [board]="gameOrHistory.board"
-                        [settings]="settings"></app-hanabi-board>
+                        [settings]="settings"/>
       <div class="hanabi-state">
-        <app-hanabi-draw-pile [drawPile]="gameOrHistory.drawPile"></app-hanabi-draw-pile>
-        <app-hanabi-state></app-hanabi-state>
+        <app-hanabi-draw-pile [drawPile]="gameOrHistory.drawPile"/>
+        <app-hanabi-state/>
       </div>
       <app-hanabi-discard-pile [discardPile]="gameOrHistory.discardPile"
-                               [settings]="settings"></app-hanabi-discard-pile>
+                               [settings]="settings"/>
     </div>
     <div class="hanabi-right">
       <div class="hanabi-players">
@@ -18,19 +18,19 @@
                            [player]="player"
                            [isSelf]="player.equals(selfPlayer)"
                            [canPlay]="!history.state && selfPlayer.playing"
-                           (command)="applyCommand($event)"></app-hanabi-player>
+                           (command)="applyCommand($event)"/>
       </div>
       <div class="hanabi-infos">
         <mat-card>
           <mat-card-content class="hanabi-actions">
-            <app-hanabi-history [history]="history" (onHistory)="onHistory($event)"></app-hanabi-history>
-            <mat-divider [vertical]="true"></mat-divider>
+            <app-hanabi-history [history]="history" (onHistory)="onHistory($event)"/>
+            <mat-divider [vertical]="true"/>
             <mat-icon>auto_fix_high</mat-icon>
-            <mat-divider [vertical]="true"></mat-divider>
+            <mat-divider [vertical]="true"/>
             <mat-icon>auto_fix_high</mat-icon>
           </mat-card-content>
         </mat-card>
-        <app-hanabi-infos></app-hanabi-infos>
+        <app-hanabi-infos/>
       </div>
     </div>
   </div>

@@ -33,7 +33,7 @@
         }
       }
 
-      .not-visible {
+      .hanabi-card-content-invisible {
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -44,31 +44,12 @@
           transform: scale(2);
         }
       }
-
-      &.no-shadow {
-        box-shadow: none;
-      }
-    }
-
-    .in-hand {
-      height: hanabi.$card-height-small;
-    }
-  }
-
-  .clickable {
-    cursor: pointer;
-    &.hanabi-card:hover {
-      transform: translate(0px, -10px);
-    }
-  }
-
-  .hide {
-    &.hanabi-card {
-      opacity: 0;
     }
   }
 }
 
+
+// ANIMATION
 .start-animation {
   z-index: 1;
   transition:
@@ -76,6 +57,47 @@
     left 800ms ease-in-out;
 }
 
+
+// VARIANTS
+.hide {
+  &.hanabi-card-container {
+    .hanabi-card {
+      opacity: 0;
+    }
+  }
+}
+
+.clickable {
+  &.hanabi-card-container {
+    .hanabi-card:hover {
+      cursor: pointer;
+      transform: translate(0px, -10px);
+    }
+  }
+}
+
+.small {
+  &.hanabi-card-container {
+    .hanabi-card {
+      .hanabi-card-content-container {
+        height: hanabi.$card-height-small;
+      }
+    }
+  }
+}
+
+.no-shadow {
+  &.hanabi-card-container {
+    .hanabi-card {
+      .hanabi-card-content-container {
+        box-shadow: none;
+      }
+    }
+  }
+}
+
+
+// COLORS
 .red {
   color: hanabi.$red;
 }

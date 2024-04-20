@@ -5,7 +5,8 @@
     <app-hanabi-card *ngFor="let card of calculatedBoard.get(color)"
                      class="hanabi-board-card"
                      [card]="card"
-                     [noShadow]="true"></app-hanabi-card>
+                     [noShadow]="true"
+                     [noClues]="true"/>
     <mat-card class="placeholder" [ngClass]="color"></mat-card>
   </div>
 </div>

@@ -6,10 +6,10 @@
                    (play)="onPlay($event)"
                    (discard)="onDiscard($event)"
                    (clueColor)="onClueColor($event)"
-                   (clueValue)="onClueValue($event)"></app-hanabi-hand>
+                   (clueValue)="onClueValue($event)"/>
 
   <mat-card class="hanabi-player-infos">
     <span>{{ player.user.name }}&nbsp;</span>
-    <app-player-waiting *ngIf="player.playing"></app-player-waiting>
+    <app-player-waiting *ngIf="player.playing"/>
   </mat-card>
 </div>

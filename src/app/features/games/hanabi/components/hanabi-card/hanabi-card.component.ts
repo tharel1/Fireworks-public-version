@@ -1,9 +1,9 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  ElementRef,
   EventEmitter,
   Input,
+  OnChanges,
   OnInit,
   Output,
   ViewChild
@@ -17,7 +17,7 @@ import {MatChipsModule} from "@angular/material/chips";
 import {HanabiNumberPipe} from "../../pipes/hanabi-number.pipe";
 import {HanabiClueComponent} from "../hanabi-clue/hanabi-clue.component";
 import {HanabiAnimator} from "../../services/hanabi-animator.service";
-import {timer} from "rxjs";
+import {List} from "immutable";
 
 @Component({
   selector: 'app-hanabi-card',
@@ -35,14 +35,15 @@ import {timer} from "rxjs";
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class HanabiCardComponent implements OnInit {
+export class HanabiCardComponent implements OnInit, OnChanges {
   @Input() card: HanabiCard = HanabiCard.empty();
   @Input() visible: boolean = true;
-  @Input() canPlay: boolean = false;
-  @Input() inHand: boolean = false;
+  @Input() clickable: boolean = false;
+  @Input() small: boolean = false;
   @Input() noShadow: boolean = false;
+  @Input() noClues: boolean = false;
 
-  protected hide: boolean = false;
+  protected classes: string[] = [];
 
   @Output() play: EventEmitter<HanabiCard> = new EventEmitter<HanabiCard>();
   @Output() discard: EventEmitter<HanabiCard> = new EventEmitter<HanabiCard>();
@@ -52,15 +53,17 @@ export class HanabiCardComponent implements OnInit {
   @ViewChild(MatMenuTrigger) trigger!: MatMenuTrigger;
 
   constructor(
-    private element: ElementRef,
     private animator: HanabiAnimator
   ) { }
 
   ngOnInit(): void {
     if (this.animator.moveScheduledCard(this.card)) {
-      this.hide = true;
-      timer(0).subscribe(() => this.element.nativeElement.querySelector('.hanabi-card').classList.remove('hide'));
+      this.computeClasses(true)
     }
+  }
+
+  ngOnChanges(): void {
+    this.computeClasses();
   }
 
   protected onPlay(): void {
@@ -81,5 +84,24 @@ export class HanabiCardComponent implements OnInit {
   protected onClueValue(): void {
     this.trigger.closeMenu();
     this.clueValue.emit(this.card);
+  }
+
+  private computeClasses(hide: boolean = false): void {
+    let classes = List.of('');
+
+    if (hide) {
+      classes = classes.push('hide');
+    }
+    if (this.clickable) {
+      classes = classes.push('clickable');
+    }
+    if (this.small) {
+      classes = classes.push('small');
+    }
+    if (this.noShadow) {
+      classes = classes.push('no-shadow');
+    }
+
+    this.classes = classes.toArray();
   }
 }

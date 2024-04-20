@@ -124,9 +124,9 @@ export class HanabiHistory implements ValueObject {
 
 export namespace HanabiHistory {
   export enum Action {
-    GO_FORWARD = 'go_forward',
-    GO_BACKWARD = 'go_backward',
-    CANCEL = 'cancel'
+    GO_FORWARD = 'GO_FORWARD',
+    GO_BACKWARD = 'GO_BACKWARD',
+    CANCEL = 'CANCEL'
   }
 
 }

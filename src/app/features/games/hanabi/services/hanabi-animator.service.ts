@@ -53,6 +53,7 @@ export class HanabiAnimator {
     timer(0).subscribe(() => {
       const elem = this.getElement(card);
       if (elem) {
+        elem.classList.remove('hide');
         const prevPosition = this.cardPositions.get(card.id);
         if (!prevPosition) throw new Error(`no prev position found for <${card.id}> card id`);
         const newPosition = this.getPosition(elem);
