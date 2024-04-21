@@ -46,6 +46,7 @@ export class HanabiCommandClueValue extends HanabiCommand {
             : HanabiCard.copy(c).withImpossibleValues(c.impossibleValues.push(this.value)).build())
           : p.cards)
         .build()))
+      .withClues(game.clues-1)
       .build();
   }
 
@@ -60,7 +61,14 @@ export class HanabiCommandClueValue extends HanabiCommand {
             : HanabiCard.copy(c).withImpossibleValues(c.impossibleValues.remove(-1)).build())
           : p.cards)
         .build()))
+      .withClues(game.clues+1)
       .build();
+  }
+
+  checkError(game: HanabiGame): string {
+    return game.clues === 0
+      ? `You can't give a clue since there is no clue left.`
+      : '';
   }
 
 }

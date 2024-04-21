@@ -7,7 +7,7 @@
                         [settings]="settings"/>
       <div class="hanabi-state">
         <app-hanabi-draw-pile [drawPile]="gameOrHistory.drawPile"/>
-        <app-hanabi-state/>
+        <app-hanabi-state [game]="gameOrHistory"/>
       </div>
       <app-hanabi-discard-pile [discardPile]="gameOrHistory.discardPile"
                                [settings]="settings"/>

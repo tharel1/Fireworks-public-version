@@ -42,6 +42,7 @@ export class HanabiCommandPlay extends HanabiCommand {
   update(game: HanabiGame): HanabiGame {
     const nextPlayer = game.nextPlayer();
     const cardToDraw = game.drawPile.last();
+    const isValidCardToPlay = game.isValidCardToPlay(this.card);
 
     return HanabiGame.copy(game)
       .withPlayers(game.players.map((p) => HanabiPlayer.copy(p)
@@ -52,15 +53,18 @@ export class HanabiCommandPlay extends HanabiCommand {
                : p.cards.remove(this.index))
           : p.cards)
         .build()))
-      .withBoard(game.board.push(this.card))
+      .withBoard(isValidCardToPlay ? game.board.push(this.card) : game.board)
       .withDrawPile(game.drawPile.remove(-1))
+      .withDiscardPile(isValidCardToPlay ? game.discardPile : game.discardPile.push(this.card))
+      .withBombs(game.bombs + (isValidCardToPlay ? 0 : 1))
       .build();
   }
 
   revert(game: HanabiGame): HanabiGame {
     const previousPlayer = game.previousPlayer();
-    let cardToReturn = game.players.find(p => p.equals(this.target))?.cards.first();
+    const cardToReturn = game.players.find(p => p.equals(this.target))?.cards.first();
     if (!cardToReturn) throw new Error(`No card to return to draw pile`);
+    const wasValidCardToPlay = game.board.some(c => c.equals(this.card));
 
     return HanabiGame.copy(game)
       .withPlayers(game.players.map((p) => HanabiPlayer.copy(p)
@@ -69,9 +73,15 @@ export class HanabiCommandPlay extends HanabiCommand {
           ? p.cards.remove(0).insert(this.index, this.card)
           : p.cards)
         .build()))
-      .withBoard(game.board.remove(-1))
+      .withBoard(wasValidCardToPlay ? game.board.remove(-1) : game.board)
       .withDrawPile(game.drawPile.push(cardToReturn))
+      .withDiscardPile(wasValidCardToPlay ? game.discardPile : game.discardPile.remove(-1))
+      .withBombs(game.bombs - (wasValidCardToPlay ? 0 : 1))
       .build();
+  }
+
+  checkError(game: HanabiGame): string {
+    return '';
   }
 
 }

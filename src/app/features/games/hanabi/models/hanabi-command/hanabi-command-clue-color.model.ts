@@ -46,6 +46,7 @@ export class HanabiCommandClueColor extends HanabiCommand {
             : HanabiCard.copy(c).withImpossibleColors(c.impossibleColors.push(this.color)).build())
           : p.cards)
         .build()))
+      .withClues(game.clues-1)
       .build();
   }
 
@@ -60,7 +61,14 @@ export class HanabiCommandClueColor extends HanabiCommand {
             : HanabiCard.copy(c).withImpossibleColors(c.impossibleColors.remove(-1)).build())
           : p.cards)
         .build()))
+      .withClues(game.clues+1)
       .build();
+  }
+
+  checkError(game: HanabiGame): string {
+    return game.clues === 0
+      ? `You can't give a clue since there is no clue left.`
+      : '';
   }
 
 }

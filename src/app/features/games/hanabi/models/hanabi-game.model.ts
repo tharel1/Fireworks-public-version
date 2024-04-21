@@ -87,6 +87,14 @@ export class HanabiGame implements ValueObject {
     );
   }
 
+  isValidCardToPlay(card: HanabiCard): boolean {
+    if (card.value === 1)
+      return this.board.filter(c => c.color === card.color).isEmpty();
+
+    return this.board.filter(c => c.color === card.color && c.value >= card.value).isEmpty()
+      && this.board.some(c => c.color === card.color && c.value === card.value-1);
+  }
+
 }
 
 export namespace HanabiGame {

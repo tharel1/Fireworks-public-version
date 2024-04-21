@@ -4,7 +4,6 @@
 .hanabi-container {
   display: flex;
   flex-direction: column;
-  gap: 20px;
   padding: 20px 20px;
 
   .hanabi {
@@ -14,12 +13,12 @@
     .hanabi-left {
       display: flex;
       flex-direction: column;
-      gap: 20px;
+      gap: 30px;
       margin-top: 40px;
 
       .hanabi-state {
         display: flex;
-        gap: 20px;
+        gap: 30px;
       }
     }
 
@@ -36,7 +35,7 @@
       .hanabi-infos {
         display: flex;
         flex-direction: column;
-        gap: 20px;
+        gap: 30px;
 
         .hanabi-actions {
           display: flex;

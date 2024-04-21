@@ -1,0 +1,61 @@
+@use "styles/functions/colors";
+@use "styles/palettes";
+@use "styles";
+
+.hanabi-state {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  .hanabi-state-clues {
+    $item-size: 40px;
+    $item-border: 2px;
+    $gap: 5px;
+
+    width: 4*($item-size+ 2*$item-border) + 3*$gap;
+    display: flex;
+    gap: $gap;
+    flex-wrap: wrap;
+
+    .hanabi-state-clues-item {
+      width: $item-size;
+      height: $item-size;
+      border: solid $item-border colors.from-palette(palettes.$grey, 200);
+      border-radius: $item-size;
+      background-color: colors.from-palette(palettes.$grey, 800);
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      mat-icon {
+        color: colors.from-palette(palettes.$grey, 200);
+      }
+    }
+  }
+
+  .hanabi-state-bombs {
+    $item-size: 50px;
+
+    display: flex;
+    gap: 10px;
+
+    .hanabi-state-bombs-item {
+      width: $item-size;
+      height: $item-size;
+      border-radius: 10px;
+      background-color: colors.from-palette(palettes.$grey, 800);
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      font-size: x-large;
+      cursor: default;
+    }
+
+    .exploded {
+      border: solid 2px colors.from-palette(styles.$my-warn);
+    }
+  }
+}

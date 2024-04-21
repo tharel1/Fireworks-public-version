@@ -30,6 +30,7 @@ import {HanabiHistory} from "../../models/hanabi-history.model";
 import {HanabiCommandClueColor} from "../../models/hanabi-command/hanabi-command-clue-color.model";
 import {ClueAnimator} from "../../services/clue-animator.service";
 import {HanabiCommandClueValue} from "../../models/hanabi-command/hanabi-command-clue-value.model";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-hanabi',
@@ -70,6 +71,7 @@ export class HanabiComponent implements OnInit, OnDestroy, AfterViewInit {
     private socketService: SocketService,
     private store: HanabiStore,
     private userStore: UserStore,
+    private matSnackBar: MatSnackBar,
     private cardAnimator: CardAnimator,
     private clueAnimator: ClueAnimator
   ) {}
@@ -108,6 +110,16 @@ export class HanabiComponent implements OnInit, OnDestroy, AfterViewInit {
 
   // Game
   protected applyCommand(command: HanabiCommand): void {
+    const error = command.checkError(this.game);
+    if (error) {
+      this.matSnackBar.open(error, 'Close', {
+        duration: 3000,
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+      });
+      return;
+    }
+
     this.sending = true;
     this.selfPlayer = HanabiPlayer.copy(this.selfPlayer).withPlaying(false).build();
     const game = HanabiGame.copy(command.update(this.game))
@@ -148,7 +160,7 @@ export class HanabiComponent implements OnInit, OnDestroy, AfterViewInit {
     switch (command?.type) {
       case HanabiCommand.Type.PLAY:
         const playCommand = command as HanabiCommandPlay;
-        this.cardAnimator.scheduleCardToMove(100, state, playCommand.card);
+        this.cardAnimator.scheduleCardToMove(100, state, playCommand.card, state.discardPile.some(c => c.equals(playCommand.card)));
         this.cardAnimator.scheduleCardToMove(600, state, state.players.find(p => p.equals(playCommand.target))?.cards.first());
         return;
       case HanabiCommand.Type.DISCARD:
@@ -159,6 +171,7 @@ export class HanabiComponent implements OnInit, OnDestroy, AfterViewInit {
       case HanabiCommand.Type.CLUE_COLOR:
         const clueColorCommand = command as HanabiCommandClueColor;
         clueColorCommand.target.cards.filter(c => c.color === clueColorCommand.color)
+          .filter(c => c.colorClue.isEmpty() && c.valueClue.isEmpty())
           .forEach((c, i) => {
             this.clueAnimator.scheduleClueToMove(c, i*50);
           });
@@ -166,6 +179,7 @@ export class HanabiComponent implements OnInit, OnDestroy, AfterViewInit {
       case HanabiCommand.Type.CLUE_VALUE:
         const clueValueCommand = command as HanabiCommandClueValue;
         clueValueCommand.target.cards.filter(c => c.value === clueValueCommand.value)
+          .filter(c => c.colorClue.isEmpty() && c.valueClue.isEmpty())
           .forEach((c, i) => {
             this.clueAnimator.scheduleClueToMove(c, i*50);
           });

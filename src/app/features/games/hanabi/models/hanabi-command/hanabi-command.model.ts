@@ -33,6 +33,7 @@ export abstract class HanabiCommand implements ValueObject {
 
   abstract update(game: HanabiGame): HanabiGame;
   abstract revert(game: HanabiGame): HanabiGame;
+  abstract checkError(game: HanabiGame): string;
 }
 
 export namespace HanabiCommand {

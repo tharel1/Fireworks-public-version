@@ -54,6 +54,7 @@ export class HanabiCommandDiscard extends HanabiCommand {
         .build()))
       .withDiscardPile(game.discardPile.push(this.card))
       .withDrawPile(game.drawPile.remove(-1))
+      .withClues(game.clues+1)
       .build();
   }
 
@@ -71,7 +72,14 @@ export class HanabiCommandDiscard extends HanabiCommand {
         .build()))
       .withDiscardPile(game.discardPile.remove(-1))
       .withDrawPile(game.drawPile.push(cardToReturn))
+      .withClues(game.clues-1)
       .build();
+  }
+
+  checkError(game: HanabiGame): string {
+    return game.clues === 8
+      ? `You can't discard a card when the clue count is full.`
+      : '';
   }
 
 }
