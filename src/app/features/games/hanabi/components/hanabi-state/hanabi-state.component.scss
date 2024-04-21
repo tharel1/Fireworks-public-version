@@ -5,14 +5,15 @@
 .hanabi-state {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 16px;
 
   .hanabi-state-clues {
-    $item-size: 40px;
+    $item-size: 35px;
     $item-border: 2px;
     $gap: 5px;
 
-    width: 4*($item-size+ 2*$item-border) + 3*$gap;
+    width: 4*($item-size + 2*$item-border) + 3*$gap;
+    height: 2*($item-size + 2*$item-border) + $gap;
     display: flex;
     gap: $gap;
     flex-wrap: wrap;

@@ -1,13 +1,17 @@
 <div class="hanabi-state">
   <span>Turn: {{game.history.size + 1}}</span>
   <span>Score: {{game.board.size}}/25</span>
-  <div class="hanabi-state-clues">
+  <div class="hanabi-state-clues"
+       matTooltip="{{game.clues}} clues left"
+       matTooltipPosition="right">
     <div *ngFor="let i of Array.from(Array(game.clues).keys())"
          class="hanabi-state-clues-item">
       <mat-icon>wb_sunny</mat-icon>
     </div>
   </div>
-  <div class="hanabi-state-bombs">
+  <div class="hanabi-state-bombs"
+       matTooltip="{{game.bombs}} bombs exploded"
+       matTooltipPosition="right">
     <div *ngFor="let i of Array.from(Array(3).keys())"
          class="hanabi-state-bombs-item"
          [class.exploded]="game.bombs > i">
