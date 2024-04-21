@@ -1,7 +1,13 @@
+<app-hanabi-card *ngFor="let card of discardPile"
+                 class="hanabi-discardpile-card"
+                 [card]="card"
+                 [faded]="true"
+                 [noClues]="true"/>
+
 <mat-card>
-  <mat-card-content class="hanabi-discard-pile">
-    <div *ngFor="let value of Array.from(Array(settings.maxValue).keys())" class="hanabi-discard-pile-column">
-      <div *ngFor="let color of settings.colors" class="hanabi-discard-pile-item">
+  <mat-card-content class="hanabi-discardpile">
+    <div *ngFor="let value of Array.from(Array(settings.maxValue).keys())" class="hanabi-discardpile-column">
+      <div *ngFor="let color of settings.colors" class="hanabi-discardpile-item">
         <span *ngFor="let i of Array.from(Array(calculatedDiscardPile.get(color)?.get(value+1) ?? 0))" [ngClass]="color">
           <b>{{ value+1 }}</b>
         </span>

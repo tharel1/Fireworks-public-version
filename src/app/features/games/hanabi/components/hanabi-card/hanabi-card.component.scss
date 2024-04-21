@@ -3,6 +3,7 @@
 @use "styles/variables/hanabi";
 
 .hanabi-card-container {
+  z-index: 1;
   position: relative;
 
   .hanabi-card {
@@ -55,10 +56,10 @@
 
 // ANIMATION
 .start-animation {
-  z-index: 1;
   transition:
     top 800ms ease-in-out,
-    left 800ms ease-in-out;
+    left 800ms ease-in-out,
+    opacity 500ms ease-in-out;
 }
 
 
@@ -87,6 +88,12 @@
         height: hanabi.$card-height-small;
       }
     }
+  }
+}
+
+.faded {
+  &.hanabi-card-container {
+    opacity: 0;
   }
 }
 

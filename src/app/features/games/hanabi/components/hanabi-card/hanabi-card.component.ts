@@ -40,6 +40,7 @@ export class HanabiCardComponent implements OnInit, OnChanges {
   @Input() visible: boolean = true;
   @Input() clickable: boolean = false;
   @Input() small: boolean = false;
+  @Input() faded: boolean = false;
   @Input() noShadow: boolean = false;
   @Input() noClues: boolean = false;
 
@@ -86,20 +87,25 @@ export class HanabiCardComponent implements OnInit, OnChanges {
     this.clueValue.emit(this.card);
   }
 
-  private computeClasses(hide: boolean = false): void {
+  private computeClasses(animating: boolean = false): void {
     let classes = List.of('');
 
-    if (hide) {
-      classes = classes.push('hide');
-    }
     if (this.clickable) {
       classes = classes.push('clickable');
     }
     if (this.small) {
       classes = classes.push('small');
     }
+    if (this.faded) {
+      classes = classes.push('faded');
+    }
     if (this.noShadow) {
       classes = classes.push('no-shadow');
+    }
+
+    if (animating) {
+      classes = classes.push('hide');
+      classes = classes.filter(str => str !== 'faded');
     }
 
     this.classes = classes.toArray();

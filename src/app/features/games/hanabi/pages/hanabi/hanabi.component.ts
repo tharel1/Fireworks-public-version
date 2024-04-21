@@ -153,6 +153,8 @@ export class HanabiComponent implements OnInit, OnDestroy, AfterViewInit {
         return;
       case HanabiCommand.Type.DISCARD:
         const discardCommand = command as HanabiCommandDiscard;
+        this.cardAnimator.scheduleCardToMove(100, state, discardCommand.card, true);
+        this.cardAnimator.scheduleCardToMove(600, state, state.players.find(p => p.equals(discardCommand.target))?.cards.first());
         return;
       case HanabiCommand.Type.CLUE_COLOR:
         const clueColorCommand = command as HanabiCommandClueColor;
@@ -182,6 +184,8 @@ export class HanabiComponent implements OnInit, OnDestroy, AfterViewInit {
         return;
       case HanabiCommand.Type.DISCARD:
         const discardCommand = command as HanabiCommandDiscard;
+        this.cardAnimator.scheduleCardToMove(100, state, state.drawPile.last());
+        this.cardAnimator.scheduleCardToMove(600, state, discardCommand.card);
         return;
       default:
         return;

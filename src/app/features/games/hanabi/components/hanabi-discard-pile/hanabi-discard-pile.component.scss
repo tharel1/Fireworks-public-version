@@ -1,17 +1,21 @@
 @use "styles/functions/colors";
 @use "styles/palettes";
 
-.hanabi-discard-pile {
+.hanabi-discardpile-card {
+  position: absolute;
+}
+
+.hanabi-discardpile {
   display: flex;
   gap: 20px;
   cursor: default;
 
-  .hanabi-discard-pile-column {
+  .hanabi-discardpile-column {
     display: flex;
     flex-direction: column;
     gap: 15px;
 
-    .hanabi-discard-pile-item {
+    .hanabi-discardpile-item {
       display: flex;
       gap: 10px;
       min-height: 20px;

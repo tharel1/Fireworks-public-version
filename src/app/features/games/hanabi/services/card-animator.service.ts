@@ -24,13 +24,14 @@ export class CardAnimator {
     this.cardPositions = Map();
   }
 
-  scheduleCardToMove(delay: number, state: HanabiGame, card?: HanabiCard): void {
+  scheduleCardToMove(delay: number, state: HanabiGame, card?: HanabiCard, fade: boolean = false): void {
     if (!card) return;
 
     this.cardsToMove = this.cardsToMove.add({
       card: card,
       delay: delay,
-      state: state
+      state: state,
+      fade: fade
     });
   }
 
@@ -49,6 +50,7 @@ export class CardAnimator {
     const card = cardToMove.card;
     const delay = cardToMove.delay;
     const state = cardToMove.state;
+    const fade = cardToMove.fade;
 
     timer(0).subscribe(() => {
       const elem = this.getElement(card);
@@ -64,13 +66,25 @@ export class CardAnimator {
           elem.style.left = `0px`;
           elem.classList.add('start-animation');
         });
-        timer(860+delay).subscribe(() => {
+        timer(810+delay).subscribe(() => {
           this.saveAllCardPositions(state);
           elem.style.top = ``;
           elem.style.left = ``;
           elem.classList.remove('start-animation');
+          if (fade) this.fadeElement(elem);
         });
       }
+    });
+  }
+
+  private fadeElement(elem: HTMLElement): void {
+    elem.style.opacity = '1';
+    timer(0).subscribe(() => {
+      elem.style.opacity = '0';
+      elem.classList.add('start-animation');
+    });
+    timer(500).subscribe(() => {
+      elem.classList.remove('start-animation');
     });
   }
 
@@ -97,4 +111,5 @@ interface CardToMove {
   readonly card: HanabiCard;
   readonly delay: number;
   readonly state: HanabiGame;
+  readonly fade: boolean;
 }
