@@ -7,7 +7,7 @@ import {HanabiGame} from "../models/hanabi-game.model";
 @Injectable({
   providedIn: 'root'
 })
-export class HanabiAnimator {
+export class CardAnimator {
 
   private cardPositions: Map<number, Position> = Map();
 

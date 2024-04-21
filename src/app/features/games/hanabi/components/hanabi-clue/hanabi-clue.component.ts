@@ -1,11 +1,11 @@
-import {ChangeDetectionStrategy, Component, ElementRef, Input, OnChanges} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, OnChanges} from '@angular/core';
 import {List} from "immutable";
 import {HanabiCard} from "../../models/hanabi-card.model";
 import {MatCard, MatCardContent} from "@angular/material/card";
 import {Changes} from "../../../../../core/utils/changes.model";
 import {NgClass, NgIf} from "@angular/common";
 import {MatIcon} from "@angular/material/icon";
-import {timer} from "rxjs";
+import {ClueAnimator} from "../../services/clue-animator.service";
 
 @Component({
   selector: 'app-hanabi-clue',
@@ -22,20 +22,25 @@ import {timer} from "rxjs";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HanabiClueComponent implements OnChanges {
+  @Input() cardId: number = -1;
   @Input() valueClue: List<number> = List.of();
   @Input() colorClue: List<HanabiCard.Color> = List.of();
 
   protected value?: number;
   protected color?: HanabiCard.Color;
+  protected active: boolean = false;
 
-  constructor(private element: ElementRef) {
-  }
+  constructor(
+    private clueAnimator: ClueAnimator
+  ) { }
 
   ngOnChanges(changes: Changes<HanabiClueComponent>): void {
     if (changes.valueClue) this.value = this.valueClue.last(undefined);
     if (changes.colorClue) this.color = this.colorClue.last(undefined);
+    this.active = !!this.value || !!this.color;
 
-    if (this.value || this.color)
-      timer(0).subscribe(() => this.element.nativeElement.querySelector('.hanabi-clue').classList.add('active'));
+    if (this.clueAnimator.moveScheduledClue(this.cardId)) {
+      this.active = false;
+    }
   }
 }

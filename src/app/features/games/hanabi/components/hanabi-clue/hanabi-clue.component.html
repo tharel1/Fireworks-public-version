@@ -1,4 +1,4 @@
-<mat-card class="hanabi-clue" [ngClass]="color ?? ''">
+<mat-card id="clue-{{cardId}}" class="hanabi-clue" [ngClass]="color ?? ''" [class.active]="active">
   <b>{{value ?? ''}}</b>
-  <mat-icon *ngIf="color" color="'white'">auto_awesome</mat-icon>
+  <mat-icon *ngIf="color">auto_awesome</mat-icon>
 </mat-card>

@@ -11,6 +11,10 @@
     cursor: default;
     transition: transform 250ms ease-out;
 
+    app-hanabi-clue {
+      transform: translateY(hanabi.$card-clue-height);
+    }
+
     .hanabi-card-content-container {
       width: hanabi.$card-width;
       height: hanabi.$card-height;

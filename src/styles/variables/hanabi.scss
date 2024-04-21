@@ -4,9 +4,12 @@
 $card-width: 76px;
 $card-height: 220px;
 $card-height-small: 180px;
-$card-clue-height: $card-height - $card-height-small;
 $card-border-radius: 10px;
 $card-shadow: -5px -5px 5px 0 rgba(0,0,0,.2);
+
+$card-clue-height-visible: $card-height - $card-height-small;
+$card-clue-height-trim: 20px;
+$card-clue-height: $card-clue-height-visible + $card-clue-height-trim;
 
 $red: colors.from-palette(palettes.$red);
 $yellow: colors.from-palette(palettes.$amber);

@@ -3,12 +3,11 @@
 @use "styles/palettes";
 
 .hanabi-clue {
-  height: hanabi.$card-clue-height + 20px;
-  transform: translateY(hanabi.$card-clue-height + 20px);
-  transition: transform 250ms ease-out;
+  height: hanabi.$card-clue-height;
   margin: 0 2px 0 2px;
   border-radius: hanabi.$card-border-radius;
   background-color: colors.from-palette(palettes.$grey, 700);
+  transition: transform 250ms ease-out;
 
   display: flex;
   flex-direction: row;
@@ -21,7 +20,7 @@
 
 .active {
   &.hanabi-clue {
-    transform: translateY(20px);
+    transform: translateY(- hanabi.$card-clue-height-visible);
   }
 }
 

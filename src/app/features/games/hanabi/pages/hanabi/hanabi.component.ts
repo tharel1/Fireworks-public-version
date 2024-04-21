@@ -23,10 +23,13 @@ import {UserStore} from "../../../../../core/stores/user.store";
 import {SocketService} from "../../../../../core/sockets/socket.service";
 import {HanabiSettings} from "../../models/hanabi-settings.model";
 import {MatButton} from "@angular/material/button";
-import {HanabiAnimator} from "../../services/hanabi-animator.service";
+import {CardAnimator} from "../../services/card-animator.service";
 import {HanabiCommandPlay} from "../../models/hanabi-command/hanabi-command-play.model";
 import {HanabiCommandDiscard} from "../../models/hanabi-command/hanabi-command-discard.model";
 import {HanabiHistory} from "../../models/hanabi-history.model";
+import {HanabiCommandClueColor} from "../../models/hanabi-command/hanabi-command-clue-color.model";
+import {ClueAnimator} from "../../services/clue-animator.service";
+import {HanabiCommandClueValue} from "../../models/hanabi-command/hanabi-command-clue-value.model";
 
 @Component({
   selector: 'app-hanabi',
@@ -67,7 +70,8 @@ export class HanabiComponent implements OnInit, OnDestroy, AfterViewInit {
     private socketService: SocketService,
     private store: HanabiStore,
     private userStore: UserStore,
-    private animator: HanabiAnimator
+    private cardAnimator: CardAnimator,
+    private clueAnimator: ClueAnimator
   ) {}
 
   ngOnInit(): void {
@@ -96,7 +100,7 @@ export class HanabiComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnDestroy(): void {
-    this.animator.resetCardPositions();
+    this.cardAnimator.resetCardPositions();
     this.watcher.unsubscribe();
   }
 
@@ -116,12 +120,12 @@ export class HanabiComponent implements OnInit, OnDestroy, AfterViewInit {
 
   // Animator
   ngAfterViewInit(): void {
-    timer(0).subscribe(() => this.animator.saveAllCardPositions(this.game));
+    timer(0).subscribe(() => this.cardAnimator.saveAllCardPositions(this.game));
   }
 
   @HostListener('window:resize')
   private onResize(): void {
-    this.animator.saveAllCardPositions(this.game);
+    this.cardAnimator.saveAllCardPositions(this.game);
   }
 
   protected onHistory(history: HanabiHistory): void {
@@ -135,7 +139,7 @@ export class HanabiComponent implements OnInit, OnDestroy, AfterViewInit {
         this.animateBackward(this.history.state ?? this.game, this.history.lastCommand());
         return;
       case HanabiHistory.Action.CANCEL:
-        timer(0).subscribe(() => this.animator.saveAllCardPositions(this.game));
+        timer(0).subscribe(() => this.cardAnimator.saveAllCardPositions(this.game));
         return;
     }
   }
@@ -144,11 +148,25 @@ export class HanabiComponent implements OnInit, OnDestroy, AfterViewInit {
     switch (command?.type) {
       case HanabiCommand.Type.PLAY:
         const playCommand = command as HanabiCommandPlay;
-        this.animator.scheduleCardToMove(100, state, playCommand.card);
-        this.animator.scheduleCardToMove(600, state, state.players.find(p => p.equals(playCommand.target))?.cards.first());
+        this.cardAnimator.scheduleCardToMove(100, state, playCommand.card);
+        this.cardAnimator.scheduleCardToMove(600, state, state.players.find(p => p.equals(playCommand.target))?.cards.first());
         return;
       case HanabiCommand.Type.DISCARD:
         const discardCommand = command as HanabiCommandDiscard;
+        return;
+      case HanabiCommand.Type.CLUE_COLOR:
+        const clueColorCommand = command as HanabiCommandClueColor;
+        clueColorCommand.target.cards.filter(c => c.color === clueColorCommand.color)
+          .forEach((c, i) => {
+            this.clueAnimator.scheduleClueToMove(c, i*50);
+          });
+        return;
+      case HanabiCommand.Type.CLUE_VALUE:
+        const clueValueCommand = command as HanabiCommandClueValue;
+        clueValueCommand.target.cards.filter(c => c.value === clueValueCommand.value)
+          .forEach((c, i) => {
+            this.clueAnimator.scheduleClueToMove(c, i*50);
+          });
         return;
       default:
         return;
@@ -159,8 +177,8 @@ export class HanabiComponent implements OnInit, OnDestroy, AfterViewInit {
     switch (command?.type) {
       case HanabiCommand.Type.PLAY:
         const playCommand = command as HanabiCommandPlay;
-        this.animator.scheduleCardToMove(100, state, state.drawPile.last());
-        this.animator.scheduleCardToMove(600, state, playCommand.card);
+        this.cardAnimator.scheduleCardToMove(100, state, state.drawPile.last());
+        this.cardAnimator.scheduleCardToMove(600, state, playCommand.card);
         return;
       case HanabiCommand.Type.DISCARD:
         const discardCommand = command as HanabiCommandDiscard;

@@ -16,7 +16,7 @@ import {MatMenuModule, MatMenuTrigger} from "@angular/material/menu";
 import {MatChipsModule} from "@angular/material/chips";
 import {HanabiNumberPipe} from "../../pipes/hanabi-number.pipe";
 import {HanabiClueComponent} from "../hanabi-clue/hanabi-clue.component";
-import {HanabiAnimator} from "../../services/hanabi-animator.service";
+import {CardAnimator} from "../../services/card-animator.service";
 import {List} from "immutable";
 
 @Component({
@@ -53,11 +53,11 @@ export class HanabiCardComponent implements OnInit, OnChanges {
   @ViewChild(MatMenuTrigger) trigger!: MatMenuTrigger;
 
   constructor(
-    private animator: HanabiAnimator
+    private cardAnimator: CardAnimator
   ) { }
 
   ngOnInit(): void {
-    if (this.animator.moveScheduledCard(this.card)) {
+    if (this.cardAnimator.moveScheduledCard(this.card)) {
       this.computeClasses(true)
     }
   }
