@@ -1,5 +1,6 @@
 @use "styles/functions/colors";
 @use "styles/palettes";
+@use "styles";
 
 .hanabi-container {
   display: flex;
@@ -18,7 +19,7 @@
 
       .hanabi-state {
         display: flex;
-        gap: 30px;
+        gap: 40px;
       }
     }
 
@@ -44,5 +45,19 @@
         }
       }
     }
+  }
+}
+
+.bomb-exploded {
+  animation: BombExploded 3s linear;
+}
+
+@keyframes BombExploded {
+  0%, 100% {
+    background-color: transparent;
+  }
+
+  25% {
+    background-color: colors.from-palette(styles.$my-warn, 500, 0.5);
   }
 }

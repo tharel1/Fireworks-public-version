@@ -6,6 +6,7 @@ import {HanabiCard} from "./hanabi-card.model";
 export class HanabiGame implements ValueObject {
 
   readonly history: List<HanabiCommand>;
+  readonly turn: number;
   readonly players: List<HanabiPlayer>;
   readonly drawPile: List<HanabiCard>;
   readonly discardPile: List<HanabiCard>;
@@ -15,6 +16,7 @@ export class HanabiGame implements ValueObject {
 
   constructor(builder: Builder) {
     this.history = builder.history;
+    this.turn = builder.turn;
     this.players = builder.players;
     this.drawPile = builder.drawPile;
     this.discardPile = builder.discardPile;
@@ -34,6 +36,7 @@ export class HanabiGame implements ValueObject {
   static copy(copy: HanabiGame): Builder {
     return HanabiGame.builder()
       .withHistory(copy.history)
+      .withTurn(copy.turn)
       .withPlayers(copy.players)
       .withDrawPile(copy.drawPile)
       .withDiscardPile(copy.discardPile)
@@ -45,6 +48,7 @@ export class HanabiGame implements ValueObject {
   static fromJson(json: any): HanabiGame {
     return HanabiGame.builder()
       .withHistory(List(json.history).map((c: any) => HanabiCommand.fromJson(c)))
+      .withTurn(json.turn)
       .withPlayers(List(json.players).map((p: any) => HanabiPlayer.fromJson(p)))
       .withDrawPile(List(json.drawPile).map((c: any) => HanabiCard.fromJson(c)))
       .withDiscardPile(List(json.discardPile).map((c: any) => HanabiCard.fromJson(c)))
@@ -78,6 +82,28 @@ export class HanabiGame implements ValueObject {
     return this.players.get(currentIndex === 0 ? this.players.size-1 : currentIndex-1);
   }
 
+  nextTurn(): HanabiGame {
+    const nextPlayer = this.nextPlayer();
+
+    return HanabiGame.copy(this)
+      .withPlayers(this.players.map((p) => HanabiPlayer.copy(p)
+        .withPlaying(p.equals(nextPlayer))
+        .build()))
+      .withTurn(this.turn+1)
+      .build();
+  }
+
+  previousTurn(): HanabiGame {
+    const previousPlayer = this.previousPlayer();
+
+    return HanabiGame.copy(this)
+      .withPlayers(this.players.map((p) => HanabiPlayer.copy(p)
+        .withPlaying(p.equals(previousPlayer))
+        .build()))
+      .withTurn(this.turn-1)
+      .build();
+  }
+
   allCards(): Set<HanabiCard> {
     return Set.of(
       ...this.drawPile,
@@ -87,7 +113,7 @@ export class HanabiGame implements ValueObject {
     );
   }
 
-  isValidCardToPlay(card: HanabiCard): boolean {
+  isCardValidToPlay(card: HanabiCard): boolean {
     if (card.value === 1)
       return this.board.filter(c => c.color === card.color).isEmpty();
 
@@ -104,6 +130,7 @@ export namespace HanabiGame {
 class Builder {
 
   history: List<HanabiCommand> = List.of();
+  turn: number = 0;
   players: List<HanabiPlayer> = List.of();
   drawPile: List<HanabiCard> = List.of();
   discardPile: List<HanabiCard> = List.of();
@@ -113,6 +140,11 @@ class Builder {
 
   withHistory(history: List<HanabiCommand>): Builder {
     this.history = history;
+    return this;
+  }
+
+  withTurn(turn: number): Builder {
+    this.turn = turn;
     return this;
   }
 

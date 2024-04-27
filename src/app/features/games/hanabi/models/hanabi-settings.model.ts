@@ -56,6 +56,7 @@ export class HanabiSettings implements ValueObject {
       .map((c, i) => HanabiCard.copy(c).withId(i).build());
 
     return HanabiGame.builder()
+      .withTurn(1)
       .withPlayers(users.map((u: User, i: number) => {
         const hand = cards.slice(0, 5);
         cards = cards.slice(5);

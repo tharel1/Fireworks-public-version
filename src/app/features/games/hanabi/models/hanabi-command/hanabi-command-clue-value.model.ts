@@ -36,10 +36,8 @@ export class HanabiCommandClueValue extends HanabiCommand {
   }
 
   update(game: HanabiGame): HanabiGame {
-    const nextPlayer = game.nextPlayer();
     return HanabiGame.copy(game)
       .withPlayers(game.players.map((p) => HanabiPlayer.copy(p)
-        .withPlaying(p.equals(nextPlayer))
         .withCards(p.equals(this.target)
           ? p.cards.map(c => c.value === this.value
             ? HanabiCard.copy(c).withValueClue(c.valueClue.push(this.value)).build()
@@ -47,14 +45,13 @@ export class HanabiCommandClueValue extends HanabiCommand {
           : p.cards)
         .build()))
       .withClues(game.clues-1)
-      .build();
+      .build()
+      .nextTurn();
   }
 
   revert(game: HanabiGame): HanabiGame {
-    const previousPlayer = game.previousPlayer();
     return HanabiGame.copy(game)
       .withPlayers(game.players.map((p) => HanabiPlayer.copy(p)
-        .withPlaying(p.equals(previousPlayer))
         .withCards(p.equals(this.target)
           ? p.cards.map(c => c.value === this.value
             ? HanabiCard.copy(c).withValueClue(c.valueClue.remove(-1)).build()
@@ -62,7 +59,8 @@ export class HanabiCommandClueValue extends HanabiCommand {
           : p.cards)
         .build()))
       .withClues(game.clues+1)
-      .build();
+      .build()
+      .previousTurn();
   }
 
   checkError(game: HanabiGame): string {

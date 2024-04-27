@@ -2,32 +2,45 @@
 @use "styles/palettes";
 @use "styles";
 
+$clue-size: 40px;
+$clue-per-row: 4;
+$clue-per-colum: 2;
+$clue-gap: 5px;
+
 .hanabi-state {
+  width: $clue-per-row*($clue-size + $clue-gap) - $clue-gap;
+
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 12px;
 
   .hanabi-state-clues {
-    $item-size: 35px;
-    $item-border: 2px;
-    $gap: 5px;
+    width: 100%;
+    height: $clue-per-colum*($clue-size + $clue-gap) - $clue-gap;
 
-    width: 4*($item-size + 2*$item-border) + 3*$gap;
-    height: 2*($item-size + 2*$item-border) + $gap;
     display: flex;
-    gap: $gap;
+    gap: 5px;
     flex-wrap: wrap;
 
     .hanabi-state-clues-item {
-      width: $item-size;
-      height: $item-size;
-      border: solid $item-border colors.from-palette(palettes.$grey, 200);
-      border-radius: $item-size;
+      width: $clue-size;
+      height: $clue-size;
+      border: solid 2px colors.from-palette(palettes.$grey, 200);
+      border-radius: $clue-size;
+      box-sizing: border-box;
       background-color: colors.from-palette(palettes.$grey, 800);
+      transition:
+        opacity 250ms ease-in-out,
+        transform 250ms ease-in-out;
 
       display: flex;
       justify-content: center;
       align-items: center;
+
+      &.not-visible {
+        transform: translateX(30px);
+        opacity: 0;
+      }
 
       mat-icon {
         color: colors.from-palette(palettes.$grey, 200);
@@ -36,27 +49,32 @@
   }
 
   .hanabi-state-bombs {
-    $item-size: 50px;
+    width: 100%;
 
     display: flex;
-    gap: 10px;
+    justify-content: space-between;
+    flex-wrap: wrap;
 
     .hanabi-state-bombs-item {
-      width: $item-size;
-      height: $item-size;
+      width: 50px;
+      height: 50px;
       border-radius: 10px;
+      border: solid 2px transparent;
       background-color: colors.from-palette(palettes.$grey, 800);
+      transition:
+        opacity 250ms ease-in-out,
+        font-size 250ms ease-in-out;
+      font-size: 0;
+      cursor: default;
 
       display: flex;
       justify-content: center;
       align-items: center;
 
-      font-size: x-large;
-      cursor: default;
-    }
-
-    .exploded {
-      border: solid 2px colors.from-palette(styles.$my-warn);
+      &.exploded {
+        border-color: colors.from-palette(styles.$my-warn);
+        font-size: x-large;
+      }
     }
   }
 }

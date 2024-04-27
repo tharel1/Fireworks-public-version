@@ -1,5 +1,5 @@
-<mat-progress-bar *ngIf="sending" color="warn" mode="indeterminate"></mat-progress-bar>
-<div class="hanabi-container">
+<app-progress-bar [loading]="sending"></app-progress-bar>
+<div id="game-root" class="hanabi-container">
 
   <div class="hanabi" *ngIf="(history.state ?? game) as gameOrHistory">
     <div class="hanabi-left">

@@ -16,10 +16,8 @@
   color: black;
   padding: 12px 10px;
   font-size: xx-large;
-}
 
-.active {
-  &.hanabi-clue {
+  &.active {
     transform: translateY(- hanabi.$card-clue-height-visible);
   }
 }

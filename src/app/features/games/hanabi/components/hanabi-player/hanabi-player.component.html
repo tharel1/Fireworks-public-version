@@ -8,8 +8,6 @@
                    (clueColor)="onClueColor($event)"
                    (clueValue)="onClueValue($event)"/>
 
-  <mat-card class="hanabi-player-infos">
-    <span>{{ player.user.name }}&nbsp;</span>
-    <app-player-waiting *ngIf="player.playing"/>
-  </mat-card>
+  <app-player-bar [name]="player.user.name"
+                  [playing]="player.playing"></app-player-bar>
 </div>

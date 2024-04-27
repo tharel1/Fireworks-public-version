@@ -13,7 +13,6 @@
     transition: transform 250ms ease-out;
 
     app-hanabi-clue {
-      position: absolute;
       transform: translateY(hanabi.$card-clue-height);
     }
 

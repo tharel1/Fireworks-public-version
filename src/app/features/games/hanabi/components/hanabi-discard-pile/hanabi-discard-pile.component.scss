@@ -21,21 +21,21 @@
       min-height: 20px;
       font-size: x-large;
     }
-
-    .red {
-      color: colors.from-palette(palettes.$red);
-    }
-    .yellow {
-      color: colors.from-palette(palettes.$amber);
-    }
-    .green {
-      color: colors.from-palette(palettes.$green);
-    }
-    .blue {
-      color: colors.from-palette(palettes.$light-blue);
-    }
-    .purple {
-      color: colors.from-palette(palettes.$deep-purple, 300);
-    }
   }
+}
+
+.red {
+  color: colors.from-palette(palettes.$red);
+}
+.yellow {
+  color: colors.from-palette(palettes.$amber);
+}
+.green {
+  color: colors.from-palette(palettes.$green);
+}
+.blue {
+  color: colors.from-palette(palettes.$light-blue);
+}
+.purple {
+  color: colors.from-palette(palettes.$deep-purple, 300);
 }

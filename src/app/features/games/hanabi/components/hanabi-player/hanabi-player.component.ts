@@ -3,18 +3,17 @@ import {CommonModule} from '@angular/common';
 import {HanabiCommand} from "../../models/hanabi-command/hanabi-command.model";
 import {HanabiHandComponent} from "../hanabi-hand/hanabi-hand.component";
 import {HanabiPlayer} from "../../models/hanabi-player.model";
-import {MatCardModule} from "@angular/material/card";
-import {PlayerWaitingComponent} from "../../../../../shared/components/player-waiting/player-waiting.component";
 import {HanabiCard} from "../../models/hanabi-card.model";
 import {HanabiCommandClueColor} from "../../models/hanabi-command/hanabi-command-clue-color.model";
 import {HanabiCommandClueValue} from "../../models/hanabi-command/hanabi-command-clue-value.model";
 import {HanabiCommandPlay} from "../../models/hanabi-command/hanabi-command-play.model";
 import {HanabiCommandDiscard} from "../../models/hanabi-command/hanabi-command-discard.model";
+import {PlayerBarComponent} from "../../../../../shared/components/player-bar/player-bar.component";
 
 @Component({
   selector: 'app-hanabi-player',
   standalone: true,
-  imports: [CommonModule, HanabiHandComponent, MatCardModule, PlayerWaitingComponent],
+  imports: [CommonModule, HanabiHandComponent, PlayerBarComponent],
   templateUrl: './hanabi-player.component.html',
   styleUrls: ['./hanabi-player.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

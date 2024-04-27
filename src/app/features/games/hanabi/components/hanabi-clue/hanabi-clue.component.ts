@@ -35,12 +35,14 @@ export class HanabiClueComponent implements OnChanges {
   ) { }
 
   ngOnChanges(changes: Changes<HanabiClueComponent>): void {
-    if (changes.valueClue) this.value = this.valueClue.last(undefined);
-    if (changes.colorClue) this.color = this.colorClue.last(undefined);
-    this.active = !!this.value || !!this.color;
+    if (changes.valueClue || changes.colorClue) {
+      this.value = this.valueClue.last(undefined);
+      this.color = this.colorClue.last(undefined);
+      this.active = Boolean(this.value) || Boolean(this.color);
 
-    if (this.clueAnimator.moveScheduledClue(this.cardId)) {
-      this.active = false;
+      if (this.clueAnimator.moveScheduledClue(this.cardId)) {
+        this.active = false;
+      }
     }
   }
 }

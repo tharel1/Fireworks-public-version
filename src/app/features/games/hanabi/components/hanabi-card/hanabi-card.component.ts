@@ -44,14 +44,14 @@ export class HanabiCardComponent implements OnInit, OnChanges {
   @Input() noShadow: boolean = false;
   @Input() noClues: boolean = false;
 
-  protected classes: string[] = [];
-
   @Output() play: EventEmitter<HanabiCard> = new EventEmitter<HanabiCard>();
   @Output() discard: EventEmitter<HanabiCard> = new EventEmitter<HanabiCard>();
   @Output() clueColor: EventEmitter<HanabiCard> = new EventEmitter<HanabiCard>();
   @Output() clueValue: EventEmitter<HanabiCard> = new EventEmitter<HanabiCard>();
 
   @ViewChild(MatMenuTrigger) trigger!: MatMenuTrigger;
+
+  protected classes: string[] = [];
 
   constructor(
     private cardAnimator: CardAnimator

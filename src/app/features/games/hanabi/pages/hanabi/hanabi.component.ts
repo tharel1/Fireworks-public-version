@@ -31,6 +31,7 @@ import {HanabiCommandClueColor} from "../../models/hanabi-command/hanabi-command
 import {ClueAnimator} from "../../services/clue-animator.service";
 import {HanabiCommandClueValue} from "../../models/hanabi-command/hanabi-command-clue-value.model";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {ProgressBarComponent} from "../../../../../shared/components/progress-bar/progress-bar.component";
 
 @Component({
   selector: 'app-hanabi',
@@ -50,7 +51,8 @@ import {MatSnackBar} from "@angular/material/snack-bar";
     MatDividerModule,
     MatIconModule,
     MatButton,
-    NgForOf
+    NgForOf,
+    ProgressBarComponent
   ],
   standalone: true
 })
@@ -148,8 +150,6 @@ export class HanabiComponent implements OnInit, OnDestroy, AfterViewInit {
         this.animateForward(this.history.state ?? this.game, this.history.lastCommand());
         return;
       case HanabiHistory.Action.GO_BACKWARD:
-        this.animateBackward(this.history.state ?? this.game, this.history.lastCommand());
-        return;
       case HanabiHistory.Action.CANCEL:
         timer(0).subscribe(() => this.cardAnimator.saveAllCardPositions(this.game));
         return;
@@ -160,7 +160,12 @@ export class HanabiComponent implements OnInit, OnDestroy, AfterViewInit {
     switch (command?.type) {
       case HanabiCommand.Type.PLAY:
         const playCommand = command as HanabiCommandPlay;
-        this.cardAnimator.scheduleCardToMove(100, state, playCommand.card, state.discardPile.some(c => c.equals(playCommand.card)));
+        const bombExploded = state.discardPile.some(c => c.equals(playCommand.card));
+        if (bombExploded) {
+          document.getElementById('game-root')?.classList.remove('bomb-exploded');
+          timer(0).subscribe(() => document.getElementById('game-root')?.classList.add('bomb-exploded'));
+        }
+        this.cardAnimator.scheduleCardToMove(100, state, playCommand.card, bombExploded);
         this.cardAnimator.scheduleCardToMove(600, state, state.players.find(p => p.equals(playCommand.target))?.cards.first());
         return;
       case HanabiCommand.Type.DISCARD:
@@ -183,23 +188,6 @@ export class HanabiComponent implements OnInit, OnDestroy, AfterViewInit {
           .forEach((c, i) => {
             this.clueAnimator.scheduleClueToMove(c, i*50);
           });
-        return;
-      default:
-        return;
-    }
-  }
-
-  private animateBackward(state: HanabiGame, command?: HanabiCommand): void {
-    switch (command?.type) {
-      case HanabiCommand.Type.PLAY:
-        const playCommand = command as HanabiCommandPlay;
-        this.cardAnimator.scheduleCardToMove(100, state, state.drawPile.last());
-        this.cardAnimator.scheduleCardToMove(600, state, playCommand.card);
-        return;
-      case HanabiCommand.Type.DISCARD:
-        const discardCommand = command as HanabiCommandDiscard;
-        this.cardAnimator.scheduleCardToMove(100, state, state.drawPile.last());
-        this.cardAnimator.scheduleCardToMove(600, state, discardCommand.card);
         return;
       default:
         return;

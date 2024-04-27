@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, Input, OnChanges, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, OnChanges} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {HanabiCardComponent} from "../hanabi-card/hanabi-card.component";
 import {List, Map} from "immutable";
@@ -15,15 +15,11 @@ import {HanabiSettings} from "../../models/hanabi-settings.model";
   styleUrls: ['./hanabi-board.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class HanabiBoardComponent implements OnInit, OnChanges {
+export class HanabiBoardComponent implements OnChanges {
   @Input() board: List<HanabiCard> = List.of();
   @Input() settings: HanabiSettings = HanabiSettings.empty();
 
   protected calculatedBoard: Map<HanabiCard.Color, List<HanabiCard>> = Map();
-
-  ngOnInit(): void {
-    this.calculatedBoard = this.board.groupBy(c => c.color);
-  }
 
   ngOnChanges(changes: Changes<HanabiBoardComponent>): void {
     if(changes.board)
