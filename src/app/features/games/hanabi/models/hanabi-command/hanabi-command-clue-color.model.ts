@@ -35,6 +35,10 @@ export class HanabiCommandClueColor extends HanabiCommand {
       .build();
   }
 
+  fill(game: HanabiGame): HanabiCommandClueColor {
+    return this;
+  }
+
   update(game: HanabiGame): HanabiGame {
     return HanabiGame.copy(game)
       .withPlayers(game.players.map((p) => HanabiPlayer.copy(p)

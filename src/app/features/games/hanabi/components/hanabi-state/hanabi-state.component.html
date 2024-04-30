@@ -1,26 +1,17 @@
 <div class="hanabi-state">
-  <span>Turn: {{game.turn}}</span>
-
-  <span>Score: {{game.board.size}}/25</span>
-
-  <div class="hanabi-state-clues"
-       matTooltip="{{game.clues}} clues left"
-       matTooltipPosition="right">
-    <div *ngFor="let i of Array.from(Array(8).keys())"
-         class="hanabi-state-clues-item"
-         [class.not-visible]="game.clues <= i">
-      <mat-icon>wb_sunny</mat-icon>
+  <div class="hanabi-state-left">
+    <app-hanabi-board [board]="state.board" [settings]="settings"></app-hanabi-board>
+    <div class="hanabi-infos">
+      <app-hanabi-draw-pile [drawPile]="state.drawPile"></app-hanabi-draw-pile>
+      <app-hanabi-infos [game]="state"></app-hanabi-infos>
     </div>
+    <app-hanabi-discard-pile [discardPile]="state.discardPile" [settings]="settings"></app-hanabi-discard-pile>
   </div>
-
-  <div class="hanabi-state-bombs"
-       matTooltip="{{game.bombs}} bombs exploded"
-       matTooltipPosition="right">
-    <div *ngFor="let i of Array.from(Array(3).keys())"
-         class="hanabi-state-bombs-item"
-         [class.exploded]="game.bombs > i">
-      💥
-    </div>
+  <div class="hanabi-state-right">
+    <app-hanabi-player *ngFor="let player of orderedPlayers"
+                       [player]="player"
+                       [isSelf]="selfPlayer.equals(player)"
+                       [canPlay]="selfPlayer.playing && !isInHistory"
+                       (command)="onCommand($event)"></app-hanabi-player>
   </div>
-
 </div>

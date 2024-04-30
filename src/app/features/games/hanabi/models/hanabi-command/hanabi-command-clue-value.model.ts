@@ -35,6 +35,10 @@ export class HanabiCommandClueValue extends HanabiCommand {
       .build();
   }
 
+  fill(game: HanabiGame): HanabiCommandClueValue {
+    return this;
+  }
+
   update(game: HanabiGame): HanabiGame {
     return HanabiGame.copy(game)
       .withPlayers(game.players.map((p) => HanabiPlayer.copy(p)

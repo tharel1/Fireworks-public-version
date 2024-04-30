@@ -3,14 +3,18 @@ import {CommonModule} from '@angular/common';
 import {HanabiCardComponent} from "../hanabi-card/hanabi-card.component";
 import {List, Map} from "immutable";
 import {HanabiCard} from "../../models/hanabi-card.model";
-import {MatCardModule} from "@angular/material/card";
+import {MatCard} from "@angular/material/card";
 import {Changes} from "../../../../../core/utils/changes.model";
 import {HanabiSettings} from "../../models/hanabi-settings.model";
 
 @Component({
   selector: 'app-hanabi-board',
   standalone: true,
-  imports: [CommonModule, HanabiCardComponent, MatCardModule],
+  imports: [
+    HanabiCardComponent,
+    MatCard,
+    CommonModule
+  ],
   templateUrl: './hanabi-board.component.html',
   styleUrls: ['./hanabi-board.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

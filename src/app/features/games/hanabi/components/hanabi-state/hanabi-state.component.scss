@@ -1,80 +1,22 @@
-@use "styles/functions/colors";
-@use "styles/palettes";
-@use "styles";
-
-$clue-size: 40px;
-$clue-per-row: 4;
-$clue-per-colum: 2;
-$clue-gap: 5px;
-
 .hanabi-state {
-  width: $clue-per-row*($clue-size + $clue-gap) - $clue-gap;
-
   display: flex;
-  flex-direction: column;
-  gap: 12px;
+  justify-content: space-between;
 
-  .hanabi-state-clues {
-    width: 100%;
-    height: $clue-per-colum*($clue-size + $clue-gap) - $clue-gap;
-
+  .hanabi-state-left {
     display: flex;
-    gap: 5px;
-    flex-wrap: wrap;
+    flex-direction: column;
+    gap: 30px;
+    margin-top: 40px;
 
-    .hanabi-state-clues-item {
-      width: $clue-size;
-      height: $clue-size;
-      border: solid 2px colors.from-palette(palettes.$grey, 200);
-      border-radius: $clue-size;
-      box-sizing: border-box;
-      background-color: colors.from-palette(palettes.$grey, 800);
-      transition:
-        opacity 250ms ease-in-out,
-        transform 250ms ease-in-out;
-
+    .hanabi-infos {
       display: flex;
-      justify-content: center;
-      align-items: center;
-
-      &.not-visible {
-        transform: translateX(30px);
-        opacity: 0;
-      }
-
-      mat-icon {
-        color: colors.from-palette(palettes.$grey, 200);
-      }
+      gap: 40px;
     }
   }
 
-  .hanabi-state-bombs {
-    width: 100%;
-
+  .hanabi-state-right {
     display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-
-    .hanabi-state-bombs-item {
-      width: 50px;
-      height: 50px;
-      border-radius: 10px;
-      border: solid 2px transparent;
-      background-color: colors.from-palette(palettes.$grey, 800);
-      transition:
-        opacity 250ms ease-in-out,
-        font-size 250ms ease-in-out;
-      font-size: 0;
-      cursor: default;
-
-      display: flex;
-      justify-content: center;
-      align-items: center;
-
-      &.exploded {
-        border-color: colors.from-palette(styles.$my-warn);
-        font-size: x-large;
-      }
-    }
+    flex-direction: column;
+    gap: 20px;
   }
 }

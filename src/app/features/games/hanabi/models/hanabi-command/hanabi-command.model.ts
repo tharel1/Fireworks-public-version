@@ -31,6 +31,7 @@ export abstract class HanabiCommand implements ValueObject {
     return 0;
   }
 
+  abstract fill(game: HanabiGame): HanabiCommand;
   abstract update(game: HanabiGame): HanabiGame;
   abstract revert(game: HanabiGame): HanabiGame;
   abstract checkError(game: HanabiGame): string;

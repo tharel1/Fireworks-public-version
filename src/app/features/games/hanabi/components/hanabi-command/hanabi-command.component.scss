@@ -1,0 +1,14 @@
+@use "styles/functions/colors";
+@use "styles/palettes";
+@use "styles";
+
+.hanabi-command {
+  background-color: colors.from-palette(palettes.$grey, 800);
+  border-radius: 10px;
+  box-sizing: border-box;
+  border: solid 3px transparent;
+
+  &.active {
+    border-color: colors.from-palette(styles.$my-primary);
+  }
+}

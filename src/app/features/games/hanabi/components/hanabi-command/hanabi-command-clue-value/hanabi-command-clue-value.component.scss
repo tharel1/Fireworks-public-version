@@ -1,0 +1,6 @@
+@use "styles/functions/colors";
+@use "styles/palettes";
+
+.clue-value {
+  color: colors.from-palette(palettes.$grey, 700);
+}

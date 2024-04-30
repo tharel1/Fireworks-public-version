@@ -1,37 +1,11 @@
 <app-progress-bar [loading]="sending"></app-progress-bar>
-<div id="game-root" class="hanabi-container">
-
-  <div class="hanabi" *ngIf="(history.state ?? game) as gameOrHistory">
-    <div class="hanabi-left">
-      <app-hanabi-board [board]="gameOrHistory.board"
-                        [settings]="settings"/>
-      <div class="hanabi-state">
-        <app-hanabi-draw-pile [drawPile]="gameOrHistory.drawPile"/>
-        <app-hanabi-state [game]="gameOrHistory"/>
-      </div>
-      <app-hanabi-discard-pile [discardPile]="gameOrHistory.discardPile"
-                               [settings]="settings"/>
-    </div>
-    <div class="hanabi-right">
-      <div class="hanabi-players">
-        <app-hanabi-player *ngFor="let player of gameOrHistory.players"
-                           [player]="player"
-                           [isSelf]="player.equals(selfPlayer)"
-                           [canPlay]="!history.state && selfPlayer.playing"
-                           (command)="applyCommand($event)"/>
-      </div>
-      <div class="hanabi-infos">
-        <mat-card>
-          <mat-card-content class="hanabi-actions">
-            <app-hanabi-history [history]="history" (onHistory)="onHistory($event)"/>
-            <mat-divider [vertical]="true"/>
-            <mat-icon>auto_fix_high</mat-icon>
-            <mat-divider [vertical]="true"/>
-            <mat-icon>auto_fix_high</mat-icon>
-          </mat-card-content>
-        </mat-card>
-        <app-hanabi-infos/>
-      </div>
-    </div>
-  </div>
+<div id="game-root"
+     class="game-root">
+  <app-hanabi-state class="hanabi-state"
+                    [game]="game"
+                    [settings]="settings"
+                    [history]="history"
+                    (gameUpdate)="onGameUpdate($event)"></app-hanabi-state>
+  <app-hanabi-side-elems [history]="history"
+                         (historyUpdate)="onHistoryUpdate($event)"></app-hanabi-side-elems>
 </div>

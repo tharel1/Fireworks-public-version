@@ -27,7 +27,7 @@ export class HanabiPlayerComponent {
 
   protected onPlay(card: HanabiCard): void {
     this.command.emit(HanabiCommandPlay.builder()
-      .withTarget(this.player)
+      .withSource(this.player)
       .withCard(card)
       .withIndex(this.player.cards.findIndex(c => c.equals(card)))
       .build()
@@ -36,7 +36,7 @@ export class HanabiPlayerComponent {
 
   protected onDiscard(card: HanabiCard): void {
     this.command.emit(HanabiCommandDiscard.builder()
-      .withTarget(this.player)
+      .withSource(this.player)
       .withCard(card)
       .withIndex(this.player.cards.findIndex(c => c.equals(card)))
       .build()

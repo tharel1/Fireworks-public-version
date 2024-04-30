@@ -2,14 +2,12 @@ import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output} from '@
 import {CommonModule} from '@angular/common';
 import {HanabiCardComponent} from "../hanabi-card/hanabi-card.component";
 import {List} from "immutable";
-import {DragDropModule} from "@angular/cdk/drag-drop";
 import {HanabiCard} from "../../models/hanabi-card.model";
-import {MatCardModule} from "@angular/material/card";
 
 @Component({
   selector: 'app-hanabi-hand',
   standalone: true,
-  imports: [CommonModule, HanabiCardComponent, DragDropModule, MatCardModule],
+  imports: [CommonModule, HanabiCardComponent],
   templateUrl: './hanabi-hand.component.html',
   styleUrls: ['./hanabi-hand.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

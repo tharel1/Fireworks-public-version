@@ -8,12 +8,11 @@ import {
   Output,
   ViewChild
 } from '@angular/core';
-import {MatCardModule} from "@angular/material/card";
+import {MatCard, MatCardContent} from "@angular/material/card";
 import {CommonModule} from "@angular/common";
 import {HanabiCard} from "../../models/hanabi-card.model";
-import {MatIconModule} from "@angular/material/icon";
-import {MatMenuModule, MatMenuTrigger} from "@angular/material/menu";
-import {MatChipsModule} from "@angular/material/chips";
+import {MatIcon} from "@angular/material/icon";
+import {MatMenu, MatMenuItem, MatMenuTrigger} from "@angular/material/menu";
 import {HanabiNumberPipe} from "../../pipes/hanabi-number.pipe";
 import {HanabiClueComponent} from "../hanabi-clue/hanabi-clue.component";
 import {CardAnimator} from "../../services/card-animator.service";
@@ -25,12 +24,14 @@ import {List} from "immutable";
   styleUrls: ['./hanabi-card.component.scss'],
   imports: [
     CommonModule,
-    MatCardModule,
-    MatIconModule,
-    MatMenuModule,
-    MatChipsModule,
+    HanabiClueComponent,
+    MatCard,
+    MatMenuTrigger,
+    MatCardContent,
+    MatIcon,
+    MatMenu,
+    MatMenuItem,
     HanabiNumberPipe,
-    HanabiClueComponent
   ],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush

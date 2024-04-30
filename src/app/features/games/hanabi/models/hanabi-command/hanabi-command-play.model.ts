@@ -5,13 +5,13 @@ import {HanabiCard} from "../hanabi-card.model";
 
 export class HanabiCommandPlay extends HanabiCommand {
 
-  readonly target: HanabiPlayer;
+  readonly source: HanabiPlayer;
   readonly card: HanabiCard;
   readonly index: number;
 
   constructor(builder: Builder) {
     super(HanabiCommand.Type.PLAY);
-    this.target = builder.target;
+    this.source = builder.source;
     this.card = builder.card;
     this.index = builder.index;
   }
@@ -26,17 +26,21 @@ export class HanabiCommandPlay extends HanabiCommand {
 
   static copy(copy: HanabiCommandPlay): Builder {
     return HanabiCommandPlay.builder()
-      .withTarget(copy.target)
+      .withSource(copy.source)
       .withCard(copy.card)
       .withIndex(copy.index)
   }
 
   static override fromJson(json: any): HanabiCommandPlay {
     return HanabiCommandPlay.builder()
-      .withTarget(HanabiPlayer.fromJson(json.target))
+      .withSource(HanabiPlayer.fromJson(json.source))
       .withCard(HanabiCard.fromJson(json.card))
       .withIndex(json.index)
       .build();
+  }
+
+  fill(game: HanabiGame): HanabiCommandPlay {
+    return this;
   }
 
   update(game: HanabiGame): HanabiGame {
@@ -45,7 +49,7 @@ export class HanabiCommandPlay extends HanabiCommand {
 
     return HanabiGame.copy(game)
       .withPlayers(game.players.map((p) => HanabiPlayer.copy(p)
-        .withCards(p.equals(this.target)
+        .withCards(p.equals(this.source)
           ? (cardToDraw
                ? p.cards.remove(this.index).insert(0, cardToDraw)
                : p.cards.remove(this.index))
@@ -60,13 +64,13 @@ export class HanabiCommandPlay extends HanabiCommand {
   }
 
   revert(game: HanabiGame): HanabiGame {
-    const cardToReturn = game.players.find(p => p.equals(this.target))?.cards.first();
+    const cardToReturn = game.players.find(p => p.equals(this.source))?.cards.first();
     if (!cardToReturn) throw new Error(`No card to return to draw pile`);
     const wasCardValidToPlay = game.board.some(c => c.equals(this.card));
 
     return HanabiGame.copy(game)
       .withPlayers(game.players.map((p) => HanabiPlayer.copy(p)
-        .withCards(p.equals(this.target)
+        .withCards(p.equals(this.source)
           ? p.cards.remove(0).insert(this.index, this.card)
           : p.cards)
         .build()))
@@ -89,12 +93,12 @@ export namespace HanabiCommandPlay {
 }
 
 class Builder {
-  target: HanabiPlayer = HanabiPlayer.empty();
+  source: HanabiPlayer = HanabiPlayer.empty();
   card: HanabiCard = HanabiCard.empty();
   index: number = 0;
 
-  withTarget(target: HanabiPlayer): Builder {
-    this.target = target;
+  withSource(source: HanabiPlayer): Builder {
+    this.source = source;
     return this;
   }
 
