@@ -2,7 +2,6 @@
   <app-hanabi-hand class="hanabi-hand-container"
                    [hand]="player.cards"
                    [visible]="!isSelf"
-                   [canPlay]="canPlay"
                    (play)="onPlay($event)"
                    (discard)="onDiscard($event)"
                    (clueColor)="onClueColor($event)"

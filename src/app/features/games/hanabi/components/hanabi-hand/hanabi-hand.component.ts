@@ -15,7 +15,6 @@ import {HanabiCard} from "../../models/hanabi-card.model";
 export class HanabiHandComponent {
   @Input() hand: List<HanabiCard> = List.of();
   @Input() visible: boolean = false;
-  @Input() canPlay: boolean = false;
 
   @Output() play: EventEmitter<HanabiCard> = new EventEmitter<HanabiCard>();
   @Output() discard: EventEmitter<HanabiCard> = new EventEmitter<HanabiCard>();

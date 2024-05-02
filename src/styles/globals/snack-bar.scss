@@ -1,0 +1,27 @@
+.mat-mdc-snack-bar-container {
+  &.info {
+    --mdc-snackbar-container-color: #e0e0e0;
+    --mdc-snackbar-supporting-text-color: #212121;
+    --mat-snack-bar-button-color: #212121;
+  }
+  &.success {
+    --mdc-snackbar-container-color: #c5e1a5;
+    --mdc-snackbar-supporting-text-color: #33691e;
+    --mat-snack-bar-button-color: #33691e;
+  }
+  &.warn {
+    --mdc-snackbar-container-color: #ffcc80;
+    --mdc-snackbar-supporting-text-color: #e65100;
+    --mat-snack-bar-button-color: #e65100;
+  }
+  &.error {
+    --mdc-snackbar-container-color: #ef9a9a;
+    --mdc-snackbar-supporting-text-color: #b71c1c;
+    --mat-snack-bar-button-color: #b71c1c;
+  }
+  &.fatal {
+    --mdc-snackbar-container-color: #212121;
+    --mdc-snackbar-supporting-text-color: #bdbdbd;
+    --mat-snack-bar-button-color: #ff5252;
+  }
+}

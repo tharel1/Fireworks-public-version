@@ -13,7 +13,7 @@ import {HanabiPlayer} from "../../models/hanabi-player.model";
 import {UserStore} from "../../../../../core/stores/user.store";
 import {HanabiHistory} from "../../models/hanabi-history.model";
 import {HanabiCommand} from "../../models/hanabi-command/hanabi-command.model";
-import {MatSnackBar} from "@angular/material/snack-bar";
+import {SnackBarService} from "../../../../../shared/services/snack-bar.service";
 
 @Component({
   selector: 'app-hanabi-state',
@@ -44,7 +44,7 @@ export class HanabiStateComponent implements OnChanges {
 
   constructor(
     private userStore: UserStore,
-    private matSnackBar: MatSnackBar
+    private snackBarService: SnackBarService
   ) { }
 
   ngOnChanges(changes: Changes<HanabiStateComponent>): void {
@@ -59,17 +59,15 @@ export class HanabiStateComponent implements OnChanges {
   }
 
   protected onCommand(command: HanabiCommand): void {
-    if (this.isInHistory) throw new Error(`Can't update game while in history mode.`);
+    if (this.isInHistory)
+      return this.snackBarService.error(`You have to stop watching the history in order to play.`);
+
+    if (!this.selfPlayer.playing)
+      return this.snackBarService.error(`You have to wait your turn in order to play.`);
 
     const error = command.checkError(this.game);
-    if (error) {
-      this.matSnackBar.open(error, 'Close', {
-        duration: 3000,
-        horizontalPosition: 'center',
-        verticalPosition: 'top',
-      });
-      return;
-    }
+    if (error)
+      return this.snackBarService.warn(error);
 
     this.selfPlayer = HanabiPlayer.copy(this.selfPlayer).withPlaying(false).build();
 

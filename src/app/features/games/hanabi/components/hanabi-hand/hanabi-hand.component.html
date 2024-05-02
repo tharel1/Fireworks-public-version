@@ -2,7 +2,7 @@
   <app-hanabi-card *ngFor="let card of hand"
                    [card]="card"
                    [visible]="visible"
-                   [clickable]="canPlay"
+                   [clickable]="true"
                    [small]="true"
                    (play)="onPlay($event)"
                    (discard)="onDiscard($event)"

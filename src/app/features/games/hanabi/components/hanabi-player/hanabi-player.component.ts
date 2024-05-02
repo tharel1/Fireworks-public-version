@@ -21,7 +21,6 @@ import {PlayerBarComponent} from "../../../../../shared/components/player-bar/pl
 export class HanabiPlayerComponent {
   @Input() player: HanabiPlayer = HanabiPlayer.empty();
   @Input() isSelf: boolean = false;
-  @Input() canPlay: boolean = false;
 
   @Output() command: EventEmitter<HanabiCommand> = new EventEmitter<HanabiCommand>();
 

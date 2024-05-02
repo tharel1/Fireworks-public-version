@@ -11,7 +11,6 @@
     <app-hanabi-player *ngFor="let player of orderedPlayers"
                        [player]="player"
                        [isSelf]="selfPlayer.equals(player)"
-                       [canPlay]="selfPlayer.playing && !isInHistory"
                        (command)="onCommand($event)"></app-hanabi-player>
   </div>
 </div>
