@@ -8,12 +8,16 @@ export class HanabiCommandPlay extends HanabiCommand {
   readonly source: HanabiPlayer;
   readonly card: HanabiCard;
   readonly index: number;
+  readonly isBomb: boolean;
+  readonly gainClue: boolean;
 
   constructor(builder: Builder) {
     super(HanabiCommand.Type.PLAY);
     this.source = builder.source;
     this.card = builder.card;
     this.index = builder.index;
+    this.isBomb = builder.isBomb;
+    this.gainClue = builder.gainClue;
   }
 
   static builder(): Builder {
@@ -29,6 +33,8 @@ export class HanabiCommandPlay extends HanabiCommand {
       .withSource(copy.source)
       .withCard(copy.card)
       .withIndex(copy.index)
+      .withIsBomb(copy.isBomb)
+      .withGainClue(copy.gainClue);
   }
 
   static override fromJson(json: any): HanabiCommandPlay {
@@ -36,16 +42,22 @@ export class HanabiCommandPlay extends HanabiCommand {
       .withSource(HanabiPlayer.fromJson(json.source))
       .withCard(HanabiCard.fromJson(json.card))
       .withIndex(json.index)
+      .withIsBomb(json.isBomb)
+      .withGainClue(json.gainClue)
       .build();
   }
 
   fill(game: HanabiGame): HanabiCommandPlay {
-    return this;
+    const isBomb = !game.isCardValidToPlay(this.card);
+
+    return HanabiCommandPlay.copy(this)
+      .withIsBomb(isBomb)
+      .withGainClue(!isBomb && game.clues < 8 && this.card.value === 5)
+      .build();
   }
 
   update(game: HanabiGame): HanabiGame {
     const cardToDraw = game.drawPile.last();
-    const isCardValidToPlay = game.isCardValidToPlay(this.card);
 
     return HanabiGame.copy(game)
       .withPlayers(game.players.map((p) => HanabiPlayer.copy(p)
@@ -55,10 +67,11 @@ export class HanabiCommandPlay extends HanabiCommand {
                : p.cards.remove(this.index))
           : p.cards)
         .build()))
-      .withBoard(isCardValidToPlay ? game.board.push(this.card) : game.board)
+      .withBoard(this.isBomb ? game.board : game.board.push(this.card))
       .withDrawPile(game.drawPile.remove(-1))
-      .withDiscardPile(isCardValidToPlay ? game.discardPile : game.discardPile.push(this.card))
-      .withBombs(game.bombs + (isCardValidToPlay ? 0 : 1))
+      .withDiscardPile(this.isBomb ? game.discardPile.push(this.card) : game.discardPile)
+      .withClues(game.clues + (this.gainClue ? 1 : 0))
+      .withBombs(game.bombs + (this.isBomb ? 1 : 0))
       .build()
       .nextTurn();
   }
@@ -66,7 +79,6 @@ export class HanabiCommandPlay extends HanabiCommand {
   revert(game: HanabiGame): HanabiGame {
     const cardToReturn = game.players.find(p => p.equals(this.source))?.cards.first();
     if (!cardToReturn) throw new Error(`No card to return to draw pile`);
-    const wasCardValidToPlay = game.board.some(c => c.equals(this.card));
 
     return HanabiGame.copy(game)
       .withPlayers(game.players.map((p) => HanabiPlayer.copy(p)
@@ -74,10 +86,11 @@ export class HanabiCommandPlay extends HanabiCommand {
           ? p.cards.remove(0).insert(this.index, this.card)
           : p.cards)
         .build()))
-      .withBoard(wasCardValidToPlay ? game.board.remove(-1) : game.board)
+      .withBoard(this.isBomb ? game.board : game.board.remove(-1))
       .withDrawPile(game.drawPile.push(cardToReturn))
-      .withDiscardPile(wasCardValidToPlay ? game.discardPile : game.discardPile.remove(-1))
-      .withBombs(game.bombs - (wasCardValidToPlay ? 0 : 1))
+      .withDiscardPile(this.isBomb ? game.discardPile.remove(-1) : game.discardPile)
+      .withClues(game.clues - (this.gainClue ? 1 : 0))
+      .withBombs(game.bombs - (this.isBomb ? 1 : 0))
       .build()
       .previousTurn();
   }
@@ -96,6 +109,8 @@ class Builder {
   source: HanabiPlayer = HanabiPlayer.empty();
   card: HanabiCard = HanabiCard.empty();
   index: number = 0;
+  isBomb = false;
+  gainClue = false;
 
   withSource(source: HanabiPlayer): Builder {
     this.source = source;
@@ -109,6 +124,16 @@ class Builder {
 
   withIndex(index: number): Builder {
     this.index = index;
+    return this;
+  }
+
+  withIsBomb(isBomb: boolean): Builder {
+    this.isBomb = isBomb;
+    return this;
+  }
+
+  withGainClue(gainClue: boolean): Builder {
+    this.gainClue = gainClue;
     return this;
   }
 

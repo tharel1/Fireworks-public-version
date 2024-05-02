@@ -30,7 +30,7 @@ export class HanabiHistoryComponent implements OnChanges {
     }
   }
 
-  goBack(): void {
+  goBackward(): void {
     this.historyUpdate.emit(this.history.goBackward());
   }
 

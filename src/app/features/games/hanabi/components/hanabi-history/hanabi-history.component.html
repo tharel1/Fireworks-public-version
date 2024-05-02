@@ -3,21 +3,24 @@
             matBadgeColor="warn"
             matBadgeSize="small"
             [matBadgeHidden]="!isInHistory"
-            matTooltip="You can't play while history mode is active"
+            matTooltip="You can't play while watching the history"
             [matTooltipDisabled]="!isInHistory">history</mat-icon>
-  <button mat-mini-fab color="primary"
-          (click)="goBack()"
-          matTooltip="Previous action"
+  <button mat-mini-fab
+          color="primary"
+          (click)="goBackward()"
+          matTooltip="Go backward"
           [disabled]="!canGoBack">
     <mat-icon>keyboard_arrow_left</mat-icon>
   </button>
-  <button mat-mini-fab color="primary"
+  <button mat-mini-fab
+          color="primary"
           (click)="goForward()"
-          matTooltip="Next action"
+          matTooltip="Go forward"
           [disabled]="!isInHistory">
     <mat-icon>keyboard_arrow_right</mat-icon>
   </button>
-  <button mat-mini-fab color="primary"
+  <button mat-mini-fab
+          color="primary"
           (click)="cancel()"
           matTooltip="Return to game"
           [disabled]="!isInHistory">

@@ -1,0 +1,9 @@
+<div class="hanabi-commands">
+  <app-hanabi-command *ngFor="let command of futureCommands"
+                      [command]="command"
+                      (commandUpdate)="onCommand($event)"></app-hanabi-command>
+  <mat-divider *ngIf="isInHistory"></mat-divider>
+  <app-hanabi-command *ngFor="let command of pastCommands"
+                      [command]="command"
+                      (commandUpdate)="onCommand($event)"></app-hanabi-command>
+</div>

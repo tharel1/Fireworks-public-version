@@ -5,12 +5,8 @@
   flex-direction: column;
   gap: 30px;
 
-  .hanabi-commands {
+  app-hanabi-commands {
     overflow: auto;
-
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
   }
 }
 

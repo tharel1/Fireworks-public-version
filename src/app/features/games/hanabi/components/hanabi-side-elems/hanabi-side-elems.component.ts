@@ -2,8 +2,8 @@ import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output} from '@
 import {MatDivider} from "@angular/material/divider";
 import {HanabiActionsComponent} from "../hanabi-actions/hanabi-actions.component";
 import {HanabiHistory} from "../../models/hanabi-history.model";
-import {HanabiCommandComponent} from "../hanabi-command/hanabi-command.component";
 import {CommonModule} from "@angular/common";
+import {HanabiCommandsComponent} from "../hanabi-commands/hanabi-commands.component";
 
 @Component({
   selector: 'app-hanabi-side-elems',
@@ -11,8 +11,8 @@ import {CommonModule} from "@angular/common";
   imports: [
     CommonModule,
     HanabiActionsComponent,
-    HanabiCommandComponent,
-    MatDivider
+    MatDivider,
+    HanabiCommandsComponent,
   ],
   templateUrl: './hanabi-side-elems.component.html',
   styleUrl: './hanabi-side-elems.component.scss',

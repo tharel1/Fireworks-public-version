@@ -1,24 +1,22 @@
-import {ChangeDetectionStrategy, Component, Input, OnChanges} from '@angular/core';
-import {HanabiCommand} from "../../models/hanabi-command/hanabi-command.model";
-import {NgIf, NgSwitch, NgSwitchCase} from "@angular/common";
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, Output} from '@angular/core';
+import {HanabiCommand} from "../../../models/hanabi-command/hanabi-command.model";
+import {CommonModule} from "@angular/common";
 import {MatCard, MatCardContent} from "@angular/material/card";
 import {HanabiCommandPlayComponent} from "./hanabi-command-play/hanabi-command-play.component";
-import {HanabiCommandPlay} from "../../models/hanabi-command/hanabi-command-play.model";
+import {HanabiCommandPlay} from "../../../models/hanabi-command/hanabi-command-play.model";
 import {HanabiCommandDiscardComponent} from "./hanabi-command-discard/hanabi-command-discard.component";
 import {HanabiCommandClueColorComponent} from "./hanabi-command-clue-color/hanabi-command-clue-color.component";
 import {HanabiCommandClueValueComponent} from "./hanabi-command-clue-value/hanabi-command-clue-value.component";
-import {Changes} from "../../../../../core/utils/changes.model";
-import {HanabiCommandDiscard} from "../../models/hanabi-command/hanabi-command-discard.model";
-import {HanabiCommandClueColor} from "../../models/hanabi-command/hanabi-command-clue-color.model";
-import {HanabiCommandClueValue} from "../../models/hanabi-command/hanabi-command-clue-value.model";
+import {Changes} from "../../../../../../core/utils/changes.model";
+import {HanabiCommandDiscard} from "../../../models/hanabi-command/hanabi-command-discard.model";
+import {HanabiCommandClueColor} from "../../../models/hanabi-command/hanabi-command-clue-color.model";
+import {HanabiCommandClueValue} from "../../../models/hanabi-command/hanabi-command-clue-value.model";
 
 @Component({
   selector: 'app-hanabi-command',
   standalone: true,
   imports: [
-    NgSwitch,
-    NgIf,
-    NgSwitchCase,
+    CommonModule,
     MatCard,
     MatCardContent,
     HanabiCommandPlayComponent,
@@ -32,7 +30,8 @@ import {HanabiCommandClueValue} from "../../models/hanabi-command/hanabi-command
 })
 export class HanabiCommandComponent implements OnChanges {
   @Input() command: HanabiCommand = HanabiCommandPlay.empty();
-  @Input() active: boolean = false;
+
+  @Output() commandUpdate: EventEmitter<HanabiCommand> = new EventEmitter<HanabiCommand>();
 
   protected commandPlay: HanabiCommandPlay = HanabiCommandPlay.empty();
   protected commandDiscard: HanabiCommandDiscard = HanabiCommandDiscard.empty();
@@ -57,5 +56,9 @@ export class HanabiCommandComponent implements OnChanges {
           this.commandClueValue = this.command as HanabiCommandClueValue;
       }
     }
+  }
+
+  protected onClick(): void {
+    this.commandUpdate.emit(this.command);
   }
 }

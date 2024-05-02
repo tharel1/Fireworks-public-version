@@ -5,11 +5,13 @@ import {HanabiCard} from "../hanabi-card.model";
 
 export class HanabiCommandClueColor extends HanabiCommand {
 
+  readonly source: HanabiPlayer;
   readonly target: HanabiPlayer;
   readonly color: HanabiCard.Color;
 
   constructor(builder: Builder) {
     super(HanabiCommand.Type.CLUE_COLOR);
+    this.source = builder.source;
     this.target = builder.target;
     this.color = builder.color;
   }
@@ -24,19 +26,23 @@ export class HanabiCommandClueColor extends HanabiCommand {
 
   static copy(copy: HanabiCommandClueColor): Builder {
     return HanabiCommandClueColor.builder()
+      .withSource(copy.source)
       .withTarget(copy.target)
       .withColor(copy.color)
   }
 
   static override fromJson(json: any): HanabiCommandClueColor {
     return HanabiCommandClueColor.builder()
+      .withSource(HanabiPlayer.fromJson(json.source))
       .withTarget(HanabiPlayer.fromJson(json.target))
       .withColor(json.color)
       .build();
   }
 
   fill(game: HanabiGame): HanabiCommandClueColor {
-    return this;
+    return HanabiCommandClueColor.copy(this)
+      .withSource(game.currentPlayer() ?? HanabiPlayer.empty())
+      .build();
   }
 
   update(game: HanabiGame): HanabiGame {
@@ -80,8 +86,14 @@ export namespace HanabiCommandClueColor {
 }
 
 class Builder {
+  source: HanabiPlayer = HanabiPlayer.empty();
   target: HanabiPlayer = HanabiPlayer.empty();
   color: HanabiCard.Color = HanabiCard.Color.RED;
+
+  withSource(source: HanabiPlayer): Builder {
+    this.source = source;
+    return this;
+  }
 
   withTarget(target: HanabiPlayer): Builder {
     this.target = target;

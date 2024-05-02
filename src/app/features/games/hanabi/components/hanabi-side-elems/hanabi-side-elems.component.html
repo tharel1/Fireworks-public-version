@@ -2,9 +2,5 @@
   <app-hanabi-actions [history]="history" (historyUpdate)="onHistory($event)"></app-hanabi-actions>
   <div>TODO: Calculated infos...</div>
   <mat-divider></mat-divider>
-  <div class="hanabi-commands">
-    <app-hanabi-command *ngFor="let command of history.game.history.slice().reverse()"
-                        [command]="command"
-                        [active]="history.index !== undefined && command === history.game.history.get(history.index)"></app-hanabi-command>
-  </div>
+  <app-hanabi-commands [history]="history" (historyUpdate)="onHistory($event)"></app-hanabi-commands>
 </div>

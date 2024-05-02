@@ -1,0 +1,13 @@
+@use "styles/functions/colors";
+@use "styles";
+
+.hanabi-commands {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 5px;
+
+  .mat-divider {
+    border-width: 4px;
+    border-color: colors.from-palette(styles.$my-primary);
+  }
+}

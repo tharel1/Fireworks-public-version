@@ -1,0 +1,7 @@
+<span class="hanabi-command-play">
+  <i>{{ command.source.user.name }}</i>
+  played
+  <app-hanabi-tiny-card [card]="command.card"></app-hanabi-tiny-card>
+  <b *ngIf="command.isBomb">(bomb 💥)</b>
+  <b *ngIf="command.gainClue">(+1 clue)</b>
+</span>

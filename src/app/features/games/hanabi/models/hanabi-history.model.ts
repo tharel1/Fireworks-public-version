@@ -96,6 +96,18 @@ export class HanabiHistory implements ValueObject {
       .build();
   }
 
+  goTo(command: HanabiCommand): HanabiHistory {
+    if (!this.game.history.contains(command)) throw new Error(`HanabiHistory can't go to: command not found in game.`);
+
+    let updatedHistory = this.cancel();
+
+    while (updatedHistory.lastCommand() !== command) {
+      updatedHistory = updatedHistory.goBackward();
+    }
+
+    return updatedHistory;
+  }
+
   canGoBack(): boolean {
     return this.index !== 0 && !this.game.history.isEmpty();
   }

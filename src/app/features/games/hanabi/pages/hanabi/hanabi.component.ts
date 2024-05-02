@@ -104,12 +104,11 @@ export class HanabiComponent implements OnInit, OnDestroy, AfterViewInit {
     switch (command?.type) {
       case HanabiCommand.Type.PLAY:
         const playCommand = command as HanabiCommandPlay;
-        const bombExploded = state.discardPile.some(c => c.equals(playCommand.card));
-        if (bombExploded) {
+        if (playCommand.isBomb) {
           document.getElementById('game-root')?.classList.remove('bomb-exploded');
           timer(0).subscribe(() => document.getElementById('game-root')?.classList.add('bomb-exploded'));
         }
-        this.cardAnimator.scheduleCardToMove(100, state, playCommand.card, bombExploded);
+        this.cardAnimator.scheduleCardToMove(100, state, playCommand.card, playCommand.isBomb);
         this.cardAnimator.scheduleCardToMove(600, state, state.players.find(p => p.equals(playCommand.source))?.cards.first());
         return;
       case HanabiCommand.Type.DISCARD:

@@ -1,0 +1,8 @@
+<mat-card class="hanabi-command" (click)="onClick()">
+  <mat-card-content [ngSwitch]="command.type">
+    <app-hanabi-command-play *ngSwitchCase="Type.PLAY" [command]="commandPlay"/>
+    <app-hanabi-command-discard *ngSwitchCase="Type.DISCARD" [command]="commandDiscard"/>
+    <app-hanabi-command-clue-color *ngSwitchCase="Type.CLUE_COLOR" [command]="commandClueColor"/>
+    <app-hanabi-command-clue-value *ngSwitchCase="Type.CLUE_VALUE" [command]="commandClueValue"/>
+  </mat-card-content>
+</mat-card>
