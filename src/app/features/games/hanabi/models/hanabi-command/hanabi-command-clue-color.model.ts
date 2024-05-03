@@ -28,7 +28,7 @@ export class HanabiCommandClueColor extends HanabiCommand {
     return HanabiCommandClueColor.builder()
       .withSource(copy.source)
       .withTarget(copy.target)
-      .withColor(copy.color)
+      .withColor(copy.color);
   }
 
   static override fromJson(json: any): HanabiCommandClueColor {

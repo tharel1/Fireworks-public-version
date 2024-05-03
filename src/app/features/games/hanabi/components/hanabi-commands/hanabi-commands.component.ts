@@ -33,7 +33,7 @@ export class HanabiCommandsComponent implements OnChanges {
   ngOnChanges(changes: Changes<HanabiCommandsComponent>): void {
     if (changes.history) {
       this.isInHistory = this.history.isInHistory();
-      const commands = this.history.game.history;
+      const commands = this.history.commands;
       this.futureCommands = commands.take(this.history.index !== undefined ? this.history.index : commands.size);
       this.pastCommands = commands.skip(this.history.index !== undefined ? this.history.index : commands.size);
     }

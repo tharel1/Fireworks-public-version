@@ -29,7 +29,7 @@ export class HanabiSettings implements ValueObject {
     return HanabiSettings.builder()
       .withPlayersNumber(copy.playersNumber)
       .withMaxValue(copy.maxValue)
-      .withColors(copy.colors)
+      .withColors(copy.colors);
   }
 
   static fromJson(json: any): HanabiSettings {

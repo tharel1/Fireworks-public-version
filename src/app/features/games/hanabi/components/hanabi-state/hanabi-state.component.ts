@@ -35,7 +35,7 @@ export class HanabiStateComponent implements OnChanges {
   @Input() settings: HanabiSettings = HanabiSettings.empty();
   @Input() history: HanabiHistory = HanabiHistory.empty();
 
-  @Output() gameUpdate: EventEmitter<HanabiGame> = new EventEmitter<HanabiGame>();
+  @Output() command: EventEmitter<HanabiCommand> = new EventEmitter<HanabiCommand>();
 
   protected state: HanabiGame = HanabiGame.empty();
   protected selfPlayer: HanabiPlayer = HanabiPlayer.empty();
@@ -71,9 +71,6 @@ export class HanabiStateComponent implements OnChanges {
 
     this.selfPlayer = HanabiPlayer.copy(this.selfPlayer).withPlaying(false).build();
 
-    const filledCommand = command.fill(this.game);
-    this.gameUpdate.emit(HanabiGame.copy(filledCommand.update(this.game))
-      .withHistory(this.game.history.push(filledCommand))
-      .build())
+    this.command.emit(command.fill(this.game));
   }
 }

@@ -5,7 +5,7 @@
                     [game]="game"
                     [settings]="settings"
                     [history]="history"
-                    (gameUpdate)="onGameUpdate($event)"></app-hanabi-state>
+                    (command)="onCommand($event)"></app-hanabi-state>
   <app-hanabi-side-elems [game]="game"
                          [history]="history"
                          (historyUpdate)="onHistoryUpdate($event)"></app-hanabi-side-elems>

@@ -1,17 +1,19 @@
-import {ValueObject} from "immutable";
+import {List, ValueObject} from "immutable";
 import {HanabiGame} from "./hanabi-game.model";
-import {HanabiCommand} from "./hanabi-command/hanabi-command.model";
+import {HanabiCommand} from "./hanabi-command/internal";
 
 export class HanabiHistory implements ValueObject {
 
   readonly game: HanabiGame;
   readonly state?: HanabiGame;
+  readonly commands: List<HanabiCommand>;
   readonly index?: number;
   readonly lastAction: HanabiHistory.Action;
 
   constructor(builder: Builder) {
     this.game = builder.game;
     this.state = builder.state;
+    this.commands = builder.commands;
     this.index = builder.index;
     this.lastAction = builder.lastAction;
   }
@@ -28,14 +30,16 @@ export class HanabiHistory implements ValueObject {
     return HanabiHistory.builder()
       .withGame(copy.game)
       .withState(copy.state)
+      .withCommands(copy.commands)
       .withIndex(copy.index)
-      .withLastAction(copy.lastAction)
+      .withLastAction(copy.lastAction);
   }
 
   static fromJson(json: any): HanabiHistory {
     return HanabiHistory.builder()
       .withState(HanabiGame.fromJson(json.game))
       .withState(HanabiGame.fromJson(json.state))
+      .withCommands(List(json.commands).map(c => HanabiCommand.fromJson(c)))
       .withIndex(json.index)
       .withLastAction(json.lastAction)
       .build();
@@ -50,14 +54,14 @@ export class HanabiHistory implements ValueObject {
   }
 
   goBackward(): HanabiHistory {
-    let index = this.game.history.size - 1;
+    let index = this.commands.size - 1;
     let state = this.game;
     if (this.state && this.index) {
       index = this.index - 1;
       state = this.state;
     }
 
-    const command = this.game.history.get(index);
+    const command = this.commands.get(index);
     if (!command) throw new Error(`HanabiHistory can't go back: no command found at index <${index}>.`);
 
     return HanabiHistory.copy(this)
@@ -70,10 +74,10 @@ export class HanabiHistory implements ValueObject {
   goForward(): HanabiHistory {
     if (!this.state || this.index===undefined) throw new Error(`HanabiHistory can't go forward: state and index must already exist.`);
 
-    const command = this.game.history.get(this.index);
+    const command = this.commands.get(this.index);
     if (!command) throw new Error(`HanabiHistory can't go forward: no command found at index <${this.index}>.`);
 
-    if (this.index === this.game.history.size - 1) {
+    if (this.index === this.commands.size - 1) {
       return HanabiHistory.copy(this)
         .withState(undefined)
         .withIndex(undefined)
@@ -97,7 +101,7 @@ export class HanabiHistory implements ValueObject {
   }
 
   goTo(command: HanabiCommand): HanabiHistory {
-    if (!this.game.history.contains(command)) throw new Error(`HanabiHistory can't go to: command not found in game.`);
+    if (!this.commands.contains(command)) throw new Error(`HanabiHistory can't go to: command not found in game.`);
 
     let updatedHistory = this.cancel();
 
@@ -109,7 +113,7 @@ export class HanabiHistory implements ValueObject {
   }
 
   canGoBack(): boolean {
-    return this.index !== 0 && !this.game.history.isEmpty();
+    return this.index !== 0 && !this.commands.isEmpty();
   }
 
   isInHistory(): boolean {
@@ -121,11 +125,11 @@ export class HanabiHistory implements ValueObject {
 
       case HanabiHistory.Action.GO_BACKWARD:
         return this.index === undefined
-          ? this.game.history.last()
-          : this.game.history.get(this.index);
+          ? this.commands.last()
+          : this.commands.get(this.index);
 
       case HanabiHistory.Action.GO_FORWARD:
-        return this.game.history.get((this.index ?? 0) - 1);
+        return this.commands.get((this.index ?? 0) - 1);
 
       default:
         return undefined;
@@ -146,6 +150,7 @@ export namespace HanabiHistory {
 class Builder {
   game: HanabiGame = HanabiGame.empty();
   state?: HanabiGame = undefined;
+  commands: List<HanabiCommand> = List.of();
   index?: number = undefined;
   lastAction: HanabiHistory.Action = HanabiHistory.Action.CANCEL;
 
@@ -156,6 +161,11 @@ class Builder {
 
   withState(state?: HanabiGame): Builder {
     this.state = state;
+    return this;
+  }
+
+  withCommands(commands: List<HanabiCommand>): Builder {
+    this.commands = commands;
     return this;
   }
 

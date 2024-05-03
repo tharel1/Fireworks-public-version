@@ -28,7 +28,7 @@ export class HanabiCommandClueValue extends HanabiCommand {
     return HanabiCommandClueValue.builder()
       .withSource(copy.source)
       .withTarget(copy.target)
-      .withValue(copy.value)
+      .withValue(copy.value);
   }
 
   static override fromJson(json: any): HanabiCommandClueValue {

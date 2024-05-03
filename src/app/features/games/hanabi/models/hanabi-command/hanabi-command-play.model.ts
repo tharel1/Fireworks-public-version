@@ -48,7 +48,7 @@ export class HanabiCommandPlay extends HanabiCommand {
   }
 
   fill(game: HanabiGame): HanabiCommandPlay {
-    const isBomb = !game.isCardValidToPlay(this.card);
+    const isBomb = !this.card.isValidToPlay(game.board);
 
     return HanabiCommandPlay.copy(this)
       .withIsBomb(isBomb)

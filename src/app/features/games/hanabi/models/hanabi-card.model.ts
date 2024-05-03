@@ -36,7 +36,7 @@ export class HanabiCard implements ValueObject {
       .withValueClue(copy.valueClue)
       .withColorClue(copy.colorClue)
       .withImpossibleValues(copy.impossibleValues)
-      .withImpossibleColors(copy.impossibleColors)
+      .withImpossibleColors(copy.impossibleColors);
   }
 
   static fromJson(json: any): HanabiCard {
@@ -60,6 +60,14 @@ export class HanabiCard implements ValueObject {
 
   hashCode(): number {
     return hash(this.id);
+  }
+
+  isValidToPlay(board: List<HanabiCard>): boolean {
+    if (this.value === 1)
+      return board.filter(c => c.color === this.color).isEmpty();
+
+    return board.filter(c => c.color === this.color && c.value >= this.value).isEmpty()
+      && board.some(c => c.color === this.color && c.value === this.value-1);
   }
 
 }

@@ -28,7 +28,7 @@ export class HanabiCommandDiscard extends HanabiCommand {
     return HanabiCommandDiscard.builder()
       .withSource(copy.source)
       .withCard(copy.card)
-      .withIndex(copy.index)
+      .withIndex(copy.index);
   }
 
   static override fromJson(json: any): HanabiCommandDiscard {

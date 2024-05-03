@@ -35,9 +35,9 @@ io.sockets.on('connection', function(socket) {
       io.in(room.id).emit('started', state);
     });
 
-    socket.on('update', function ([state]) {
+    socket.on('update', function ([command]) {
       console.log(`Updating room ${room.id}...`);
-      io.in(room.id).emit('updated', state);
+      io.in(room.id).emit('updated', command);
     });
 
     socket.on('disconnect', function () {

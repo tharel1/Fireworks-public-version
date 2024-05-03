@@ -1,7 +1,6 @@
 import {AfterViewInit, Component, HostListener, OnDestroy, OnInit} from '@angular/core';
 import {HanabiGame} from "../../models/hanabi-game.model";
 import {map, Subscription, tap, timer} from "rxjs";
-import {HanabiCommand} from "../../models/hanabi-command/hanabi-command.model";
 import {HanabiStore} from "../../../../../core/stores/hanabi.store";
 import {SocketService} from "../../../../../core/sockets/socket.service";
 import {HanabiSettings} from "../../models/hanabi-settings.model";
@@ -15,6 +14,7 @@ import {HanabiCommandClueValue} from "../../models/hanabi-command/hanabi-command
 import {ProgressBarComponent} from "../../../../../shared/components/progress-bar/progress-bar.component";
 import {HanabiStateComponent} from "../../components/hanabi-state/hanabi-state.component";
 import {HanabiSideElemsComponent} from "../../components/hanabi-side-elems/hanabi-side-elems.component";
+import {HanabiCommand} from "../../models/hanabi-command/internal";
 
 @Component({
   selector: 'app-hanabi',
@@ -48,15 +48,16 @@ export class HanabiComponent implements OnInit, OnDestroy, AfterViewInit {
     this.settings = this.store.settings ?? HanabiSettings.empty();
     this.game = this.store.game ?? HanabiGame.empty();
 
-    this.watcher.add(this.socketService.fromEvent<HanabiGame>('updated').pipe(
-      map(game => HanabiGame.fromJson(game)),
-      tap(game => {
+    this.watcher.add(this.socketService.fromEvent<HanabiCommand>('updated').pipe(
+      map(command => HanabiCommand.fromJson(command)),
+      tap(command => {
         this.sending = false;
-        this.game = game;
+        this.game = command.update(this.game);
         this.history = HanabiHistory.builder()
           .withGame(this.game)
+          .withCommands(this.history.commands.push(command))
           .build();
-        this.animateForward(this.game, this.game.history.last());
+        this.animateForward(this.game, command);
       })
     ).subscribe());
   }
@@ -66,12 +67,9 @@ export class HanabiComponent implements OnInit, OnDestroy, AfterViewInit {
     this.watcher.unsubscribe();
   }
 
-
-
-  // Game
-  protected onGameUpdate(game: HanabiGame): void {
+  protected onCommand(command: HanabiCommand): void {
     this.sending = true;
-    timer(250).subscribe(() => this.socketService.emit('update', game));
+    timer(250).subscribe(() => this.socketService.emit('update', command));
   }
 
 

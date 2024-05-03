@@ -26,7 +26,7 @@ export class HanabiPlayer implements ValueObject {
     return HanabiPlayer.builder()
       .withUser(copy.user)
       .withPlaying(copy.playing)
-      .withCards(copy.cards)
+      .withCards(copy.cards);
   }
 
   static fromJson(json: any): HanabiPlayer {

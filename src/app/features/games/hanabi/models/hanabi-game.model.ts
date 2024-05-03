@@ -1,11 +1,9 @@
 import {List, Set, ValueObject} from "immutable";
 import {HanabiPlayer} from "./hanabi-player.model";
-import {HanabiCommand} from "./hanabi-command/internal";
 import {HanabiCard} from "./hanabi-card.model";
 
 export class HanabiGame implements ValueObject {
 
-  readonly history: List<HanabiCommand>;
   readonly turn: number;
   readonly players: List<HanabiPlayer>;
   readonly drawPile: List<HanabiCard>;
@@ -15,7 +13,6 @@ export class HanabiGame implements ValueObject {
   readonly bombs: number;
 
   constructor(builder: Builder) {
-    this.history = builder.history;
     this.turn = builder.turn;
     this.players = builder.players;
     this.drawPile = builder.drawPile;
@@ -35,24 +32,22 @@ export class HanabiGame implements ValueObject {
 
   static copy(copy: HanabiGame): Builder {
     return HanabiGame.builder()
-      .withHistory(copy.history)
       .withTurn(copy.turn)
       .withPlayers(copy.players)
       .withDrawPile(copy.drawPile)
       .withDiscardPile(copy.discardPile)
       .withBoard(copy.board)
       .withClues(copy.clues)
-      .withBombs(copy.bombs)
+      .withBombs(copy.bombs);
   }
 
   static fromJson(json: any): HanabiGame {
     return HanabiGame.builder()
-      .withHistory(List(json.history).map((c: any) => HanabiCommand.fromJson(c)))
       .withTurn(json.turn)
-      .withPlayers(List(json.players).map((p: any) => HanabiPlayer.fromJson(p)))
-      .withDrawPile(List(json.drawPile).map((c: any) => HanabiCard.fromJson(c)))
-      .withDiscardPile(List(json.discardPile).map((c: any) => HanabiCard.fromJson(c)))
-      .withBoard(List(json.board).map((c: any) => HanabiCard.fromJson(c)))
+      .withPlayers(List(json.players).map(p => HanabiPlayer.fromJson(p)))
+      .withDrawPile(List(json.drawPile).map(c => HanabiCard.fromJson(c)))
+      .withDiscardPile(List(json.discardPile).map(c => HanabiCard.fromJson(c)))
+      .withBoard(List(json.board).map(c => HanabiCard.fromJson(c)))
       .withClues(json.clues)
       .withBombs(json.bombs)
       .build();
@@ -113,14 +108,6 @@ export class HanabiGame implements ValueObject {
     );
   }
 
-  isCardValidToPlay(card: HanabiCard): boolean {
-    if (card.value === 1)
-      return this.board.filter(c => c.color === card.color).isEmpty();
-
-    return this.board.filter(c => c.color === card.color && c.value >= card.value).isEmpty()
-      && this.board.some(c => c.color === card.color && c.value === card.value-1);
-  }
-
   efficiency(): number | undefined {
     return undefined;
   }
@@ -137,7 +124,6 @@ export namespace HanabiGame {
 
 class Builder {
 
-  history: List<HanabiCommand> = List.of();
   turn: number = 0;
   players: List<HanabiPlayer> = List.of();
   drawPile: List<HanabiCard> = List.of();
@@ -145,11 +131,6 @@ class Builder {
   board: List<HanabiCard> = List.of();
   clues: number = 0;
   bombs: number = 0;
-
-  withHistory(history: List<HanabiCommand>): Builder {
-    this.history = history;
-    return this;
-  }
 
   withTurn(turn: number): Builder {
     this.turn = turn;
