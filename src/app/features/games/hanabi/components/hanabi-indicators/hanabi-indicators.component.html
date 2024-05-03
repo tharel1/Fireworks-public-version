@@ -1,0 +1,12 @@
+<mat-card>
+  <mat-card-content class="hanabi-indicators">
+    <div class="hanabi-indicators-column">
+      <span class="item">Efficiency<app-tooltip-info info="TODO: explain Efficiency" position="above"></app-tooltip-info>:</span>
+      <span class="item">Pace<app-tooltip-info info="The number of discards you can make" position="below"></app-tooltip-info>:</span>
+    </div>
+    <div class="hanabi-indicators-column">
+      <span class="item">{{ (efficiency | percent: '1.2') ?? '-' }}</span>
+      <span class="item">{{ pace }}</span>
+    </div>
+  </mat-card-content>
+</mat-card>

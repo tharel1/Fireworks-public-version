@@ -121,6 +121,14 @@ export class HanabiGame implements ValueObject {
       && this.board.some(c => c.color === card.color && c.value === card.value-1);
   }
 
+  efficiency(): number | undefined {
+    return undefined;
+  }
+
+  pace(): number {
+    return this.board.size + this.drawPile.size + this.players.size - 25;
+  }
+
 }
 
 export namespace HanabiGame {

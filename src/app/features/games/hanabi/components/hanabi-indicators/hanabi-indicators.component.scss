@@ -1,0 +1,17 @@
+.hanabi-indicators {
+  display: flex;
+  gap: 70px;
+
+  .hanabi-indicators-column {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    .item {
+      height: 20px;
+
+      display: flex;
+      gap: 5px;
+    }
+  }
+}

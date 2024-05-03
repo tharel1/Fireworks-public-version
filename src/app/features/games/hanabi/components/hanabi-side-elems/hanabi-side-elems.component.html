@@ -1,6 +1,6 @@
 <div class="hanabi-side-elems">
   <app-hanabi-actions [history]="history" (historyUpdate)="onHistory($event)"></app-hanabi-actions>
-  <div>TODO: Calculated infos...</div>
+  <app-hanabi-indicators [game]="state"></app-hanabi-indicators>
   <mat-divider></mat-divider>
   <app-hanabi-commands [history]="history" (historyUpdate)="onHistory($event)"></app-hanabi-commands>
 </div>
