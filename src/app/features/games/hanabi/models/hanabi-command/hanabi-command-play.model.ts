@@ -49,10 +49,11 @@ export class HanabiCommandPlay extends HanabiCommand {
 
   fill(game: HanabiGame): HanabiCommandPlay {
     const isBomb = !this.card.isValidToPlay(game.board);
+    const isHighestCard = this.card.value === game.settings.maxValue;
 
     return HanabiCommandPlay.copy(this)
       .withIsBomb(isBomb)
-      .withGainClue(!isBomb && game.clues < 8 && this.card.value === 5)
+      .withGainClue(!isBomb && isHighestCard && !game.hasMaxClues())
       .build();
   }
 

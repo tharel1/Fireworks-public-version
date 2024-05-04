@@ -1,9 +1,11 @@
 import {List, Set, ValueObject} from "immutable";
 import {HanabiPlayer} from "./hanabi-player.model";
 import {HanabiCard} from "./hanabi-card.model";
+import {HanabiSettings} from "./hanabi-settings.model";
 
 export class HanabiGame implements ValueObject {
 
+  readonly settings: HanabiSettings;
   readonly turn: number;
   readonly players: List<HanabiPlayer>;
   readonly drawPile: List<HanabiCard>;
@@ -13,6 +15,7 @@ export class HanabiGame implements ValueObject {
   readonly bombs: number;
 
   constructor(builder: Builder) {
+    this.settings = builder.settings;
     this.turn = builder.turn;
     this.players = builder.players;
     this.drawPile = builder.drawPile;
@@ -32,6 +35,7 @@ export class HanabiGame implements ValueObject {
 
   static copy(copy: HanabiGame): Builder {
     return HanabiGame.builder()
+      .withSettings(copy.settings)
       .withTurn(copy.turn)
       .withPlayers(copy.players)
       .withDrawPile(copy.drawPile)
@@ -43,6 +47,7 @@ export class HanabiGame implements ValueObject {
 
   static fromJson(json: any): HanabiGame {
     return HanabiGame.builder()
+      .withSettings(HanabiSettings.fromJson(json.settings))
       .withTurn(json.turn)
       .withPlayers(List(json.players).map(p => HanabiPlayer.fromJson(p)))
       .withDrawPile(List(json.drawPile).map(c => HanabiCard.fromJson(c)))
@@ -59,6 +64,14 @@ export class HanabiGame implements ValueObject {
 
   hashCode(): number {
     return 0;
+  }
+
+  score(): number {
+    return this.board.size;
+  }
+
+  hasMaxClues(): boolean {
+    return this.clues === this.settings.maxClues;
   }
 
   currentPlayer(): HanabiPlayer | undefined {
@@ -104,16 +117,34 @@ export class HanabiGame implements ValueObject {
       ...this.drawPile,
       ...this.board,
       ...this.discardPile,
-      ...this.players.flatMap(p => p.cards)
+      ...this.playersCards()
+    );
+  }
+
+  playersCards(): Set<HanabiCard> {
+    return this.players.flatMap(p => p.cards).toSet();
+  }
+
+  remainingCards(): Set<HanabiCard> {
+    return Set.of(
+      ...this.drawPile,
+      ...this.playersCards()
     );
   }
 
   efficiency(): number | undefined {
-    return undefined;
+    const cluedCards = this.playersCards().filter(c => c.isClued()).size;
+    const cluedCardsWithoutTrash = cluedCards - 0;
+    const remainingCardsToClue = this.settings.maxScore() - this.score() - cluedCardsWithoutTrash;
+
+    const cluesWithHighestCards = this.remainingCards().filter(c => c.value === this.settings.maxValue).size - 1;
+    const remainingClues = this.clues + this.pace() + cluesWithHighestCards;
+
+    return remainingCardsToClue / remainingClues;
   }
 
   pace(): number {
-    return this.board.size + this.drawPile.size + this.players.size - 25;
+    return this.score() + this.drawPile.size + this.settings.playersNumber - this.settings.maxScore();
   }
 
 }
@@ -124,6 +155,7 @@ export namespace HanabiGame {
 
 class Builder {
 
+  settings: HanabiSettings = HanabiSettings.empty();
   turn: number = 0;
   players: List<HanabiPlayer> = List.of();
   drawPile: List<HanabiCard> = List.of();
@@ -131,6 +163,11 @@ class Builder {
   board: List<HanabiCard> = List.of();
   clues: number = 0;
   bombs: number = 0;
+
+  withSettings(settings: HanabiSettings): Builder {
+    this.settings = settings;
+    return this;
+  }
 
   withTurn(turn: number): Builder {
     this.turn = turn;

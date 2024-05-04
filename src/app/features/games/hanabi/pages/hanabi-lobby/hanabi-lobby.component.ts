@@ -31,10 +31,12 @@ export class HanabiLobbyComponent implements OnInit, OnDestroy {
   protected starting$?: Observable<number>;
 
   protected settings: HanabiSettings = HanabiSettings.builder()
-      .withPlayersNumber(0)
-      .withMaxValue(5)
-      .withColors(List.of(HanabiCard.Color.RED, HanabiCard.Color.YELLOW, HanabiCard.Color.GREEN, HanabiCard.Color.BLUE, HanabiCard.Color.PURPLE))
-      .build();
+    .withPlayersNumber(0)
+    .withMaxValue(5)
+    .withColors(List.of(HanabiCard.Color.RED, HanabiCard.Color.YELLOW, HanabiCard.Color.GREEN, HanabiCard.Color.BLUE, HanabiCard.Color.PURPLE))
+    .withMaxClues(8)
+    .withMaxBombs(3)
+    .build();
 
   private readonly watcher = new Subscription();
 
@@ -72,7 +74,6 @@ export class HanabiLobbyComponent implements OnInit, OnDestroy {
     this.watcher.add(this.socketService.fromEvent<HanabiGame>('started').pipe(
       map(game => HanabiGame.fromJson(game)),
       tap(game => {
-        this.hanabiStore.settings = this.settings;
         this.hanabiStore.game = game;
         this.starting$ = timer(0, 1000).pipe(
           map(value => 3 - value),

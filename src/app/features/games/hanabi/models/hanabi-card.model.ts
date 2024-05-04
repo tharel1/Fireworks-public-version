@@ -62,6 +62,11 @@ export class HanabiCard implements ValueObject {
     return hash(this.id);
   }
 
+  isClued(): boolean {
+    return !this.valueClue.isEmpty()
+        || !this.colorClue.isEmpty();
+  }
+
   isValidToPlay(board: List<HanabiCard>): boolean {
     if (this.value === 1)
       return board.filter(c => c.color === this.color).isEmpty();

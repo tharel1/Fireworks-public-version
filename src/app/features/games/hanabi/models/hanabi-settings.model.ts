@@ -10,11 +10,15 @@ export class HanabiSettings implements ValueObject {
   readonly playersNumber: number;
   readonly maxValue: number;
   readonly colors: List<HanabiCard.Color>;
+  readonly maxClues: number;
+  readonly maxBombs: number;
 
   constructor(builder: Builder) {
     this.playersNumber = builder.playersNumber;
     this.maxValue = builder.maxValue;
     this.colors = builder.colors;
+    this.maxClues = builder.maxClues;
+    this.maxBombs = builder.maxBombs;
   }
 
   static builder(): Builder {
@@ -29,7 +33,9 @@ export class HanabiSettings implements ValueObject {
     return HanabiSettings.builder()
       .withPlayersNumber(copy.playersNumber)
       .withMaxValue(copy.maxValue)
-      .withColors(copy.colors);
+      .withColors(copy.colors)
+      .withMaxClues(copy.maxClues)
+      .withMaxBombs(copy.maxBombs);
   }
 
   static fromJson(json: any): HanabiSettings {
@@ -37,6 +43,8 @@ export class HanabiSettings implements ValueObject {
       .withPlayersNumber(json.playersNumber)
       .withMaxValue(json.maxValue)
       .withColors(List(json.colors))
+      .withMaxClues(json.maxClues)
+      .withMaxBombs(json.maxBombs)
       .build();
   }
 
@@ -48,6 +56,10 @@ export class HanabiSettings implements ValueObject {
     return 0;
   }
 
+  maxScore(): number {
+    return this.maxValue * this.colors.size;
+  }
+
   buildGame(users: List<User>): HanabiGame {
     const firstPlayerIndex = RandomUtil.random(users.size);
 
@@ -56,6 +68,9 @@ export class HanabiSettings implements ValueObject {
       .map((c, i) => HanabiCard.copy(c).withId(i).build());
 
     return HanabiGame.builder()
+      .withSettings(HanabiSettings.copy(this)
+        .withPlayersNumber(users.size)
+        .build())
       .withTurn(1)
       .withPlayers(users.map((u: User, i: number) => {
         const hand = cards.slice(0, 5);
@@ -68,7 +83,7 @@ export class HanabiSettings implements ValueObject {
           .build();
       }))
       .withDrawPile(cards)
-      .withClues(8)
+      .withClues(this.maxClues)
       .build();
   }
 
@@ -97,6 +112,8 @@ class Builder {
   playersNumber: number = 0;
   maxValue: number = 0;
   colors: List<HanabiCard.Color> = List.of();
+  maxClues: number = 0;
+  maxBombs: number = 0;
 
   withPlayersNumber(playersNumber: number): Builder {
     this.playersNumber = playersNumber;
@@ -110,6 +127,16 @@ class Builder {
 
   withColors(colors: List<HanabiCard.Color>): Builder {
     this.colors = colors;
+    return this;
+  }
+
+  withMaxClues(maxClues: number): Builder {
+    this.maxClues = maxClues;
+    return this;
+  }
+
+  withMaxBombs(maxBombs: number): Builder {
+    this.maxBombs = maxBombs;
     return this;
   }
 

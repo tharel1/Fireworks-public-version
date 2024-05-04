@@ -1,6 +1,5 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, Output} from '@angular/core';
 import {HanabiGame} from "../../models/hanabi-game.model";
-import {HanabiSettings} from "../../models/hanabi-settings.model";
 import {HanabiBoardComponent} from "../hanabi-board/hanabi-board.component";
 import {HanabiDrawPileComponent} from "../hanabi-draw-pile/hanabi-draw-pile.component";
 import {HanabiInfosComponent} from "../hanabi-infos/hanabi-infos.component";
@@ -32,7 +31,6 @@ import {SnackBarService} from "../../../../../shared/services/snack-bar.service"
 })
 export class HanabiStateComponent implements OnChanges {
   @Input() game: HanabiGame = HanabiGame.empty();
-  @Input() settings: HanabiSettings = HanabiSettings.empty();
   @Input() history: HanabiHistory = HanabiHistory.empty();
 
   @Output() command: EventEmitter<HanabiCommand> = new EventEmitter<HanabiCommand>();

@@ -3,7 +3,6 @@ import {HanabiGame} from "../../models/hanabi-game.model";
 import {map, Subscription, tap, timer} from "rxjs";
 import {HanabiStore} from "../../../../../core/stores/hanabi.store";
 import {SocketService} from "../../../../../core/sockets/socket.service";
-import {HanabiSettings} from "../../models/hanabi-settings.model";
 import {CardAnimator} from "../../services/card-animator.service";
 import {HanabiCommandPlay} from "../../models/hanabi-command/hanabi-command-play.model";
 import {HanabiCommandDiscard} from "../../models/hanabi-command/hanabi-command-discard.model";
@@ -30,7 +29,6 @@ import {HanabiCommand} from "../../models/hanabi-command/internal";
 export class HanabiComponent implements OnInit, OnDestroy, AfterViewInit {
 
   game: HanabiGame = HanabiGame.empty();
-  settings: HanabiSettings = HanabiSettings.empty();
   history: HanabiHistory = HanabiHistory.empty();
 
   protected sending = false;
@@ -45,7 +43,6 @@ export class HanabiComponent implements OnInit, OnDestroy, AfterViewInit {
   ) {}
 
   ngOnInit(): void {
-    this.settings = this.store.settings ?? HanabiSettings.empty();
     this.game = this.store.game ?? HanabiGame.empty();
 
     this.watcher.add(this.socketService.fromEvent<HanabiCommand>('updated').pipe(
@@ -117,7 +114,7 @@ export class HanabiComponent implements OnInit, OnDestroy, AfterViewInit {
       case HanabiCommand.Type.CLUE_COLOR:
         const clueColorCommand = command as HanabiCommandClueColor;
         clueColorCommand.target.cards.filter(c => c.color === clueColorCommand.color)
-          .filter(c => c.colorClue.isEmpty() && c.valueClue.isEmpty())
+          .filter(c => !c.isClued())
           .forEach((c, i) => {
             this.clueAnimator.scheduleClueToMove(c, i*50);
           });
@@ -125,7 +122,7 @@ export class HanabiComponent implements OnInit, OnDestroy, AfterViewInit {
       case HanabiCommand.Type.CLUE_VALUE:
         const clueValueCommand = command as HanabiCommandClueValue;
         clueValueCommand.target.cards.filter(c => c.value === clueValueCommand.value)
-          .filter(c => c.colorClue.isEmpty() && c.valueClue.isEmpty())
+          .filter(c => !c.isClued())
           .forEach((c, i) => {
             this.clueAnimator.scheduleClueToMove(c, i*50);
           });

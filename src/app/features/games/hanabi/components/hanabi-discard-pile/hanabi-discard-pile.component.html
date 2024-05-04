@@ -6,9 +6,9 @@
 
 <mat-card>
   <mat-card-content class="hanabi-discardpile">
-    <div *ngFor="let value of Array.from(Array(settings.maxValue).keys())" class="hanabi-discardpile-column">
+    <div *ngFor="let _ of [].constructor(settings.maxValue); let value=index" class="hanabi-discardpile-column">
       <div *ngFor="let color of settings.colors" class="hanabi-discardpile-item">
-        <span *ngFor="let i of Array.from(Array(calculatedDiscardPile.get(color)?.get(value+1) ?? 0))" [ngClass]="color">
+        <span *ngFor="let _ of [].constructor(calculatedDiscardPile.get(color)?.get(value+1) ?? 0)" [ngClass]="color">
           <b>{{ value+1 }}</b>
         </span>
       </div>

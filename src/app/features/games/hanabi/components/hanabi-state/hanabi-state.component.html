@@ -1,11 +1,11 @@
 <div class="hanabi-state">
   <div class="hanabi-state-left">
-    <app-hanabi-board [board]="state.board" [settings]="settings"></app-hanabi-board>
+    <app-hanabi-board [board]="state.board" [settings]="state.settings"></app-hanabi-board>
     <div class="hanabi-infos">
       <app-hanabi-draw-pile [drawPile]="state.drawPile"></app-hanabi-draw-pile>
       <app-hanabi-infos [game]="state"></app-hanabi-infos>
     </div>
-    <app-hanabi-discard-pile [discardPile]="state.discardPile" [settings]="settings"></app-hanabi-discard-pile>
+    <app-hanabi-discard-pile [discardPile]="state.discardPile" [settings]="state.settings"></app-hanabi-discard-pile>
   </div>
   <div class="hanabi-state-right">
     <app-hanabi-player *ngFor="let player of orderedPlayers"

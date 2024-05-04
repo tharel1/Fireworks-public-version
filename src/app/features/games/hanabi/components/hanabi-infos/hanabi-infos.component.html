@@ -1,12 +1,12 @@
 <div class="hanabi-infos">
   <span>Turn: {{game.turn}}</span>
 
-  <span>Score: {{game.board.size}}/25</span>
+  <span>Score: {{score}}/{{maxScore}}</span>
 
   <div class="hanabi-infos-clues"
        matTooltip="{{game.clues}} clues left"
        matTooltipPosition="right">
-    <div *ngFor="let i of Array.from(Array(8).keys())"
+    <div *ngFor="let _ of [].constructor(game.settings.maxClues); let i=index"
          class="hanabi-infos-clues-item"
          [class.not-visible]="game.clues <= i">
       <mat-icon>wb_sunny</mat-icon>
@@ -16,7 +16,7 @@
   <div class="hanabi-infos-bombs"
        matTooltip="{{game.bombs}} bombs exploded"
        matTooltipPosition="right">
-    <div *ngFor="let i of Array.from(Array(3).keys())"
+    <div *ngFor="let _ of [].constructor(game.settings.maxBombs); let i=index"
          class="hanabi-infos-bombs-item"
          [class.exploded]="game.bombs > i">
       💥

@@ -21,8 +21,6 @@ export class HanabiDiscardPileComponent implements OnChanges {
 
   protected calculatedDiscardPile: Map<HanabiCard.Color, Map<number, number>> = Map();
 
-  protected readonly Array = Array;
-
   ngOnChanges(changes: Changes<HanabiDiscardPileComponent>): void {
     if (changes.discardPile)
       this.calculatedDiscardPile = this.discardPile

@@ -5,7 +5,7 @@
       <span class="item">Pace<app-tooltip-info info="The number of card you can still discard to reach max score" position="below"></app-tooltip-info>:</span>
     </div>
     <div class="hanabi-indicators-column">
-      <span class="item">{{ (efficiency | percent: '1.2') ?? '-' }}</span>
+      <span class="item">{{ (efficiency | number: '1.2-2') ?? '-' }}</span>
       <span class="item">{{ pace }}</span>
     </div>
   </mat-card-content>
