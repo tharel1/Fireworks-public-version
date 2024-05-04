@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
-import {HanabiCommandClueColor} from "../../../../models/hanabi-command/hanabi-command-clue-color.model";
+import {HanabiCommandClueColor} from "../../../../../models/hanabi-command/hanabi-command-clue-color.model";
 import {UpperCasePipe} from "@angular/common";
 
 @Component({

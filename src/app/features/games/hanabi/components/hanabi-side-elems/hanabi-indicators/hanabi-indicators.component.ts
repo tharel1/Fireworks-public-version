@@ -1,9 +1,9 @@
 import {ChangeDetectionStrategy, Component, Input, OnChanges} from '@angular/core';
 import {MatCard, MatCardContent} from "@angular/material/card";
 import {CommonModule} from "@angular/common";
-import {TooltipInfoComponent} from "../../../../../shared/components/tooltip-info/tooltip-info.component";
-import {HanabiGame} from "../../models/hanabi-game.model";
-import {Changes} from "../../../../../core/utils/changes.model";
+import {TooltipInfoComponent} from "../../../../../../shared/components/tooltip-info/tooltip-info.component";
+import {HanabiGame} from "../../../models/hanabi-game.model";
+import {Changes} from "../../../../../../core/utils/changes.model";
 
 @Component({
   selector: 'app-hanabi-indicators',

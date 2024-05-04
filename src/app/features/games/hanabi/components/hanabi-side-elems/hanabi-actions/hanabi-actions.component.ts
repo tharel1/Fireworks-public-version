@@ -3,7 +3,7 @@ import {HanabiHistoryComponent} from "../hanabi-history/hanabi-history.component
 import {MatCard, MatCardContent} from "@angular/material/card";
 import {MatDivider} from "@angular/material/divider";
 import {MatIcon} from "@angular/material/icon";
-import {HanabiHistory} from "../../models/hanabi-history.model";
+import {HanabiHistory} from "../../../models/hanabi-history.model";
 
 @Component({
   selector: 'app-hanabi-actions',

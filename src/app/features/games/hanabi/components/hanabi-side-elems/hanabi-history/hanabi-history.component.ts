@@ -4,8 +4,8 @@ import {MatMiniFabButton} from "@angular/material/button";
 import {MatIcon} from "@angular/material/icon";
 import {MatBadge} from "@angular/material/badge";
 import {MatTooltip} from "@angular/material/tooltip";
-import {HanabiHistory} from "../../models/hanabi-history.model";
-import {Changes} from "../../../../../core/utils/changes.model";
+import {HanabiHistory} from "../../../models/hanabi-history.model";
+import {Changes} from "../../../../../../core/utils/changes.model";
 
 @Component({
   selector: 'app-hanabi-history',

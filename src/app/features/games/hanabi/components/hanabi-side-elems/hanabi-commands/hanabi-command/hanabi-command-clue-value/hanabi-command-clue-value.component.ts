@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
-import {HanabiCommandClueValue} from "../../../../models/hanabi-command/hanabi-command-clue-value.model";
+import {HanabiCommandClueValue} from "../../../../../models/hanabi-command/hanabi-command-clue-value.model";
 import {UpperCasePipe} from "@angular/common";
-import {HanabiNumberPipe} from "../../../../pipes/hanabi-number.pipe";
+import {HanabiNumberPipe} from "../../../../../pipes/hanabi-number.pipe";
 
 @Component({
   selector: 'app-hanabi-command-clue-value',

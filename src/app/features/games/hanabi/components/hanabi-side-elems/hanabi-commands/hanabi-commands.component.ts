@@ -1,10 +1,10 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, Output} from '@angular/core';
 import {HanabiCommandComponent} from "./hanabi-command/hanabi-command.component";
 import {CommonModule} from "@angular/common";
-import {HanabiCommand} from "../../models/hanabi-command/hanabi-command.model";
-import {HanabiHistory} from "../../models/hanabi-history.model";
+import {HanabiCommand} from "../../../models/hanabi-command/hanabi-command.model";
+import {HanabiHistory} from "../../../models/hanabi-history.model";
 import {List} from "immutable";
-import {Changes} from "../../../../../core/utils/changes.model";
+import {Changes} from "../../../../../../core/utils/changes.model";
 import {MatIcon} from "@angular/material/icon";
 import {MatDivider} from "@angular/material/divider";
 
