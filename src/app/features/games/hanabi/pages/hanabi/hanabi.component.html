@@ -4,8 +4,12 @@
   <app-hanabi-state class="hanabi-state"
                     [game]="game"
                     [history]="history"
+                    [preferences]="preferences"
+                    [assistant]="assistant"
                     (command)="onCommand($event)"></app-hanabi-state>
   <app-hanabi-side-elems [game]="game"
                          [history]="history"
-                         (historyUpdate)="onHistoryUpdate($event)"></app-hanabi-side-elems>
+                         [preferences]="preferences"
+                         (historyUpdate)="onHistory($event)"
+                         (preferencesUpdate)="onPreferences($event)"></app-hanabi-side-elems>
 </div>

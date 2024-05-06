@@ -10,6 +10,8 @@
   <div class="hanabi-state-right">
     <app-hanabi-player *ngFor="let player of orderedPlayers"
                        [player]="player"
+                       [preferences]="preferences"
+                       [assistant]="assistant"
                        [isSelf]="selfPlayer.equals(player)"
                        (command)="onCommand($event)"></app-hanabi-player>
   </div>

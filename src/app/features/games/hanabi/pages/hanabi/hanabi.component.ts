@@ -14,6 +14,9 @@ import {ProgressBarComponent} from "../../../../../shared/components/progress-ba
 import {HanabiStateComponent} from "../../components/hanabi-state/hanabi-state.component";
 import {HanabiSideElemsComponent} from "../../components/hanabi-side-elems/hanabi-side-elems.component";
 import {HanabiCommand} from "../../models/hanabi-command/internal";
+import {HanabiPreferences} from "../../models/hanabi-preferences.model";
+import {SnackBarService} from "../../../../../shared/services/snack-bar.service";
+import {HanabiAssistant} from "../../models/hanabi-assistant.model";
 
 @Component({
   selector: 'app-hanabi',
@@ -30,6 +33,8 @@ export class HanabiComponent implements OnInit, OnDestroy, AfterViewInit {
 
   game: HanabiGame = HanabiGame.empty();
   history: HanabiHistory = HanabiHistory.empty();
+  preferences: HanabiPreferences = HanabiPreferences.empty();
+  assistant: HanabiAssistant = HanabiAssistant.empty();
 
   protected sending = false;
 
@@ -39,17 +44,20 @@ export class HanabiComponent implements OnInit, OnDestroy, AfterViewInit {
     private socketService: SocketService,
     private store: HanabiStore,
     private cardAnimator: CardAnimator,
-    private clueAnimator: ClueAnimator
+    private clueAnimator: ClueAnimator,
+    private snackBarService: SnackBarService
   ) {}
 
   ngOnInit(): void {
     this.game = this.store.game ?? HanabiGame.empty();
+    this.assistant = this.game.buildAssistant();
 
     this.watcher.add(this.socketService.fromEvent<HanabiCommand>('updated').pipe(
       map(command => HanabiCommand.fromJson(command)),
       tap(command => {
         this.sending = false;
         this.game = command.update(this.game);
+        this.assistant = this.game.buildAssistant();
         this.history = HanabiHistory.builder()
           .withGame(this.game)
           .withCommands(this.history.commands.push(command))
@@ -69,6 +77,11 @@ export class HanabiComponent implements OnInit, OnDestroy, AfterViewInit {
     timer(250).subscribe(() => this.socketService.emit('update', command));
   }
 
+  protected onPreferences(preferences: HanabiPreferences): void {
+    this.preferences = preferences;
+    this.snackBarService.success(`Your preferences were successfully saved.`);
+  }
+
 
 
   // Animator
@@ -81,16 +94,19 @@ export class HanabiComponent implements OnInit, OnDestroy, AfterViewInit {
     this.cardAnimator.saveAllCardPositions(this.game);
   }
 
-  protected onHistoryUpdate(history: HanabiHistory): void {
+  protected onHistory(history: HanabiHistory): void {
     this.history = history;
+
+    const gameOrHistory = this.history.state ?? this.game;
+    this.assistant = gameOrHistory.buildAssistant();
 
     switch (this.history.lastAction) {
       case HanabiHistory.Action.GO_FORWARD:
-        this.animateForward(this.history.state ?? this.game, this.history.lastCommand());
+        this.animateForward(gameOrHistory, this.history.lastCommand());
         return;
       case HanabiHistory.Action.GO_BACKWARD:
       case HanabiHistory.Action.CANCEL:
-        timer(0).subscribe(() => this.cardAnimator.saveAllCardPositions(this.game));
+        timer(0).subscribe(() => this.cardAnimator.saveAllCardPositions(gameOrHistory));
         return;
     }
   }

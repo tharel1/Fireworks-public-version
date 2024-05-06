@@ -2,6 +2,8 @@ import {List, Set, ValueObject} from "immutable";
 import {HanabiPlayer} from "./hanabi-player.model";
 import {HanabiCard} from "./hanabi-card.model";
 import {HanabiSettings} from "./hanabi-settings.model";
+import {HanabiHint} from "./hanabi-hint.model";
+import {HanabiAssistant} from "./hanabi-assistant.model";
 
 export class HanabiGame implements ValueObject {
 
@@ -145,6 +147,15 @@ export class HanabiGame implements ValueObject {
 
   pace(): number {
     return this.score() + this.drawPile.size + this.settings.playersNumber - this.settings.maxScore();
+  }
+
+  buildAssistant(): HanabiAssistant {
+    return HanabiAssistant.builder()
+      .withHints(this.allCards().map(c => HanabiHint.builder()
+        .withCardId(c.id)
+        .withCritical(c.isCritical(this))
+        .build()))
+      .build();
   }
 
 }

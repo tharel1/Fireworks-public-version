@@ -6,11 +6,13 @@ import {MatBadge} from "@angular/material/badge";
 import {MatTooltip} from "@angular/material/tooltip";
 import {HanabiHistory} from "../../../models/hanabi-history.model";
 import {Changes} from "../../../../../../core/utils/changes.model";
+import {MatCard, MatCardContent} from "@angular/material/card";
+import {MatDivider} from "@angular/material/divider";
 
 @Component({
   selector: 'app-hanabi-history',
   standalone: true,
-  imports: [CommonModule, MatIcon, MatBadge, MatTooltip, MatMiniFabButton],
+  imports: [CommonModule, MatIcon, MatBadge, MatTooltip, MatMiniFabButton, MatCard, MatCardContent, MatDivider],
   templateUrl: './hanabi-history.component.html',
   styleUrls: ['./hanabi-history.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

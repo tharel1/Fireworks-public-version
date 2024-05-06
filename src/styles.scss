@@ -7,7 +7,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 // THEMING
 $my-primary: material.define-palette(palettes.$brown);
-$my-accent: material.define-palette(palettes.$green);
+$my-accent: material.define-palette(palettes.$yellow);
 $my-warn: material.define-palette(palettes.$deep-orange);
 
 $my-theme: material.define-dark-theme((

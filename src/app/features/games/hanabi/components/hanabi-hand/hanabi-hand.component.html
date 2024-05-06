@@ -1,9 +1,11 @@
 <div class="hanabi-hand">
-  <app-hanabi-card *ngFor="let card of hand"
-                   [card]="card"
+  <app-hanabi-card *ngFor="let cardWithHint of cardsWithHint"
+                   [card]="cardWithHint.card"
+                   [hint]="cardWithHint.hint"
                    [visible]="visible"
                    [clickable]="true"
                    [small]="true"
+                   [showCritical]="preferences.showCritical && visible"
                    (play)="onPlay($event)"
                    (discard)="onDiscard($event)"
                    (clueColor)="onClueColor($event)"

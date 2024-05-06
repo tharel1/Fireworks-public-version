@@ -1,30 +1,40 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output} from '@angular/core';
-import {HanabiHistoryComponent} from "../hanabi-history/hanabi-history.component";
 import {MatCard, MatCardContent} from "@angular/material/card";
 import {MatDivider} from "@angular/material/divider";
 import {MatIcon} from "@angular/material/icon";
-import {HanabiHistory} from "../../../models/hanabi-history.model";
+import {MatIconButton} from "@angular/material/button";
+import {MatDialog} from "@angular/material/dialog";
+import {HanabiPreferencesDialogComponent} from "../hanabi-preferences-dialog/hanabi-preferences-dialog.component";
+import {HanabiPreferences} from "../../../models/hanabi-preferences.model";
 
 @Component({
   selector: 'app-hanabi-actions',
   standalone: true,
-    imports: [
-        HanabiHistoryComponent,
-        MatCard,
-        MatCardContent,
-        MatDivider,
-        MatIcon
-    ],
+  imports: [
+    MatCard,
+    MatCardContent,
+    MatIconButton,
+    MatIcon,
+    MatDivider
+  ],
   templateUrl: './hanabi-actions.component.html',
   styleUrl: './hanabi-actions.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HanabiActionsComponent {
-  @Input() history: HanabiHistory = HanabiHistory.empty();
 
-  @Output() historyUpdate: EventEmitter<HanabiHistory> = new EventEmitter<HanabiHistory>();
+  @Input() preferences: HanabiPreferences = HanabiPreferences.empty();
 
-  onHistory(history: HanabiHistory): void {
-    this.historyUpdate.emit(history);
+  @Output() preferencesUpdate: EventEmitter<HanabiPreferences> = new EventEmitter<HanabiPreferences>();
+
+  constructor(
+    public dialog: MatDialog
+  ) {}
+
+  onPreferences(): void {
+    this.dialog.open(HanabiPreferencesDialogComponent, {data: this.preferences})
+      .afterClosed().subscribe((preferences: HanabiPreferences) => {
+        if (preferences) this.preferencesUpdate.emit(preferences);
+      });
   }
 }

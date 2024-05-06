@@ -3,6 +3,15 @@
 
 .hanabi-history {
   display: flex;
+  justify-content: space-around;
   align-items: center;
-  gap: 10px;
+
+  mat-divider {
+    align-self: stretch;
+  }
+
+  .hanabi-history-actions {
+    display: flex;
+    gap: 15px;
+  }
 }

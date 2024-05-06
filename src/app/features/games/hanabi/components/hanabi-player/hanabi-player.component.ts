@@ -9,6 +9,8 @@ import {HanabiCommandClueValue} from "../../models/hanabi-command/hanabi-command
 import {HanabiCommandPlay} from "../../models/hanabi-command/hanabi-command-play.model";
 import {HanabiCommandDiscard} from "../../models/hanabi-command/hanabi-command-discard.model";
 import {PlayerBarComponent} from "../../../../../shared/components/player-bar/player-bar.component";
+import {HanabiAssistant} from "../../models/hanabi-assistant.model";
+import {HanabiPreferences} from "../../models/hanabi-preferences.model";
 
 @Component({
   selector: 'app-hanabi-player',
@@ -20,6 +22,8 @@ import {PlayerBarComponent} from "../../../../../shared/components/player-bar/pl
 })
 export class HanabiPlayerComponent {
   @Input() player: HanabiPlayer = HanabiPlayer.empty();
+  @Input() preferences: HanabiPreferences = HanabiPreferences.empty();
+  @Input() assistant: HanabiAssistant = HanabiAssistant.empty();
   @Input() isSelf: boolean = false;
 
   @Output() command: EventEmitter<HanabiCommand> = new EventEmitter<HanabiCommand>();

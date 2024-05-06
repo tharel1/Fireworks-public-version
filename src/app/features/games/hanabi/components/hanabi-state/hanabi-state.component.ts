@@ -13,6 +13,8 @@ import {UserStore} from "../../../../../core/stores/user.store";
 import {HanabiHistory} from "../../models/hanabi-history.model";
 import {HanabiCommand} from "../../models/hanabi-command/hanabi-command.model";
 import {SnackBarService} from "../../../../../shared/services/snack-bar.service";
+import {HanabiAssistant} from "../../models/hanabi-assistant.model";
+import {HanabiPreferences} from "../../models/hanabi-preferences.model";
 
 @Component({
   selector: 'app-hanabi-state',
@@ -32,6 +34,8 @@ import {SnackBarService} from "../../../../../shared/services/snack-bar.service"
 export class HanabiStateComponent implements OnChanges {
   @Input() game: HanabiGame = HanabiGame.empty();
   @Input() history: HanabiHistory = HanabiHistory.empty();
+  @Input() preferences: HanabiPreferences = HanabiPreferences.empty();
+  @Input() assistant: HanabiAssistant = HanabiAssistant.empty();
 
   @Output() command: EventEmitter<HanabiCommand> = new EventEmitter<HanabiCommand>();
 
