@@ -1,13 +1,16 @@
 <div class="hanabi-player">
   <app-hanabi-hand class="hanabi-hand-container"
                    [hand]="player.cards"
+                   [settings]="settings"
                    [preferences]="preferences"
+                   [stats]="stats"
                    [assistant]="assistant"
                    [visible]="!isSelf"
                    (play)="onPlay($event)"
                    (discard)="onDiscard($event)"
                    (clueColor)="onClueColor($event)"
-                   (clueValue)="onClueValue($event)"/>
+                   (clueValue)="onClueValue($event)"
+                   (assistantUpdate)="onAssistantUpdate($event)"/>
 
   <app-player-bar [name]="player.user.name"
                   [playing]="player.playing"></app-player-bar>

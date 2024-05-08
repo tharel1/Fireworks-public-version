@@ -66,7 +66,7 @@ export class CardAnimator {
           elem.style.left = `0px`;
           elem.classList.add('start-animation');
         });
-        timer(810+delay).subscribe(() => {
+        timer(510+delay).subscribe(() => {
           this.saveAllCardPositions(state);
           elem.style.top = ``;
           elem.style.left = ``;

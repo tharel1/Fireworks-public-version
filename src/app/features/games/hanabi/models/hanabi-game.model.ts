@@ -4,6 +4,8 @@ import {HanabiCard} from "./hanabi-card.model";
 import {HanabiSettings} from "./hanabi-settings.model";
 import {HanabiHint} from "./hanabi-hint.model";
 import {HanabiAssistant} from "./hanabi-assistant.model";
+import {HanabiStats} from "./hanabi-stats/hanabi-stats.model";
+import {HanabiCardStats} from "./hanabi-stats/hanabi-card-stats.model";
 
 export class HanabiGame implements ValueObject {
 
@@ -149,11 +151,23 @@ export class HanabiGame implements ValueObject {
     return this.score() + this.drawPile.size + this.settings.playersNumber - this.settings.maxScore();
   }
 
+  buildStats(): HanabiStats {
+    return HanabiStats.empty().emptyCardStats(this.settings)
+      .modifyCardStats(this.remainingCards().toList(), (prev: HanabiCardStats) => HanabiCardStats.copy(prev)
+        .withRemaining(prev.remaining + 1)
+        .build())
+      .modifyCardStats(this.board, (prev: HanabiCardStats) => HanabiCardStats.copy(prev)
+        .withPlayed(prev.played + 1)
+        .build())
+      .modifyCardStats(this.discardPile, (prev: HanabiCardStats) => HanabiCardStats.copy(prev)
+        .withDiscarded(prev.discarded + 1)
+        .build());
+  }
+
   buildAssistant(): HanabiAssistant {
     return HanabiAssistant.builder()
       .withHints(this.allCards().map(c => HanabiHint.builder()
         .withCardId(c.id)
-        .withCritical(c.isCritical(this))
         .build()))
       .build();
   }

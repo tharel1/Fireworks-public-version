@@ -1,0 +1,28 @@
+<div class="hanabi-marker-button"
+     [matMenuTriggerFor]="menu"
+     (menuOpened)="onMenuOpen()"
+     (menuClosed)="onMenuClose()">
+  <span *ngIf="visible">+</span>
+</div>
+
+<mat-menu #menu>
+  <ng-template matMenuContent>
+    <div class="hanabi-marker-menu" (click)="$event.stopPropagation()" >
+      <div *ngFor="let row of mainMarkerRows" class="hanabi-marker-menu-row">
+        <app-hanabi-marker-chip *ngFor="let marker of row"
+                                [marker]="marker"
+                                [selected]="isSelected(marker)"
+                                (selectMarker)="onSelectMarker($event)"
+                                (deselectMarker)="onDeselectMarker($event)"></app-hanabi-marker-chip>
+      </div>
+      <mat-divider></mat-divider>
+      <div *ngFor="let markers of secondaryMarkerRows" class="hanabi-marker-menu-row">
+        <app-hanabi-marker-chip *ngFor="let marker of markers"
+                                [marker]="marker"
+                                [selected]="isSelected(marker)"
+                                (selectMarker)="onSelectMarker($event)"
+                                (deselectMarker)="onDeselectMarker($event)"></app-hanabi-marker-chip>
+      </div>
+    </div>
+  </ng-template>
+</mat-menu>

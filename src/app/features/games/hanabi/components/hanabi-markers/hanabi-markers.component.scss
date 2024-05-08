@@ -1,0 +1,10 @@
+@use "styles/variables/hanabi";
+
+.hanabi-markers {
+  width: hanabi.$marker-width;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}

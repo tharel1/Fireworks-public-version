@@ -17,6 +17,7 @@ import {HanabiCommand} from "../../models/hanabi-command/internal";
 import {HanabiPreferences} from "../../models/hanabi-preferences.model";
 import {SnackBarService} from "../../../../../shared/services/snack-bar.service";
 import {HanabiAssistant} from "../../models/hanabi-assistant.model";
+import {HanabiStats} from "../../models/hanabi-stats/hanabi-stats.model";
 
 @Component({
   selector: 'app-hanabi',
@@ -34,6 +35,7 @@ export class HanabiComponent implements OnInit, OnDestroy, AfterViewInit {
   game: HanabiGame = HanabiGame.empty();
   history: HanabiHistory = HanabiHistory.empty();
   preferences: HanabiPreferences = HanabiPreferences.empty();
+  stats: HanabiStats = HanabiStats.empty();
   assistant: HanabiAssistant = HanabiAssistant.empty();
 
   protected sending = false;
@@ -50,6 +52,7 @@ export class HanabiComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnInit(): void {
     this.game = this.store.game ?? HanabiGame.empty();
+    this.stats = this.game.buildStats();
     this.assistant = this.game.buildAssistant();
 
     this.watcher.add(this.socketService.fromEvent<HanabiCommand>('updated').pipe(
@@ -57,7 +60,7 @@ export class HanabiComponent implements OnInit, OnDestroy, AfterViewInit {
       tap(command => {
         this.sending = false;
         this.game = command.update(this.game);
-        this.assistant = this.game.buildAssistant();
+        this.stats = this.game.buildStats();
         this.history = HanabiHistory.builder()
           .withGame(this.game)
           .withCommands(this.history.commands.push(command))
@@ -82,6 +85,10 @@ export class HanabiComponent implements OnInit, OnDestroy, AfterViewInit {
     this.snackBarService.success(`Your preferences were successfully saved.`);
   }
 
+  protected onAssistant(assistant: HanabiAssistant): void {
+    this.assistant = assistant;
+  }
+
 
 
   // Animator
@@ -98,7 +105,7 @@ export class HanabiComponent implements OnInit, OnDestroy, AfterViewInit {
     this.history = history;
 
     const gameOrHistory = this.history.state ?? this.game;
-    this.assistant = gameOrHistory.buildAssistant();
+    this.stats = gameOrHistory.buildStats();
 
     switch (this.history.lastAction) {
       case HanabiHistory.Action.GO_FORWARD:
@@ -120,12 +127,16 @@ export class HanabiComponent implements OnInit, OnDestroy, AfterViewInit {
           timer(0).subscribe(() => document.getElementById('game-root')?.classList.add('bomb-exploded'));
         }
         this.cardAnimator.scheduleCardToMove(100, state, playCommand.card, playCommand.isBomb);
-        this.cardAnimator.scheduleCardToMove(600, state, state.players.find(p => p.equals(playCommand.source))?.cards.first());
+        state.players.find(p => p.equals(playCommand.source))?.cards.forEach(c => {
+          this.cardAnimator.scheduleCardToMove(100, state, c);
+        });
         return;
       case HanabiCommand.Type.DISCARD:
         const discardCommand = command as HanabiCommandDiscard;
         this.cardAnimator.scheduleCardToMove(100, state, discardCommand.card, true);
-        this.cardAnimator.scheduleCardToMove(600, state, state.players.find(p => p.equals(discardCommand.source))?.cards.first());
+        state.players.find(p => p.equals(discardCommand.source))?.cards.forEach(c => {
+          this.cardAnimator.scheduleCardToMove(100, state, c);
+        });
         return;
       case HanabiCommand.Type.CLUE_COLOR:
         const clueColorCommand = command as HanabiCommandClueColor;

@@ -1,0 +1,52 @@
+@use "styles/variables/hanabi";
+@use "styles/functions/colors";
+@use "styles";
+
+.hanabi-marker-chip {
+  box-sizing: border-box;
+
+  &.mat-mdc-standard-chip {
+    border: solid 2px colors.from-palette(styles.$my-primary);
+    &.red {
+      border-color: hanabi.$red;
+    }
+    &.yellow {
+      border-color: hanabi.$yellow;
+    }
+    &.green {
+      border-color: hanabi.$green;
+    }
+    &.blue {
+      border-color: hanabi.$blue;
+    }
+    &.purple {
+      border-color: hanabi.$purple;
+    }
+
+    ::ng-deep .mdc-evolution-chip__graphic {
+      width: 0;
+      .mdc-evolution-chip__checkmark {
+        opacity: 0;
+      }
+    }
+  }
+
+  &.mat-mdc-standard-chip.mdc-evolution-chip--selected {
+    &.red {
+      background-color: hanabi.$red;
+    }
+    &.yellow {
+      background-color: hanabi.$yellow;
+    }
+    &.green {
+      background-color: hanabi.$green;
+    }
+    &.blue {
+      background-color: hanabi.$blue;
+    }
+    &.purple {
+      background-color: hanabi.$purple;
+    }
+  }
+
+}

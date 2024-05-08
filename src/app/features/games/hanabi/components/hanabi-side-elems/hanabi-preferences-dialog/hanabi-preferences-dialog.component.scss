@@ -1,4 +1,4 @@
-mat-dialog-content {
+.preferences-content {
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -9,10 +9,12 @@ mat-dialog-content {
   }
 
   ::ng-deep mat-checkbox {
-    .mdc-form-field {
-      .mdc-label {
-        display: flex;
-        align-items: flex-end;
+    &.preferences-checkbox {
+      .mdc-form-field {
+        .mdc-label {
+          display: flex;
+          align-items: flex-end;
+        }
       }
     }
   }

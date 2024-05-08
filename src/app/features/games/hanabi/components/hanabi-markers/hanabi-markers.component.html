@@ -1,0 +1,10 @@
+<div class="hanabi-markers">
+  <app-hanabi-marker *ngFor="let marker of markers"
+                     [marker]="marker"
+                     (click)="onMarkerClick(marker)"></app-hanabi-marker>
+  <app-hanabi-marker-button [markers]="markers"
+                            [card]="card"
+                            [settings]="settings"
+                            [visible]="buttonVisible"
+                            (markersUpdate)="onMarkersUpdate($event)"></app-hanabi-marker-button>
+</div>

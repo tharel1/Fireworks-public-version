@@ -3,13 +3,18 @@ import {MatCard, MatCardContent} from "@angular/material/card";
 import {CommonModule} from "@angular/common";
 import {HanabiCard} from "../../models/hanabi-card.model";
 import {MatIcon} from "@angular/material/icon";
-import {MatMenu, MatMenuItem, MatMenuTrigger} from "@angular/material/menu";
+import {MatMenu, MatMenuContent, MatMenuItem, MatMenuTrigger} from "@angular/material/menu";
 import {HanabiNumberPipe} from "../../pipes/hanabi-number.pipe";
 import {HanabiClueComponent} from "../hanabi-clue/hanabi-clue.component";
 import {CardAnimator} from "../../services/card-animator.service";
 import {List} from "immutable";
 import {HanabiHint} from "../../models/hanabi-hint.model";
 import {MatBadge} from "@angular/material/badge";
+import {HanabiMarkersComponent} from "../hanabi-markers/hanabi-markers.component";
+import {HanabiSettings} from "../../models/hanabi-settings.model";
+import {HanabiMarker} from "../../models/hanabi-marker.model";
+import {HanabiCardStats} from "../../models/hanabi-stats/hanabi-card-stats.model";
+import {Changes} from "../../../../../core/utils/changes.model";
 
 @Component({
   selector: 'app-hanabi-card',
@@ -26,12 +31,16 @@ import {MatBadge} from "@angular/material/badge";
     MatMenuItem,
     HanabiNumberPipe,
     MatBadge,
+    HanabiMarkersComponent,
+    MatMenuContent,
   ],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HanabiCardComponent implements OnInit, OnChanges {
   @Input() card: HanabiCard = HanabiCard.empty();
+  @Input() settings: HanabiSettings = HanabiSettings.empty();
+  @Input() stats: HanabiCardStats = HanabiCardStats.empty();
   @Input() hint: HanabiHint = HanabiHint.empty();
   @Input() visible: boolean = true;
   @Input() clickable: boolean = false;
@@ -40,11 +49,16 @@ export class HanabiCardComponent implements OnInit, OnChanges {
   @Input() noShadow: boolean = false;
   @Input() noClues: boolean = false;
   @Input() showCritical: boolean = false;
+  @Input() showMarkers: boolean = false;
 
   @Output() play: EventEmitter<HanabiCard> = new EventEmitter<HanabiCard>();
   @Output() discard: EventEmitter<HanabiCard> = new EventEmitter<HanabiCard>();
   @Output() clueColor: EventEmitter<HanabiCard> = new EventEmitter<HanabiCard>();
   @Output() clueValue: EventEmitter<HanabiCard> = new EventEmitter<HanabiCard>();
+  @Output() hintUpdate: EventEmitter<HanabiHint> = new EventEmitter<HanabiHint>();
+
+  protected isCritical = false;
+  protected markerButtonVisible = false;
 
   protected classes: string[] = [];
 
@@ -58,8 +72,12 @@ export class HanabiCardComponent implements OnInit, OnChanges {
     }
   }
 
-  ngOnChanges(): void {
+  ngOnChanges(changes: Changes<HanabiCardComponent>): void {
     this.computeClasses();
+
+    if (changes.stats) {
+      this.isCritical = this.stats.isCritical();
+    }
   }
 
   protected onPlay(): void {
@@ -76,6 +94,12 @@ export class HanabiCardComponent implements OnInit, OnChanges {
 
   protected onClueValue(): void {
     this.clueValue.emit(this.card);
+  }
+
+  protected onMarkersUpdate(markers: List<HanabiMarker>): void {
+    return this.hintUpdate.emit(HanabiHint.copy(this.hint)
+      .withMarkers(markers)
+      .build())
   }
 
   private computeClasses(animating: boolean = false): void {

@@ -11,6 +11,8 @@ import {HanabiCommandDiscard} from "../../models/hanabi-command/hanabi-command-d
 import {PlayerBarComponent} from "../../../../../shared/components/player-bar/player-bar.component";
 import {HanabiAssistant} from "../../models/hanabi-assistant.model";
 import {HanabiPreferences} from "../../models/hanabi-preferences.model";
+import {HanabiSettings} from "../../models/hanabi-settings.model";
+import {HanabiStats} from "../../models/hanabi-stats/hanabi-stats.model";
 
 @Component({
   selector: 'app-hanabi-player',
@@ -22,11 +24,14 @@ import {HanabiPreferences} from "../../models/hanabi-preferences.model";
 })
 export class HanabiPlayerComponent {
   @Input() player: HanabiPlayer = HanabiPlayer.empty();
+  @Input() settings: HanabiSettings = HanabiSettings.empty();
   @Input() preferences: HanabiPreferences = HanabiPreferences.empty();
+  @Input() stats: HanabiStats = HanabiStats.empty();
   @Input() assistant: HanabiAssistant = HanabiAssistant.empty();
   @Input() isSelf: boolean = false;
 
   @Output() command: EventEmitter<HanabiCommand> = new EventEmitter<HanabiCommand>();
+  @Output() assistantUpdate: EventEmitter<HanabiAssistant> = new EventEmitter<HanabiAssistant>();
 
   protected onPlay(card: HanabiCard): void {
     this.command.emit(HanabiCommandPlay.builder()
@@ -60,5 +65,9 @@ export class HanabiPlayerComponent {
       .withValue(card.value)
       .build()
     );
+  }
+
+  protected onAssistantUpdate(assistant: HanabiAssistant): void {
+    this.assistantUpdate.emit(assistant);
   }
 }

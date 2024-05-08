@@ -1,0 +1,40 @@
+@use "styles/palettes";
+@use "styles/functions/colors";
+@use "styles/variables/hanabi";
+@use "styles";
+
+.hanabi-marker {
+  width: hanabi.$marker-width;
+  height: hanabi.$marker-height;
+  box-shadow: -1px -1px 1px 0 rgba(0,0,0,.2);
+  border-radius: 8px;
+  box-sizing: border-box;
+  cursor: pointer;
+  color: white;
+  background-color: colors.from-palette(styles.$my-primary);
+  font-size: small;
+
+  &:hover {
+    border: solid 1px colors.from-palette(palettes.$grey, 300);
+  }
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.red {
+  background-color: hanabi.$red;
+}
+.yellow {
+  background-color: hanabi.$yellow;
+}
+.green {
+  background-color: hanabi.$green;
+}
+.blue {
+  background-color: hanabi.$blue;
+}
+.purple {
+  background-color: hanabi.$purple;
+}

@@ -1,5 +1,4 @@
 import {hash, is, List, ValueObject} from "immutable";
-import {HanabiGame} from "./hanabi-game.model";
 
 export class HanabiCard implements ValueObject {
 
@@ -79,17 +78,6 @@ export class HanabiCard implements ValueObject {
 
     return board.filter(c => c.color === this.color && c.value >= this.value).isEmpty()
       && board.some(c => c.color === this.color && c.value === this.value-1);
-  }
-
-  isIdenticalPlayed(game: HanabiGame): boolean {
-    return game.board.some(c => this.isIdentical(c));
-  }
-
-  isCritical(game: HanabiGame): boolean {
-    return !this.isIdenticalPlayed(game)
-      && game.remainingCards()
-        .filter(c => !this.equals(c))
-        .every(c => !this.isIdentical(c));
   }
 
 }

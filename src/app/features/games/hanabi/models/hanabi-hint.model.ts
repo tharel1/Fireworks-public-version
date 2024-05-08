@@ -1,13 +1,14 @@
-import {ValueObject} from "immutable";
+import {List, ValueObject} from "immutable";
+import {HanabiMarker} from "./hanabi-marker.model";
 
 export class HanabiHint implements ValueObject {
 
   readonly cardId: number;
-  readonly critical: boolean;
+  readonly markers: List<HanabiMarker>;
 
   constructor(builder: Builder) {
     this.cardId = builder.cardId;
-    this.critical = builder.critical;
+    this.markers = builder.markers;
   }
 
   static builder(): Builder {
@@ -21,13 +22,13 @@ export class HanabiHint implements ValueObject {
   static copy(copy: HanabiHint): Builder {
     return HanabiHint.builder()
       .withCardId(copy.cardId)
-      .withCritical(copy.critical);
+      .withMarkers(copy.markers);
   }
 
   static fromJson(json: any): HanabiHint {
     return HanabiHint.builder()
       .withCardId(json.cardId)
-      .withCritical(json.critical)
+      .withMarkers(List(json.markers).map(m => HanabiMarker.fromJson(m)))
       .build();
   }
 
@@ -47,15 +48,15 @@ export namespace HanabiHint {
 class Builder {
 
   cardId: number = 0;
-  critical: boolean = false;
+  markers: List<HanabiMarker> = List.of();
 
   withCardId(cardId: number): Builder {
     this.cardId = cardId;
     return this;
   }
 
-  withCritical(critical: boolean): Builder {
-    this.critical = critical;
+  withMarkers(markers: List<HanabiMarker>): Builder {
+    this.markers = markers;
     return this;
   }
 

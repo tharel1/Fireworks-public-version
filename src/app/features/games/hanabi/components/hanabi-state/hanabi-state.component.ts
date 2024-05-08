@@ -15,6 +15,7 @@ import {HanabiCommand} from "../../models/hanabi-command/hanabi-command.model";
 import {SnackBarService} from "../../../../../shared/services/snack-bar.service";
 import {HanabiAssistant} from "../../models/hanabi-assistant.model";
 import {HanabiPreferences} from "../../models/hanabi-preferences.model";
+import {HanabiStats} from "../../models/hanabi-stats/hanabi-stats.model";
 
 @Component({
   selector: 'app-hanabi-state',
@@ -35,9 +36,11 @@ export class HanabiStateComponent implements OnChanges {
   @Input() game: HanabiGame = HanabiGame.empty();
   @Input() history: HanabiHistory = HanabiHistory.empty();
   @Input() preferences: HanabiPreferences = HanabiPreferences.empty();
+  @Input() stats: HanabiStats = HanabiStats.empty();
   @Input() assistant: HanabiAssistant = HanabiAssistant.empty();
 
   @Output() command: EventEmitter<HanabiCommand> = new EventEmitter<HanabiCommand>();
+  @Output() assistantUpdate: EventEmitter<HanabiAssistant> = new EventEmitter<HanabiAssistant>();
 
   protected state: HanabiGame = HanabiGame.empty();
   protected selfPlayer: HanabiPlayer = HanabiPlayer.empty();
@@ -74,5 +77,9 @@ export class HanabiStateComponent implements OnChanges {
     this.selfPlayer = HanabiPlayer.copy(this.selfPlayer).withPlaying(false).build();
 
     this.command.emit(command.fill(this.game));
+  }
+
+  protected onAssistantUpdate(assistant: HanabiAssistant): void {
+    this.assistantUpdate.emit(assistant);
   }
 }

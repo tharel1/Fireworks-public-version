@@ -56,6 +56,10 @@ export class HanabiSettings implements ValueObject {
     return 0;
   }
 
+  values(): List<number> {
+    return List(Array.from(Array(this.maxValue).keys()));
+  }
+
   maxScore(): number {
     return this.maxValue * this.colors.size;
   }

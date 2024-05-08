@@ -5,8 +5,10 @@
                     [game]="game"
                     [history]="history"
                     [preferences]="preferences"
+                    [stats]="stats"
                     [assistant]="assistant"
-                    (command)="onCommand($event)"></app-hanabi-state>
+                    (command)="onCommand($event)"
+                    (assistantUpdate)="onAssistant($event)"></app-hanabi-state>
   <app-hanabi-side-elems [game]="game"
                          [history]="history"
                          [preferences]="preferences"

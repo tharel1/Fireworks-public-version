@@ -1,0 +1,42 @@
+@use "styles/functions/colors";
+@use "styles/palettes";
+@use "styles/variables/hanabi";
+
+.hanabi-marker-button {
+  width: hanabi.$marker-height;
+  height: hanabi.$marker-height;
+  border-radius: 8px;
+  box-sizing: border-box;
+  cursor: pointer;
+  color: colors.from-palette(palettes.$grey, 600);
+  background-color: transparent;
+
+  &:hover {
+    width: hanabi.$marker-width;
+    border: solid 1px colors.from-palette(palettes.$grey, 300);
+    color: colors.from-palette(palettes.$grey, 300);
+    background-color: colors.from-palette(palettes.$grey, 700);
+  }
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hanabi-marker-menu {
+  padding: 16px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  .hanabi-marker-menu-row {
+    display: flex;
+    gap: 5px;
+  }
+}
+
+// TODO: issue calling this ng-deep directly in the root of this css file
+::ng-deep .mat-mdc-menu-panel {
+  max-width: none;
+}
