@@ -4,8 +4,7 @@ import {HanabiCard} from "./hanabi-card.model";
 import {HanabiSettings} from "./hanabi-settings.model";
 import {HanabiHint} from "./hanabi-hint.model";
 import {HanabiAssistant} from "./hanabi-assistant.model";
-import {HanabiStats} from "./hanabi-stats/hanabi-stats.model";
-import {HanabiCardStats} from "./hanabi-stats/hanabi-card-stats.model";
+import { HanabiInfos } from "./hanabi-infos/internal";
 
 export class HanabiGame implements ValueObject {
 
@@ -125,12 +124,12 @@ export class HanabiGame implements ValueObject {
     );
   }
 
-  playersCards(): Set<HanabiCard> {
-    return this.players.flatMap(p => p.cards).toSet();
+  playersCards(): List<HanabiCard> {
+    return this.players.flatMap(p => p.cards);
   }
 
-  remainingCards(): Set<HanabiCard> {
-    return Set.of(
+  remainingCards(): List<HanabiCard> {
+    return List.of(
       ...this.drawPile,
       ...this.playersCards()
     );
@@ -151,20 +150,11 @@ export class HanabiGame implements ValueObject {
     return this.score() + this.drawPile.size + this.settings.playersNumber - this.settings.maxScore();
   }
 
-  buildStats(): HanabiStats {
-    return HanabiStats.empty().emptyCardStats(this.settings)
-      .modifyCardStats(this.remainingCards().toList(), (prev: HanabiCardStats) => HanabiCardStats.copy(prev)
-        .withRemaining(prev.remaining + 1)
-        .build())
-      .modifyCardStats(this.board, (prev: HanabiCardStats) => HanabiCardStats.copy(prev)
-        .withPlayed(prev.played + 1)
-        .build())
-      .modifyCardStats(this.discardPile, (prev: HanabiCardStats) => HanabiCardStats.copy(prev)
-        .withDiscarded(prev.discarded + 1)
-        .build());
+  createInfos(): HanabiInfos {
+    return HanabiInfos.fromGame(this);
   }
 
-  buildAssistant(): HanabiAssistant {
+  createAssistant(): HanabiAssistant {
     return HanabiAssistant.builder()
       .withHints(this.allCards().map(c => HanabiHint.builder()
         .withCardId(c.id)

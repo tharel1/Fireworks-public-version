@@ -13,7 +13,7 @@ import {MatBadge} from "@angular/material/badge";
 import {HanabiMarkersComponent} from "../hanabi-markers/hanabi-markers.component";
 import {HanabiSettings} from "../../models/hanabi-settings.model";
 import {HanabiMarker} from "../../models/hanabi-marker.model";
-import {HanabiCardStats} from "../../models/hanabi-stats/hanabi-card-stats.model";
+import {HanabiCardInfos} from "../../models/hanabi-infos/hanabi-card-infos.model";
 import {Changes} from "../../../../../core/utils/changes.model";
 
 @Component({
@@ -40,7 +40,7 @@ import {Changes} from "../../../../../core/utils/changes.model";
 export class HanabiCardComponent implements OnInit, OnChanges {
   @Input() card: HanabiCard = HanabiCard.empty();
   @Input() settings: HanabiSettings = HanabiSettings.empty();
-  @Input() stats: HanabiCardStats = HanabiCardStats.empty();
+  @Input() infos: HanabiCardInfos = HanabiCardInfos.empty();
   @Input() hint: HanabiHint = HanabiHint.empty();
   @Input() visible: boolean = true;
   @Input() clickable: boolean = false;
@@ -75,8 +75,8 @@ export class HanabiCardComponent implements OnInit, OnChanges {
   ngOnChanges(changes: Changes<HanabiCardComponent>): void {
     this.computeClasses();
 
-    if (changes.stats) {
-      this.isCritical = this.stats.isCritical();
+    if (changes.infos) {
+      this.isCritical = this.infos.isCritical();
     }
   }
 

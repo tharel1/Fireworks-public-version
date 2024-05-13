@@ -12,7 +12,7 @@ import {PlayerBarComponent} from "../../../../../shared/components/player-bar/pl
 import {HanabiAssistant} from "../../models/hanabi-assistant.model";
 import {HanabiPreferences} from "../../models/hanabi-preferences.model";
 import {HanabiSettings} from "../../models/hanabi-settings.model";
-import {HanabiStats} from "../../models/hanabi-stats/hanabi-stats.model";
+import {HanabiInfos} from "../../models/hanabi-infos/hanabi-infos.model";
 
 @Component({
   selector: 'app-hanabi-player',
@@ -26,7 +26,7 @@ export class HanabiPlayerComponent {
   @Input() player: HanabiPlayer = HanabiPlayer.empty();
   @Input() settings: HanabiSettings = HanabiSettings.empty();
   @Input() preferences: HanabiPreferences = HanabiPreferences.empty();
-  @Input() stats: HanabiStats = HanabiStats.empty();
+  @Input() infos: HanabiInfos = HanabiInfos.empty();
   @Input() assistant: HanabiAssistant = HanabiAssistant.empty();
   @Input() isSelf: boolean = false;
 

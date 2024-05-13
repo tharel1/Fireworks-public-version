@@ -104,7 +104,7 @@ export class HanabiLobbyComponent implements OnInit, OnDestroy {
   protected start(): void {
     if (!this.currentRoom) return;
 
-    this.socketService.emit('start', this.settings.buildGame(this.currentRoom.users));
+    this.socketService.emit('start', this.settings.createGame(this.currentRoom.users));
   }
 
   protected isOwner(): boolean {

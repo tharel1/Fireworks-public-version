@@ -17,7 +17,7 @@ import {HanabiCommand} from "../../models/hanabi-command/internal";
 import {HanabiPreferences} from "../../models/hanabi-preferences.model";
 import {SnackBarService} from "../../../../../shared/services/snack-bar.service";
 import {HanabiAssistant} from "../../models/hanabi-assistant.model";
-import {HanabiStats} from "../../models/hanabi-stats/hanabi-stats.model";
+import {HanabiInfos} from '../../models/hanabi-infos/internal';
 
 @Component({
   selector: 'app-hanabi',
@@ -35,7 +35,7 @@ export class HanabiComponent implements OnInit, OnDestroy, AfterViewInit {
   game: HanabiGame = HanabiGame.empty();
   history: HanabiHistory = HanabiHistory.empty();
   preferences: HanabiPreferences = HanabiPreferences.empty();
-  stats: HanabiStats = HanabiStats.empty();
+  infos: HanabiInfos = HanabiInfos.empty();
   assistant: HanabiAssistant = HanabiAssistant.empty();
 
   protected sending = false;
@@ -52,15 +52,15 @@ export class HanabiComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnInit(): void {
     this.game = this.store.game ?? HanabiGame.empty();
-    this.stats = this.game.buildStats();
-    this.assistant = this.game.buildAssistant();
+    this.infos = this.game.createInfos();
+    this.assistant = this.game.createAssistant();
 
     this.watcher.add(this.socketService.fromEvent<HanabiCommand>('updated').pipe(
       map(command => HanabiCommand.fromJson(command)),
       tap(command => {
         this.sending = false;
         this.game = command.update(this.game);
-        this.stats = this.game.buildStats();
+        this.infos = this.game.createInfos();
         this.history = HanabiHistory.builder()
           .withGame(this.game)
           .withCommands(this.history.commands.push(command))
@@ -105,7 +105,7 @@ export class HanabiComponent implements OnInit, OnDestroy, AfterViewInit {
     this.history = history;
 
     const gameOrHistory = this.history.state ?? this.game;
-    this.stats = gameOrHistory.buildStats();
+    this.infos = gameOrHistory.createInfos();
 
     switch (this.history.lastAction) {
       case HanabiHistory.Action.GO_FORWARD:

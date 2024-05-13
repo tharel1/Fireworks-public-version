@@ -8,8 +8,8 @@ import {Changes} from "../../../../../core/utils/changes.model";
 import {HanabiHint} from "../../models/hanabi-hint.model";
 import {HanabiPreferences} from "../../models/hanabi-preferences.model";
 import {HanabiSettings} from "../../models/hanabi-settings.model";
-import {HanabiStats} from "../../models/hanabi-stats/hanabi-stats.model";
-import {HanabiCardStats} from "../../models/hanabi-stats/hanabi-card-stats.model";
+import {HanabiInfos} from "../../models/hanabi-infos/hanabi-infos.model";
+import {HanabiCardInfos} from "../../models/hanabi-infos/hanabi-card-infos.model";
 
 @Component({
   selector: 'app-hanabi-hand',
@@ -23,7 +23,7 @@ export class HanabiHandComponent implements OnChanges {
   @Input() hand: List<HanabiCard> = List.of();
   @Input() settings: HanabiSettings = HanabiSettings.empty();
   @Input() preferences: HanabiPreferences = HanabiPreferences.empty();
-  @Input() stats: HanabiStats = HanabiStats.empty();
+  @Input() infos: HanabiInfos = HanabiInfos.empty();
   @Input() assistant: HanabiAssistant = HanabiAssistant.empty();
   @Input() visible: boolean = false;
 
@@ -39,7 +39,7 @@ export class HanabiHandComponent implements OnChanges {
     if (changes.hand || changes.assistant) {
       this.cardsWithInfos = this.hand.map(c => ({
         card: c,
-        stats: this.stats.cards.find(s => s.card.isIdentical(c)) ?? HanabiCardStats.empty(),
+        infos: this.infos.cards.find(s => s.card.isIdentical(c)) ?? HanabiCardInfos.empty(),
         hint: this.assistant.hints.find(h => h.cardId === c.id) ?? HanabiHint.empty()
       }));
     }
@@ -70,6 +70,6 @@ export class HanabiHandComponent implements OnChanges {
 
 interface CardWithInfos {
   readonly card: HanabiCard,
-  readonly stats: HanabiCardStats,
+  readonly infos: HanabiCardInfos,
   readonly hint: HanabiHint
 }

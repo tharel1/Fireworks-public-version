@@ -64,7 +64,7 @@ export class HanabiSettings implements ValueObject {
     return this.maxValue * this.colors.size;
   }
 
-  buildGame(users: List<User>): HanabiGame {
+  createGame(users: List<User>): HanabiGame {
     const firstPlayerIndex = RandomUtil.random(users.size);
 
     let cards = RandomUtil.shuffle(this.colors
