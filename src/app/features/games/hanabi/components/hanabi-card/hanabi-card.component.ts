@@ -5,7 +5,7 @@ import {HanabiCard} from "../../models/hanabi-card.model";
 import {MatIcon} from "@angular/material/icon";
 import {MatMenu, MatMenuContent, MatMenuItem, MatMenuTrigger} from "@angular/material/menu";
 import {HanabiNumberPipe} from "../../pipes/hanabi-number.pipe";
-import {HanabiClueComponent} from "../hanabi-clue/hanabi-clue.component";
+import {HanabiClueComponent} from "./hanabi-clue/hanabi-clue.component";
 import {CardAnimator} from "../../services/card-animator.service";
 import {List} from "immutable";
 import {HanabiHint} from "../../models/hanabi-hint.model";
@@ -14,8 +14,8 @@ import {HanabiSettings} from "../../models/hanabi-settings.model";
 import {HanabiMarker} from "../../models/hanabi-marker.model";
 import {HanabiCardInfos} from "../../models/hanabi-infos/hanabi-card-infos.model";
 import {Changes} from "../../../../../core/utils/changes.model";
-import {HanabiCriticalComponent} from "../hanabi-critical/hanabi-critical.component";
-import {HanabiImpossibleCluesComponent} from "../hanabi-impossible-clues/hanabi-impossible-clues.component";
+import {HanabiCriticalComponent} from "./hanabi-critical/hanabi-critical.component";
+import {HanabiImpossibleCluesComponent} from "./hanabi-impossible-clues/hanabi-impossible-clues.component";
 
 @Component({
   selector: 'app-hanabi-card',

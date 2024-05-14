@@ -1,8 +1,8 @@
 import {ChangeDetectionStrategy, Component, Input, OnChanges} from '@angular/core';
-import {HanabiCard} from "../../models/hanabi-card.model";
-import {HanabiSettings} from "../../models/hanabi-settings.model";
+import {HanabiCard} from "../../../models/hanabi-card.model";
+import {HanabiSettings} from "../../../models/hanabi-settings.model";
 import {List} from "immutable";
-import {Changes} from "../../../../../core/utils/changes.model";
+import {Changes} from "../../../../../../core/utils/changes.model";
 import {CommonModule} from "@angular/common";
 
 @Component({

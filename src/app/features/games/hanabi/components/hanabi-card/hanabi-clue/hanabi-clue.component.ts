@@ -1,11 +1,11 @@
 import {ChangeDetectionStrategy, Component, Input, OnChanges} from '@angular/core';
 import {List} from "immutable";
-import {HanabiCard} from "../../models/hanabi-card.model";
+import {HanabiCard} from "../../../models/hanabi-card.model";
 import {MatCard} from "@angular/material/card";
-import {Changes} from "../../../../../core/utils/changes.model";
+import {Changes} from "../../../../../../core/utils/changes.model";
 import {CommonModule} from "@angular/common";
 import {MatIcon} from "@angular/material/icon";
-import {ClueAnimator} from "../../services/clue-animator.service";
+import {ClueAnimator} from "../../../services/clue-animator.service";
 
 @Component({
   selector: 'app-hanabi-clue',
