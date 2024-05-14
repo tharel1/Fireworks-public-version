@@ -9,6 +9,7 @@ import {Changes} from "../../../../../core/utils/changes.model";
 import {HanabiIndicatorsComponent} from "./hanabi-indicators/hanabi-indicators.component";
 import {HanabiHistoryComponent} from "./hanabi-history/hanabi-history.component";
 import {HanabiPreferences} from "../../models/hanabi-preferences.model";
+import {HanabiAssistant} from "../../models/hanabi-assistant.model";
 
 @Component({
   selector: 'app-hanabi-side-elems',
@@ -29,9 +30,11 @@ export class HanabiSideElemsComponent implements OnChanges {
   @Input() game: HanabiGame = HanabiGame.empty();
   @Input() history: HanabiHistory = HanabiHistory.empty();
   @Input() preferences: HanabiPreferences = HanabiPreferences.empty();
+  @Input() assistant: HanabiAssistant = HanabiAssistant.empty();
 
   @Output() historyUpdate: EventEmitter<HanabiHistory> = new EventEmitter<HanabiHistory>();
   @Output() preferencesUpdate: EventEmitter<HanabiPreferences> = new EventEmitter<HanabiPreferences>();
+  @Output() assistantUpdate: EventEmitter<HanabiAssistant> = new EventEmitter<HanabiAssistant>();
 
   protected state: HanabiGame = HanabiGame.empty();
 
@@ -47,5 +50,9 @@ export class HanabiSideElemsComponent implements OnChanges {
 
   onPreferences(preferences: HanabiPreferences): void {
     this.preferencesUpdate.emit(preferences);
+  }
+
+  onAssistant(assistant: HanabiAssistant): void {
+    this.assistantUpdate.emit(assistant);
   }
 }

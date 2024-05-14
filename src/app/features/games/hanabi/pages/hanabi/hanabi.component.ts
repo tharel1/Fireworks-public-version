@@ -52,6 +52,9 @@ export class HanabiComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnInit(): void {
     this.game = this.store.game ?? HanabiGame.empty();
+    this.preferences = HanabiPreferences.builder()
+      .withShowCritical(true)
+      .build();
     this.infos = this.game.createInfos();
     this.assistant = this.game.createAssistant();
 

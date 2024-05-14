@@ -12,6 +12,8 @@
   <app-hanabi-side-elems [game]="game"
                          [history]="history"
                          [preferences]="preferences"
+                         [assistant]="assistant"
                          (historyUpdate)="onHistory($event)"
-                         (preferencesUpdate)="onPreferences($event)"></app-hanabi-side-elems>
+                         (preferencesUpdate)="onPreferences($event)"
+                         (assistantUpdate)="onAssistant($event)"></app-hanabi-side-elems>
 </div>

@@ -1,0 +1,19 @@
+<div class="hanabi-impossible-clues">
+
+  <div class="hanabi-impossible-clues-row">
+    <div *ngFor="let possibleColor of possibleColors"
+         class="item"
+         [class.impossible]="possibleColor.impossible"
+         [class]="possibleColor.color">
+    </div>
+  </div>
+
+  <div class="hanabi-impossible-clues-row">
+    <div *ngFor="let possibleValue of possibleValues"
+         class="item"
+         [class.impossible]="possibleValue.impossible">
+      {{ possibleValue.value }}
+    </div>
+  </div>
+
+</div>

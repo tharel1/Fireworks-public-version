@@ -9,6 +9,7 @@
                    [small]="true"
                    [showCritical]="preferences.showCritical && visible"
                    [showMarkers]="true"
+                   [showImpossibleClues]="assistant.showImpossibleClues"
                    (play)="onPlay($event)"
                    (discard)="onDiscard($event)"
                    (clueColor)="onClueColor($event)"

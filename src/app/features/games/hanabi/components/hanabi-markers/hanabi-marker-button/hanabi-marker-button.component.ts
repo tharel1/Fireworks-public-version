@@ -67,7 +67,7 @@ export class HanabiMarkerButtonComponent implements OnChanges {
 
   private simpleValueMarkers(settings: HanabiSettings): List<HanabiMarker> {
     return settings.values().map(i => HanabiMarker.builder()
-      .withValue((i+1).toString())
+      .withValue((i).toString())
       .build());
   }
 

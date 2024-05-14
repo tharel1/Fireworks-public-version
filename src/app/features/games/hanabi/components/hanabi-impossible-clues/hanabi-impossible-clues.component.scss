@@ -1,0 +1,46 @@
+@use "styles/variables/hanabi";
+
+.hanabi-impossible-clues {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+
+  .hanabi-impossible-clues-row {
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+
+    .item {
+      width: 12px;
+      height: 12px;
+      border-radius: 3px;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      &.red {
+        background-color: hanabi.$red;
+      }
+      &.yellow {
+        background-color: hanabi.$yellow;
+      }
+      &.green {
+        background-color: hanabi.$green;
+      }
+      &.blue {
+        background-color: hanabi.$blue;
+      }
+      &.purple {
+        background-color: hanabi.$purple;
+      }
+
+      &.impossible {
+        font-size: 0;
+        background-color: transparent;
+      }
+    }
+
+  }
+
+}

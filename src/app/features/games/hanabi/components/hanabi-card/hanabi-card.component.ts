@@ -15,6 +15,7 @@ import {HanabiMarker} from "../../models/hanabi-marker.model";
 import {HanabiCardInfos} from "../../models/hanabi-infos/hanabi-card-infos.model";
 import {Changes} from "../../../../../core/utils/changes.model";
 import {HanabiCriticalComponent} from "../hanabi-critical/hanabi-critical.component";
+import {HanabiImpossibleCluesComponent} from "../hanabi-impossible-clues/hanabi-impossible-clues.component";
 
 @Component({
   selector: 'app-hanabi-card',
@@ -33,6 +34,7 @@ import {HanabiCriticalComponent} from "../hanabi-critical/hanabi-critical.compon
     HanabiMarkersComponent,
     MatMenuContent,
     HanabiCriticalComponent,
+    HanabiImpossibleCluesComponent,
   ],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -50,6 +52,7 @@ export class HanabiCardComponent implements OnInit, OnChanges {
   @Input() noClues: boolean = false;
   @Input() showCritical: boolean = false;
   @Input() showMarkers: boolean = false;
+  @Input() showImpossibleClues: boolean = false;
 
   @Output() play: EventEmitter<HanabiCard> = new EventEmitter<HanabiCard>();
   @Output() discard: EventEmitter<HanabiCard> = new EventEmitter<HanabiCard>();
