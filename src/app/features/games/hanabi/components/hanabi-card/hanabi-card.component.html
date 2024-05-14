@@ -7,10 +7,9 @@
                      [valueClue]="card.valueClue"
                      [colorClue]="card.colorClue"/>
 
-    <!-- TODO: Perf issue due to matMenu and matBadge for each cards : remove them... -->
+    <!-- TODO: Perf issue due to matMenu for each cards : remove them... -->
     <mat-card class="hanabi-card-content-container"
-              [matMenuTriggerFor]="clickable ? (visible ? clueMenu : playMenu) : null"
-              [matBadgeHidden]="!showCritical || !isCritical" matBadge="!" matBadgeColor="warn" matBadgeSize="small" matBadgePosition="before">
+              [matMenuTriggerFor]="clickable ? (visible ? clueMenu : playMenu) : null">
 
       <mat-card-content *ngIf="!visible"
                         class="hanabi-card-content-invisible">
@@ -31,6 +30,10 @@
                         [settings]="settings"
                         [buttonVisible]="markerButtonVisible"
                         (markersUpdate)="onMarkersUpdate($event)"></app-hanabi-markers>
+
+    <app-hanabi-critical *ngIf="showCritical"
+                         [isCritical]="isCritical"></app-hanabi-critical>
+
   </div>
 </div>
 

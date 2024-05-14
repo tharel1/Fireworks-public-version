@@ -1,0 +1,15 @@
+@use "styles";
+@use "styles/functions/colors";
+
+.hanabi-critical {
+  width: 15px;
+  height: 15px;
+  border-radius: 15px;
+  background-color: colors.from-palette(styles.$my-warn);
+  font-size: x-small;
+  font-weight: 500;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

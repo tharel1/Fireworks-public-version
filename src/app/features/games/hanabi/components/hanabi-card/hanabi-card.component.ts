@@ -9,12 +9,12 @@ import {HanabiClueComponent} from "../hanabi-clue/hanabi-clue.component";
 import {CardAnimator} from "../../services/card-animator.service";
 import {List} from "immutable";
 import {HanabiHint} from "../../models/hanabi-hint.model";
-import {MatBadge} from "@angular/material/badge";
 import {HanabiMarkersComponent} from "../hanabi-markers/hanabi-markers.component";
 import {HanabiSettings} from "../../models/hanabi-settings.model";
 import {HanabiMarker} from "../../models/hanabi-marker.model";
 import {HanabiCardInfos} from "../../models/hanabi-infos/hanabi-card-infos.model";
 import {Changes} from "../../../../../core/utils/changes.model";
+import {HanabiCriticalComponent} from "../hanabi-critical/hanabi-critical.component";
 
 @Component({
   selector: 'app-hanabi-card',
@@ -30,9 +30,9 @@ import {Changes} from "../../../../../core/utils/changes.model";
     MatMenu,
     MatMenuItem,
     HanabiNumberPipe,
-    MatBadge,
     HanabiMarkersComponent,
     MatMenuContent,
+    HanabiCriticalComponent,
   ],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush
