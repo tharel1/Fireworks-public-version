@@ -112,7 +112,10 @@ export class HanabiComponent implements OnInit, OnDestroy, AfterViewInit {
         this.animateForward(gameOrHistory, this.history.lastCommand());
         return;
       case HanabiHistory.Action.GO_BACKWARD:
+        this.animateBackward(gameOrHistory, this.history.lastCommand());
+        return;
       case HanabiHistory.Action.CANCEL:
+      case HanabiHistory.Action.GO_TO:
         timer(0).subscribe(() => this.cardAnimator.saveAllCardPositions(gameOrHistory));
         return;
     }
@@ -153,6 +156,27 @@ export class HanabiComponent implements OnInit, OnDestroy, AfterViewInit {
           .forEach((c, i) => {
             this.clueAnimator.scheduleClueToMove(c, i*50);
           });
+        return;
+      default:
+        return;
+    }
+  }
+
+  private animateBackward(state: HanabiGame, command?: HanabiCommand): void {
+    switch (command?.type) {
+      case HanabiCommand.Type.PLAY:
+        const playCommand = command as HanabiCommandPlay;
+        this.cardAnimator.scheduleCardToMove(100, state, state.drawPile.last());
+        state.players.find(p => p.equals(playCommand.source))?.cards.forEach(c => {
+          this.cardAnimator.scheduleCardToMove(100, state, c);
+        });
+        return;
+      case HanabiCommand.Type.DISCARD:
+        const discardCommand = command as HanabiCommandDiscard;
+        this.cardAnimator.scheduleCardToMove(100, state, state.drawPile.last());
+        state.players.find(p => p.equals(discardCommand.source))?.cards.forEach(c => {
+          this.cardAnimator.scheduleCardToMove(100, state, c);
+        });
         return;
       default:
         return;

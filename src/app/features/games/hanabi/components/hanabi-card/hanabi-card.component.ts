@@ -68,7 +68,7 @@ export class HanabiCardComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     if (this.cardAnimator.moveScheduledCard(this.card)) {
-      this.computeClasses(true)
+      this.computeClasses(true);
     }
   }
 

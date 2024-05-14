@@ -109,7 +109,9 @@ export class HanabiHistory implements ValueObject {
       updatedHistory = updatedHistory.goBackward();
     }
 
-    return updatedHistory;
+    return HanabiHistory.copy(updatedHistory)
+      .withLastAction(HanabiHistory.Action.GO_TO)
+      .build();
   }
 
   canGoBack(): boolean {
@@ -142,7 +144,8 @@ export namespace HanabiHistory {
   export enum Action {
     GO_FORWARD = 'GO_FORWARD',
     GO_BACKWARD = 'GO_BACKWARD',
-    CANCEL = 'CANCEL'
+    CANCEL = 'CANCEL',
+    GO_TO = 'GO_TO'
   }
 
 }
