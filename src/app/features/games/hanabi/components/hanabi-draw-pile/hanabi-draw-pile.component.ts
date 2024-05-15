@@ -16,4 +16,8 @@ import {MatTooltip} from "@angular/material/tooltip";
 })
 export class HanabiDrawPileComponent {
   @Input() drawPile: List<HanabiCard> = List.of();
+
+  protected cardTrackBy(index: number, card: HanabiCard) {
+    return card.id;
+  }
 }

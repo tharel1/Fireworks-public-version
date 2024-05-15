@@ -7,7 +7,6 @@
                      [valueClue]="card.valueClue"
                      [colorClue]="card.colorClue"/>
 
-    <!-- TODO: Perf issue due to matMenu for each cards : remove them... -->
     <mat-card class="hanabi-card-content-container"
               [matMenuTriggerFor]="clickable ? (visible ? clueMenu : playMenu) : null">
 

@@ -31,4 +31,8 @@ export class HanabiDiscardPileComponent implements OnChanges {
           .map(values => values.reduce((reduction) => reduction + 1, 0))
         );
   }
+
+  protected cardTrackBy(index: number, card: HanabiCard) {
+    return card.id;
+  }
 }

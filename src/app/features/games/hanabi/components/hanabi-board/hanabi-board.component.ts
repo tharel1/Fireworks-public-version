@@ -29,4 +29,8 @@ export class HanabiBoardComponent implements OnChanges {
     if(changes.board)
       this.calculatedBoard = this.board.groupBy(c => c.color);
   }
+
+  protected cardTrackBy(index: number, card: HanabiCard) {
+    return card.id;
+  }
 }

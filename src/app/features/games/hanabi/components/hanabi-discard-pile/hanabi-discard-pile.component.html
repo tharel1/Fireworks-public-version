@@ -1,4 +1,4 @@
-<app-hanabi-card *ngFor="let card of discardPile"
+<app-hanabi-card *ngFor="let card of discardPile; trackBy: cardTrackBy"
                  class="hanabi-discardpile-card"
                  [card]="card"
                  [faded]="true"

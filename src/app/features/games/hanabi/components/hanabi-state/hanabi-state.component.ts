@@ -63,6 +63,10 @@ export class HanabiStateComponent implements OnChanges {
     }
   }
 
+  protected playerTrackBy(index: number, player: HanabiPlayer) {
+    return player.user.id;
+  }
+
   protected onCommand(command: HanabiCommand): void {
     if (this.isInHistory)
       return this.snackBarService.error(`You have to stop watching the history in order to play.`);

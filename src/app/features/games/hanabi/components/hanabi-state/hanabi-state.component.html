@@ -8,7 +8,7 @@
     <app-hanabi-discard-pile [discardPile]="state.discardPile" [settings]="state.settings"></app-hanabi-discard-pile>
   </div>
   <div class="hanabi-state-right">
-    <app-hanabi-player *ngFor="let player of orderedPlayers"
+    <app-hanabi-player *ngFor="let player of orderedPlayers; trackBy: playerTrackBy"
                        [player]="player"
                        [settings]="state.settings"
                        [preferences]="preferences"

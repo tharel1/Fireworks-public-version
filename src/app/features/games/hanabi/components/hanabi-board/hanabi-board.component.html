@@ -2,7 +2,7 @@
   <div *ngFor="let color of settings.colors"
        class="hanabi-board-cards"
        [class]="color">
-    <app-hanabi-card *ngFor="let card of calculatedBoard.get(color)"
+    <app-hanabi-card *ngFor="let card of calculatedBoard.get(color); trackBy: cardTrackBy"
                      class="hanabi-board-card"
                      [card]="card"
                      [noShadow]="true"
