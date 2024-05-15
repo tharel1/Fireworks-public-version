@@ -52,9 +52,11 @@ export class HanabiActionsComponent {
       .build());
   }
 
-  @HostListener('window:keyup.alt.v')
-  hideImpossibleClues(): void {
+  @HostListener('window:keyup', ['$event'])
+  hideImpossibleClues(event?: KeyboardEvent): void {
     if (!this.assistant.showImpossibleClues) return;
+
+    if (event && !event.altKey && event.key !== 'v') return;
 
     this.assistantUpdate.emit(HanabiAssistant.copy(this.assistant)
       .withShowImpossibleClues(false)
