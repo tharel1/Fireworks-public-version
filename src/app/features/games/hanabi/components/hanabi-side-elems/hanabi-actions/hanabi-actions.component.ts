@@ -8,6 +8,7 @@ import {HanabiPreferencesDialogComponent} from "../hanabi-preferences-dialog/han
 import {HanabiPreferences} from "../../../models/hanabi-preferences.model";
 import {CommonModule} from "@angular/common";
 import {HanabiAssistant} from "../../../models/hanabi-assistant.model";
+import {MatTooltip} from "@angular/material/tooltip";
 
 @Component({
   selector: 'app-hanabi-actions',
@@ -18,7 +19,8 @@ import {HanabiAssistant} from "../../../models/hanabi-assistant.model";
     MatCardContent,
     MatIconButton,
     MatIcon,
-    MatDivider
+    MatDivider,
+    MatTooltip
   ],
   templateUrl: './hanabi-actions.component.html',
   styleUrl: './hanabi-actions.component.scss',

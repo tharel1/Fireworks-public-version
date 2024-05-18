@@ -23,10 +23,10 @@
 
   </mat-dialog-content>
   <mat-dialog-actions>
-    <button mat-raised-button
+    <button mat-button
             (click)="onCancel()">Cancel</button>
-    <button mat-raised-button
-            [color]="formGroup.dirty ? 'primary' : ''"
+    <button mat-button
+            [disabled]="!formGroup.dirty"
             cdkFocusInitial
             [mat-dialog-close]="onSave()">Save</button>
   </mat-dialog-actions>

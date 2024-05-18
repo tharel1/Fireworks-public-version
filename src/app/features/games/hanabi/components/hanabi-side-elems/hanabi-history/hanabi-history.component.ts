@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, Output} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {MatMiniFabButton} from "@angular/material/button";
+import {MatIconButton} from "@angular/material/button";
 import {MatIcon} from "@angular/material/icon";
 import {MatBadge} from "@angular/material/badge";
 import {MatTooltip} from "@angular/material/tooltip";
@@ -12,7 +12,7 @@ import {MatDivider} from "@angular/material/divider";
 @Component({
   selector: 'app-hanabi-history',
   standalone: true,
-  imports: [CommonModule, MatIcon, MatBadge, MatTooltip, MatMiniFabButton, MatCard, MatCardContent, MatDivider],
+  imports: [CommonModule, MatIcon, MatBadge, MatTooltip, MatCard, MatCardContent, MatDivider, MatIconButton],
   templateUrl: './hanabi-history.component.html',
   styleUrls: ['./hanabi-history.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

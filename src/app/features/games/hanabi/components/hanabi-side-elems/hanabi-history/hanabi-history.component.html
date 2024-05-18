@@ -9,22 +9,19 @@
               [matTooltipDisabled]="!isInHistory">history</mat-icon>
     <mat-divider [vertical]="true"></mat-divider>
     <div class="hanabi-history-actions">
-      <button mat-mini-fab
-              color="primary"
+      <button mat-icon-button
               (click)="goBackward()"
               matTooltip="Go backward"
               [disabled]="!canGoBack">
-        <mat-icon>arrow_left</mat-icon>
+        <mat-icon>undo</mat-icon>
       </button>
-      <button mat-mini-fab
-              color="primary"
+      <button mat-icon-button
               (click)="goForward()"
               matTooltip="Go forward"
               [disabled]="!isInHistory">
-        <mat-icon>arrow_right</mat-icon>
+        <mat-icon>redo</mat-icon>
       </button>
-      <button mat-mini-fab
-              color="primary"
+      <button mat-icon-button
               (click)="cancel()"
               matTooltip="Return to game"
               [disabled]="!isInHistory">

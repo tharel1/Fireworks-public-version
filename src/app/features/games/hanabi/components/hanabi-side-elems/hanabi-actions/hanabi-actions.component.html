@@ -1,7 +1,7 @@
 <mat-card>
   <mat-card-content class="hanabi-actions">
     <button mat-icon-button
-            color=""
+            matTooltip="Vision"
             (mousedown)="showImpossibleClues()"
             (mouseup)="hideImpossibleClues()"
             (mouseleave)="hideImpossibleClues()">
@@ -9,19 +9,17 @@
     </button>
     <mat-divider [vertical]="true"/>
     <button mat-icon-button
-            color=""
             [disabled]="true">
       <mat-icon>auto_fix_off</mat-icon>
     </button>
     <mat-divider [vertical]="true"/>
     <button mat-icon-button
-            color=""
             [disabled]="true">
       <mat-icon>question_mark</mat-icon>
     </button>
     <mat-divider [vertical]="true"/>
     <button mat-icon-button
-            color=""
+            matTooltip="Preferences"
             (click)="onPreferences()">
       <mat-icon>favorite</mat-icon>
     </button>

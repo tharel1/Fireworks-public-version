@@ -6,17 +6,33 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 
 // THEMING
+@include material.core();
+
 $my-primary: material.define-palette(palettes.$brown);
-$my-accent: material.define-palette(palettes.$yellow);
 $my-warn: material.define-palette(palettes.$deep-orange);
 
-$my-theme: material.define-dark-theme((
+$dark-theme: material.define-dark-theme((
   color: (
-    primary: $my-primary,
-    accent: $my-accent,
-    warn: $my-warn,
+    primary: material.define-palette(palettes.$brown),
+    accent: material.define-palette(palettes.$amber),
+    warn: material.define-palette(palettes.$deep-orange),
   ),
+  typography: material.define-typography-config(),
   density: 0,
 ));
 
-@include material.all-component-themes($my-theme);
+$light-theme: material.define-light-theme((
+  color: (
+    primary: material.define-palette(palettes.$brown),
+    accent: material.define-palette(palettes.$amber),
+    warn: material.define-palette(palettes.$deep-orange),
+  )
+));
+
+@include material.core-theme($dark-theme);
+@include material.all-component-themes($dark-theme);
+
+.light-theme {
+  @include material.core-color($light-theme);
+  @include material.all-component-colors($light-theme);
+}
