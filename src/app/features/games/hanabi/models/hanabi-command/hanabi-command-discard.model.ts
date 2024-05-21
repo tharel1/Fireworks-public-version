@@ -80,7 +80,7 @@ export class HanabiCommandDiscard extends HanabiCommand {
 
   checkError(game: HanabiGame): string {
     return game.hasMaxClues()
-      ? `You can't discard since the clue count has reached it's maximum.`
+      ? `Can't have more than ${game.settings.maxClues} clues.`
       : '';
   }
 

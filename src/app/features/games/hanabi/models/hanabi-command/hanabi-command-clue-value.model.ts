@@ -75,7 +75,7 @@ export class HanabiCommandClueValue extends HanabiCommand {
 
   checkError(game: HanabiGame): string {
     return game.clues === 0
-      ? `You can't give a clue since there is no clue left.`
+      ? `No clue left.`
       : '';
   }
 

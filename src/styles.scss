@@ -18,7 +18,7 @@ $dark-theme: material.define-dark-theme((
     warn: material.define-palette(palettes.$deep-orange),
   ),
   typography: material.define-typography-config(),
-  density: 0,
+  density: 0
 ));
 
 $light-theme: material.define-light-theme((

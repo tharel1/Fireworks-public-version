@@ -69,10 +69,10 @@ export class HanabiStateComponent implements OnChanges {
 
   protected onCommand(command: HanabiCommand): void {
     if (this.isInHistory)
-      return this.snackBarService.error(`You have to stop watching the history in order to play.`);
+      return this.snackBarService.error(`Please leave the history.`);
 
     if (!this.selfPlayer.playing)
-      return this.snackBarService.error(`You have to wait your turn in order to play.`);
+      return this.snackBarService.error(`It's not your turn.`);
 
     const error = command.checkError(this.game);
     if (error)
