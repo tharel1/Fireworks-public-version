@@ -1,7 +1,6 @@
 @use "styles/palettes";
 @use "styles/functions/colors";
 @use "styles/variables/hanabi";
-@use "styles";
 
 .hanabi-marker {
   width: hanabi.$marker-width;
@@ -11,7 +10,7 @@
   box-sizing: border-box;
   cursor: pointer;
   color: white;
-  background-color: colors.from-palette(styles.$my-primary);
+  background-color: colors.from-palette(palettes.$grey);
   font-size: small;
 
   &:hover {

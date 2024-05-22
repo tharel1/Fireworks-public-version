@@ -1,5 +1,5 @@
 @use "styles/functions/colors";
-@use "styles/palettes";
+@use "styles";
 
 .toolbar {
   display: flex;
@@ -14,8 +14,4 @@
       gap: 5px
     }
   }
-}
-
-.active-link {
-  background-color: colors.from-palette(palettes.$brown, 800);
 }

@@ -1,16 +1,16 @@
 @use "styles/functions/colors";
 @use "styles/palettes";
-@use "styles";
 
 .player-bar {
   display: flex;
   flex-direction: row;
   margin-top: -16px;
   padding: 4px 0 0 8px;
+  color: white;
   background-color: colors.from-palette(palettes.$grey, 900);
   z-index: 2;
 
   &.playing {
-    background-color: colors.from-palette(styles.$my-primary);
+    background-color: colors.from-palette(palettes.$red);
   }
 }

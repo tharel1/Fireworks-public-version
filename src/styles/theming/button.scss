@@ -1,0 +1,11 @@
+@use "@angular/material";
+@use "styles/functions/colors";
+@use "sass:map";
+
+@mixin button-color($theme) {
+  .link-active {
+    $color-config: material.get-color-config($theme);
+    $primary: map.get($color-config, 'primary');
+    background-color: colors.from-palette($primary, 700);
+  }
+}

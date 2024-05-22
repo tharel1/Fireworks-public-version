@@ -5,7 +5,8 @@
   width: 15px;
   height: 15px;
   border-radius: 15px;
-  background-color: colors.from-palette(styles.$my-warn);
+  color: white;
+  background-color: colors.from-palette(styles.$warn);
   font-size: x-small;
   font-weight: 500;
 

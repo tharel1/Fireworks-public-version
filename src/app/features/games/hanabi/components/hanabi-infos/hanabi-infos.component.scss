@@ -67,7 +67,7 @@ $clue-gap: 5px;
       align-items: center;
 
       &.exploded {
-        border-color: colors.from-palette(styles.$my-warn);
+        border-color: colors.from-palette(styles.$warn);
         font-size: x-large;
       }
     }

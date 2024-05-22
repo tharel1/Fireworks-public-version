@@ -1,5 +1,5 @@
 @use "styles/functions/colors";
-@use "styles";
+@use "styles/palettes";
 
 .hanabi-commands {
   display: flex;
@@ -8,6 +8,6 @@
 
   .mat-divider {
     border-width: 4px;
-    border-color: colors.from-palette(styles.$my-primary);
+    border-color: colors.from-palette(palettes.$grey);
   }
 }
