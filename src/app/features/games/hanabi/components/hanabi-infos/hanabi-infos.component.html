@@ -16,11 +16,11 @@
   <div class="hanabi-infos-bombs"
        matTooltip="{{game.bombs}} bombs exploded"
        matTooltipPosition="right">
-    <div *ngFor="let _ of [].constructor(game.settings.maxBombs); let i=index"
+    <mat-card *ngFor="let _ of [].constructor(game.settings.maxBombs); let i=index"
          class="hanabi-infos-bombs-item"
          [class.exploded]="game.bombs > i">
       💥
-    </div>
+    </mat-card>
   </div>
 
 </div>

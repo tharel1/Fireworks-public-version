@@ -10,27 +10,27 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 @include material.core();
 
 $primary-dark: material.define-palette(palettes.$purple);
-$accent-dark:  material.define-palette(palettes.$lime);
-$warn:    material.define-palette(palettes.$deep-orange);
+$accent-dark: material.define-palette(palettes.$lime);
+$warn: material.define-palette(palettes.$deep-orange);
 
 $dark-theme: material.define-dark-theme((
   color: (
     primary: $primary-dark,
-    accent:  $accent-dark,
-    warn:    $warn,
+    accent: $accent-dark,
+    warn: $warn,
   ),
   typography: material.define-typography-config(),
   density: 0
 ));
 
 $primary-light: material.define-palette(palettes.$deep-purple);
-$accent-light:  material.define-palette(palettes.$amber);
+$accent-light: material.define-palette(palettes.$amber);
 
 $light-theme: material.define-light-theme((
   color: (
     primary: $primary-light,
-    accent:  $accent-light,
-    warn:    $warn,
+    accent: $accent-light,
+    warn: $warn,
   )
 ));
 

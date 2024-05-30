@@ -21,6 +21,7 @@
       height: hanabi.$card-height;
       box-shadow: hanabi.$card-shadow;
       border-radius: hanabi.$card-border-radius;
+      background-color: colors.from-palette(palettes.$grey, 800);
 
       .hanabi-card-content {
         display: flex;

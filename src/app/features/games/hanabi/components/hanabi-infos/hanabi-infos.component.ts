@@ -4,11 +4,12 @@ import {MatIcon} from "@angular/material/icon";
 import {MatTooltip} from "@angular/material/tooltip";
 import {HanabiGame} from "../../models/hanabi-game.model";
 import {Changes} from "../../../../../core/utils/changes.model";
+import {MatCard} from "@angular/material/card";
 
 @Component({
   selector: 'app-hanabi-infos',
   standalone: true,
-  imports: [CommonModule, MatIcon, MatTooltip],
+  imports: [CommonModule, MatIcon, MatTooltip, MatCard],
   templateUrl: './hanabi-infos.component.html',
   styleUrls: ['./hanabi-infos.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

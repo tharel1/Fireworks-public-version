@@ -2,7 +2,6 @@
 @use "styles/palettes";
 
 .hanabi-command {
-  background-color: colors.from-palette(palettes.$grey, 800);
   border-radius: 10px;
   box-sizing: border-box;
   cursor: pointer;
