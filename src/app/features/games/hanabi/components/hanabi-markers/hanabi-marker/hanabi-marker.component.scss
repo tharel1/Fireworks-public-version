@@ -1,4 +1,4 @@
-@use "styles/palettes";
+@use "styles/palettes-deprecated";
 @use "styles/functions/colors";
 @use "styles/variables/hanabi";
 
@@ -10,11 +10,11 @@
   box-sizing: border-box;
   cursor: pointer;
   color: white;
-  background-color: colors.from-palette(palettes.$grey);
+  background-color: colors.from-palette(palettes-deprecated.$grey);
   font-size: small;
 
   &:hover {
-    border: solid 1px colors.from-palette(palettes.$grey, 300);
+    border: solid 1px colors.from-palette(palettes-deprecated.$grey, 300);
   }
 
   display: flex;

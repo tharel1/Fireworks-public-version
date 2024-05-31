@@ -1,5 +1,5 @@
 @use "styles/functions/colors";
-@use "styles/palettes";
+@use "styles/palettes-deprecated";
 @use "styles/variables/hanabi";
 
 .hanabi-card-container {
@@ -21,7 +21,7 @@
       height: hanabi.$card-height;
       box-shadow: hanabi.$card-shadow;
       border-radius: hanabi.$card-border-radius;
-      background-color: colors.from-palette(palettes.$grey, 800);
+      background-color: colors.from-palette(palettes-deprecated.$grey, 800);
 
       .hanabi-card-content {
         display: flex;
@@ -46,7 +46,7 @@
         padding-top: 100px;
 
         .hanabi-card-icon {
-          color: colors.from-palette(palettes.$grey, 600);
+          color: colors.from-palette(palettes-deprecated.$grey, 600);
           transform: scale(2);
         }
       }

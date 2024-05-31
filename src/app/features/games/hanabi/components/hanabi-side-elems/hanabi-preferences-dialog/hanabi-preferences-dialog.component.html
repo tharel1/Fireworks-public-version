@@ -23,9 +23,9 @@
 
   </mat-dialog-content>
   <mat-dialog-actions>
-    <button mat-button
+    <button mat-stroked-button
             (click)="onCancel()">Cancel</button>
-    <button mat-button
+    <button mat-flat-button
             [disabled]="!formGroup.dirty"
             cdkFocusInitial
             [mat-dialog-close]="onSave()">Save</button>

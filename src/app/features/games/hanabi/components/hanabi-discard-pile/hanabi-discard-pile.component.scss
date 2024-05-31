@@ -1,5 +1,5 @@
 @use "styles/functions/colors";
-@use "styles/palettes";
+@use "styles/variables/hanabi";
 
 .hanabi-discardpile-card {
   position: absolute;
@@ -13,29 +13,28 @@
   .hanabi-discardpile-column {
     display: flex;
     flex-direction: column;
-    gap: 15px;
 
     .hanabi-discardpile-item {
       display: flex;
       gap: 10px;
-      min-height: 20px;
+      min-height: 30px;
       font-size: x-large;
     }
   }
 }
 
 .red {
-  color: colors.from-palette(palettes.$red);
+  color: hanabi.$red;
 }
 .yellow {
-  color: colors.from-palette(palettes.$amber);
+  color: hanabi.$yellow;
 }
 .green {
-  color: colors.from-palette(palettes.$green);
+  color: hanabi.$green;
 }
 .blue {
-  color: colors.from-palette(palettes.$light-blue);
+  color: hanabi.$blue;
 }
 .purple {
-  color: colors.from-palette(palettes.$deep-purple, 300);
+  color: hanabi.$purple;
 }

@@ -1,13 +1,31 @@
-<div class="hanabi-rooms">
-  <button class="hanabi-rooms-add" mat-raised-button color="primary" (click)="addRoom()" [disabled]="!!currentRoom">New room</button>
-  <mat-card *ngFor="let room of rooms">
-    <mat-card-content class="hanabi-rooms-content">
-      <button mat-raised-button color="primary" (click)="joinRoom(room)" [disabled]="!!currentRoom" *ngIf="!isOwner()">Join</button>
-      <ng-container *ngIf="room.id === currentRoom?.id">
-        <button mat-raised-button color="primary" *ngIf="isOwner() && !starting$" (click)="start()">Start !</button>
-        <span *ngIf="starting$ | async as starting">Starting in {{starting-1}}...</span>
-      </ng-container>
-      <mat-icon *ngFor="let u of room.users" color="{{user.id === u.id ? 'warn' : ''}}" matTooltip="{{u.name}}">flag</mat-icon>
-    </mat-card-content>
-  </mat-card>
+<div class="hanabi-lobby">
+
+  <button class="hanabi-lobby-add" mat-flat-button (click)="addRoom()" [disabled]="!!currentRoom">New room</button>
+
+  <mat-divider></mat-divider>
+
+  <div class="hanabi-rooms">
+    <mat-card *ngFor="let room of rooms; let i = index" class="hanabi-room">
+      <mat-card-header>
+        <mat-card-title>Room {{i}}</mat-card-title>
+      </mat-card-header>
+
+      <mat-card-content>
+        <p class="hanabi-room-content">Players : <mat-icon *ngFor="let u of room.users" matTooltip="{{u.name}}">{{ u.equals(user) ? 'person' : 'person_outline' }}</mat-icon></p>
+        <mat-divider></mat-divider>
+      </mat-card-content>
+
+      <mat-card-actions>
+        <ng-container *ngIf="room.id === currentRoom?.id">
+          <button mat-flat-button *ngIf="isOwner() && !starting$" class="hanabi-room-actions" (click)="start()">Start !</button>
+          <button mat-button *ngIf="!isOwner() && !starting$" class="hanabi-room-actions">Leave</button>
+          <span *ngIf="starting$ | async as starting">Starting in {{starting-1}}...</span>
+        </ng-container>
+        <ng-container *ngIf="!currentRoom">
+          <button mat-stroked-button *ngIf="!isOwner() && !starting$" class="hanabi-room-actions" (click)="joinRoom(room)">Join</button>
+        </ng-container>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+
 </div>

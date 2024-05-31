@@ -3,15 +3,16 @@
 
   <span>Score: {{score}}/{{maxScore}}</span>
 
-  <div class="hanabi-infos-clues"
-       matTooltip="{{game.clues}} clues left"
-       matTooltipPosition="right">
-    <div *ngFor="let _ of [].constructor(game.settings.maxClues); let i=index"
-         class="hanabi-infos-clues-item"
-         [class.not-visible]="game.clues <= i">
-      <mat-icon>wb_sunny</mat-icon>
-    </div>
-  </div>
+  <mat-card matTooltip="{{game.clues}} clues left"
+            matTooltipPosition="right">
+    <mat-card-content class="hanabi-infos-clues">
+      <div *ngFor="let _ of [].constructor(game.settings.maxClues); let i=index"
+           class="hanabi-infos-clues-item"
+           [class.not-visible]="game.clues <= i">
+        💡
+      </div>
+    </mat-card-content>
+  </mat-card>
 
   <div class="hanabi-infos-bombs"
        matTooltip="{{game.bombs}} bombs exploded"

@@ -1,0 +1,19 @@
+@use "@angular/material";
+@use "styles/functions/colors";
+@use "sass:map";
+
+@mixin toolbar-color($theme) {
+  mat-toolbar {
+    @if material.get-theme-type($theme) == dark {
+      background-color: material.get-theme-color($theme, primary, 30);
+      button {
+        color: material.get-theme-color($theme, primary, 80);
+      }
+    } @else {
+      background-color: material.get-theme-color($theme, primary, 90);
+      button {
+        color: material.get-theme-color($theme, primary, 40);
+      }
+    }
+  }
+}

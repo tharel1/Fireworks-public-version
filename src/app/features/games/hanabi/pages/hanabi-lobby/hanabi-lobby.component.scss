@@ -1,16 +1,30 @@
-.hanabi-rooms {
+.hanabi-lobby {
   padding: 20px;
   display: flex;
   flex-direction: column;
   gap: 20px;
 
-  .hanabi-rooms-content {
-    display: flex;
-    align-items: center;
-    gap: 5px;
+  .hanabi-lobby-add {
+    width: fit-content;
   }
 
-  .hanabi-rooms-add {
-    width: 300px;
+  .hanabi-rooms {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+
+    .hanabi-room {
+      max-width: 400px;
+
+      .hanabi-room-content {
+        display: flex;
+        align-items: flex-end;
+        gap: 5px;
+      }
+
+      .hanabi-room-actions {
+        width: 100%;
+      }
+    }
   }
 }

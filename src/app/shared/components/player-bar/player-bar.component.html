@@ -1,6 +1,6 @@
-<mat-card class="player-bar" [class.playing]="playing">
+<div class="player-bar" [class.playing]="playing">
   <span>{{ name }}&nbsp;</span>
   <ng-container *ngIf="playing">
     ⌛<span *ngFor="let i of [].constructor(((beat$ | async)??0)%4)">.</span>
   </ng-container>
-</mat-card>
+</div>

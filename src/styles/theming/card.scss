@@ -1,0 +1,14 @@
+@use "@angular/material";
+@use "styles/functions/colors";
+@use "sass:map";
+
+@mixin card-color($theme) {
+  mat-card {
+    border: none;
+    @if material.get-theme-type($theme) == dark {
+      background-color: material.get-theme-color($theme, neutral, 24);
+    } @else {
+      background-color: material.get-theme-color($theme, neutral, 90);
+    }
+  }
+}

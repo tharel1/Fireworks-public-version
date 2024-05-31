@@ -43,8 +43,7 @@ export class NavbarComponent implements OnChanges {
     this.currentTheme = this.themingService.getCurrentTheme();
   }
 
-  setCurrentTheme(currentTheme: Theme): void {
-    if (this.currentTheme === currentTheme) return;
+  toggleTheme(): void {
     this.themingService.toggleTheme();
     this.currentTheme = this.themingService.getCurrentTheme();
   }

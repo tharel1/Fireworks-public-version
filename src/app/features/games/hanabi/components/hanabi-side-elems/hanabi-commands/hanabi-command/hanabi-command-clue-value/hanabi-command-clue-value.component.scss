@@ -1,6 +1,6 @@
 @use "styles/functions/colors";
-@use "styles/palettes";
+@use "styles/palettes-deprecated";
 
 .clue-value {
-  color: colors.from-palette(palettes.$grey, 500);
+  color: colors.from-palette(palettes-deprecated.$grey, 500);
 }

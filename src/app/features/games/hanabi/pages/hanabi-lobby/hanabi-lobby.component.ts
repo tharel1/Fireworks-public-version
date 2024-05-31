@@ -15,13 +15,14 @@ import {UserStore} from "../../../../../core/stores/user.store";
 import {SocketService} from "../../../../../core/sockets/socket.service";
 import {HanabiSettings} from "../../models/hanabi-settings.model";
 import {HanabiCard} from "../../models/hanabi-card.model";
+import {MatDivider} from "@angular/material/divider";
 
 @Component({
   selector: 'app-hanabi-lobby',
   templateUrl: './hanabi-lobby.component.html',
   styleUrls: ['./hanabi-lobby.component.scss'],
   standalone: true,
-  imports: [CommonModule, MatCardModule, MatIconModule, MatButtonModule, MatTooltipModule],
+  imports: [CommonModule, MatCardModule, MatIconModule, MatButtonModule, MatTooltipModule, MatDivider],
 })
 export class HanabiLobbyComponent implements OnInit, OnDestroy {
 

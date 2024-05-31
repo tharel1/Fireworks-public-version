@@ -1,16 +1,19 @@
 @use "styles/functions/colors";
-@use "styles/palettes";
+@use "styles/palettes-deprecated";
 
 .player-bar {
-  display: flex;
-  flex-direction: row;
+  position: relative;
   margin-top: -16px;
-  padding: 4px 0 0 8px;
+  padding: 4px 8px;
+  border-radius: 5px;
   color: white;
-  background-color: colors.from-palette(palettes.$grey, 900);
+  background-color: dimgrey;
   z-index: 2;
 
+  display: flex;
+  align-items: baseline;
+
   &.playing {
-    background-color: colors.from-palette(palettes.$red);
+    background-color: saddlebrown;
   }
 }

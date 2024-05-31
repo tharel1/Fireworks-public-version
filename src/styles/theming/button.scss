@@ -4,8 +4,10 @@
 
 @mixin button-color($theme) {
   .link-active {
-    $color-config: material.get-color-config($theme);
-    $primary: map.get($color-config, 'primary');
-    background-color: colors.from-palette($primary, 700);
+    @if material.get-theme-type($theme) == dark {
+      background-color: material.get-theme-color($theme, primary, 35);
+    } @else {
+      background-color: material.get-theme-color($theme, primary, 80);
+    }
   }
 }

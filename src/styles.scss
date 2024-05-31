@@ -1,47 +1,52 @@
 @use "@angular/material";
-@use "styles/palettes";
+@use "styles/palettes-deprecated";
+@use "styles/theming/toolbar";
 @use "styles/theming/button";
+@use "styles/theming/card";
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body { margin: 0; font-family: ABeeZee, "Helvetica Neue", sans-serif; }
 
 
 // THEMING
 @include material.core();
 
-$primary-dark: material.define-palette(palettes.$purple);
-$accent-dark: material.define-palette(palettes.$lime);
-$warn: material.define-palette(palettes.$deep-orange);
-
-$dark-theme: material.define-dark-theme((
+$dark-theme: material.define-theme((
   color: (
-    primary: $primary-dark,
-    accent: $accent-dark,
-    warn: $warn,
+    theme-type: dark,
+    primary: material.$orange-palette
   ),
-  typography: material.define-typography-config(),
-  density: 0
-));
-
-$primary-light: material.define-palette(palettes.$deep-purple);
-$accent-light: material.define-palette(palettes.$amber);
-
-$light-theme: material.define-light-theme((
-  color: (
-    primary: $primary-light,
-    accent: $accent-light,
-    warn: $warn,
+  typography: (
+    plain-family: "ABeeZee",
+    brand-family: "ABeeZee"
   )
 ));
+
+$light-theme: material.define-theme((
+  color: (
+    theme-type: light,
+    primary: material.$orange-palette
+  ),
+  typography: (
+    plain-family: "ABeeZee",
+    brand-family: "ABeeZee"
+  )
+));
+
+$warn: palettes-deprecated.$deep-orange;
 
 :root {
   @include material.core-theme($dark-theme);
   @include material.all-component-themes($dark-theme);
+  @include toolbar.toolbar-color($dark-theme);
   @include button.button-color($dark-theme);
+  @include card.card-color($dark-theme);
 
   .light-theme {
     @include material.core-color($light-theme);
     @include material.all-component-colors($light-theme);
+    @include toolbar.toolbar-color($light-theme);
     @include button.button-color($light-theme);
+    @include card.card-color($light-theme);
   }
 }

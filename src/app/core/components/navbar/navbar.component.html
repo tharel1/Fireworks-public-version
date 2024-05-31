@@ -1,19 +1,20 @@
-<mat-toolbar color="primary" class="toolbar">
+<mat-toolbar class="toolbar">
   <div class="toolbar-item">
     <button mat-icon-button
             matTooltip="menu">
       <mat-icon>menu</mat-icon>
     </button>
-    <button mat-button [routerLink]="'/'">
+    <button mat-button color='primary' [routerLink]="'/'">
       <span class="toolbar-title">
-        <img ngSrc="../../../../assets/images/fireworks.png" height="25" width="25" alt="">fireworks
+        <mat-icon>auto_awesome</mat-icon>
+        fireworks
       </span>
     </button>
-    <a mat-button [routerLink]="'/games/hanabi'" [routerLinkActive]="'link-active'">Hanabi</a>
+    <button mat-button color='primary' [routerLink]="'/games/hanabi'" [routerLinkActive]="'link-active'">Hanabi</button>
   </div>
   <div class="toolbar-item">
     <button mat-icon-button
-            [matMenuTriggerFor]="theme"
+            (click)="toggleTheme()"
             [matTooltip]="currentTheme === Theme.LIGHT ? 'Light mode' : 'Dark mode'">
       <mat-icon>{{ currentTheme === Theme.LIGHT ? 'light_mode' : 'dark_mode' }}</mat-icon>
     </button>
@@ -27,14 +28,3 @@
     </button>
   </div>
 </mat-toolbar>
-
-<mat-menu #theme>
-  <button mat-menu-item (click)="setCurrentTheme(Theme.LIGHT)">
-    <mat-icon>light_mode</mat-icon>
-    Light mode
-  </button>
-  <button mat-menu-item (click)="setCurrentTheme(Theme.DARK)">
-    <mat-icon>dark_mode</mat-icon>
-    Dark mode
-  </button>
-</mat-menu>

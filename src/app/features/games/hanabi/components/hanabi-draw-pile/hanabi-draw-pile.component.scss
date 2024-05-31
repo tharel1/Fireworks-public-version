@@ -1,5 +1,5 @@
 @use "styles/functions/colors";
-@use "styles/palettes";
+@use "styles/palettes-deprecated";
 @use "styles/variables/hanabi";
 
 .hanabi-drawpile {
@@ -23,7 +23,7 @@
   }
 
   .hanabi-drawpile-size {
-    color: colors.from-palette(palettes.$grey, 300);
+    color: colors.from-palette(palettes-deprecated.$grey, 300);
     font-size: xxx-large;
     z-index: 2;
     transform: translateY(-60px);
