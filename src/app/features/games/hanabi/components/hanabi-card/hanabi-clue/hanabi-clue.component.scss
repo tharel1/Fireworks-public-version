@@ -1,39 +1,38 @@
 @use "styles/variables/hanabi";
-@use "styles/functions/colors";
-@use "styles/palettes-deprecated";
 
-.hanabi-clue {
-  height: hanabi.$card-clue-height;
-  margin: 0 2px 0 2px;
-  border-radius: hanabi.$card-border-radius;
-  background-color: colors.from-palette(palettes-deprecated.$grey, 700);
-  transition: transform 250ms ease-out;
+mat-card {
+  &.hanabi-clue {
+    height: hanabi.$card-clue-height;
+    margin: 0 2px 0 2px;
+    border-radius: hanabi.$card-border-radius;
+    transition: transform 250ms ease-out;
 
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: baseline;
 
-  color: black;
-  padding: 12px 10px;
-  font-size: xx-large;
+    padding: 4px 10px;
+    font-size: xx-large;
 
-  &.active {
-    transform: translateY(- hanabi.$card-clue-height-visible);
+    &.active {
+      transform: translateY(- hanabi.$card-clue-height-visible);
+    }
+
+    &.red {
+      background-color: hanabi.$red;
+    }
+    &.yellow {
+      background-color: hanabi.$yellow;
+    }
+    &.green {
+      background-color: hanabi.$green;
+    }
+    &.blue {
+      background-color: hanabi.$blue;
+    }
+    &.purple {
+      background-color: hanabi.$purple;
+    }
   }
-}
-
-.red {
-  background-color: hanabi.$red;
-}
-.yellow {
-  background-color: hanabi.$yellow;
-}
-.green {
-  background-color: hanabi.$green;
-}
-.blue {
-  background-color: hanabi.$blue;
-}
-.purple {
-  background-color: hanabi.$purple;
 }

@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
 import {MatCard, MatCardContent} from "@angular/material/card";
-import {CommonModule} from "@angular/common";
+import {CommonModule, NgOptimizedImage} from "@angular/common";
 import {HanabiCard} from "../../models/hanabi-card.model";
 import {MatIcon} from "@angular/material/icon";
 import {MatMenu, MatMenuContent, MatMenuItem, MatMenuTrigger} from "@angular/material/menu";
@@ -35,6 +35,7 @@ import {HanabiImpossibleCluesComponent} from "./hanabi-impossible-clues/hanabi-i
     MatMenuContent,
     HanabiCriticalComponent,
     HanabiImpossibleCluesComponent,
+    NgOptimizedImage,
   ],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush

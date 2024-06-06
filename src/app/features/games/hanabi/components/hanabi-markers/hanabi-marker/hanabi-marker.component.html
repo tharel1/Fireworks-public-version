@@ -1,4 +1,6 @@
-<div class="hanabi-marker"
-     [class]="marker.color">
+<mat-card class="hanabi-marker color-secondary-inverse"
+          [class]="marker.color"
+          matRipple
+          [matRippleRadius]="18">
   {{ marker.value }}
-</div>
+</mat-card>

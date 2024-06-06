@@ -8,6 +8,8 @@ import {HanabiCard} from "../../../models/hanabi-card.model";
 import {HanabiMarkerChipComponent} from "../hanabi-marker-chip/hanabi-marker-chip.component";
 import {MatDivider} from "@angular/material/divider";
 import {HanabiSettings} from "../../../models/hanabi-settings.model";
+import {MatCard} from "@angular/material/card";
+import {MatRipple} from "@angular/material/core";
 
 @Component({
   selector: 'app-hanabi-marker-button',
@@ -19,6 +21,8 @@ import {HanabiSettings} from "../../../models/hanabi-settings.model";
     MatMenuContent,
     HanabiMarkerChipComponent,
     MatDivider,
+    MatCard,
+    MatRipple,
   ],
   templateUrl: './hanabi-marker-button.component.html',
   styleUrl: './hanabi-marker-button.component.scss',

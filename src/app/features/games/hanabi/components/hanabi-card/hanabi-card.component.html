@@ -7,21 +7,21 @@
                      [valueClue]="card.valueClue"
                      [colorClue]="card.colorClue"/>
 
-    <mat-card class="hanabi-card-content-container"
-              [matMenuTriggerFor]="clickable ? (visible ? clueMenu : playMenu) : null">
+    <mat-card class="hanabi-card-content-container color-variant"
+              [matMenuTriggerFor]="clickable ? (visible ? clueMenu : playMenu) : null"
+              [class]="visible ? card.color : ''">
 
       <mat-card-content *ngIf="!visible"
                         class="hanabi-card-content-invisible">
-        <mat-icon *ngIf="!showImpossibleClues"
-                  class="hanabi-card-icon">auto_awesome</mat-icon>
+        <img *ngIf="!showImpossibleClues"
+             [ngSrc]="'assets/images/hanabi/fireworks-background.png'" alt="" height="240" width="240">
       </mat-card-content>
 
       <mat-card-content *ngIf="visible"
-                        class="hanabi-card-content"
-                        [class]="card.color">
-        <span class="hanabi-card-value"><b>{{ card.value }}</b></span>
-        <mat-icon *ngIf="!showImpossibleClues"
-                  class="hanabi-card-icon">auto_awesome</mat-icon>
+                        class="hanabi-card-content">
+        <span class="hanabi-card-value">{{ card.value }}</span>
+        <img *ngIf="!showImpossibleClues"
+             [ngSrc]="'assets/images/hanabi/fireworks-' + card.value + '-' + card.color + '.png'" alt="" height="210" width="210">
       </mat-card-content>
     </mat-card>
 

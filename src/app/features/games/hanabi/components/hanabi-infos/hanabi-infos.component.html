@@ -18,8 +18,9 @@
        matTooltip="{{game.bombs}} bombs exploded"
        matTooltipPosition="right">
     <mat-card *ngFor="let _ of [].constructor(game.settings.maxBombs); let i=index"
-         class="hanabi-infos-bombs-item"
-         [class.exploded]="game.bombs > i">
+              class="hanabi-infos-bombs-item"
+              [class]="game.bombs > i ? 'color-error' : ''"
+              [class.exploded]="game.bombs > i">
       💥
     </mat-card>
   </div>

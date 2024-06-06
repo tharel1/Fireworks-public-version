@@ -1,6 +1,6 @@
-<div class="player-bar" [class.playing]="playing">
+<mat-card class="player-bar" [class]="playing ? 'color-primary-inverse' : 'color-primary'">
   <span>{{ name }}&nbsp;</span>
   <ng-container *ngIf="playing">
     ⌛<span *ngFor="let i of [].constructor(((beat$ | async)??0)%4)">.</span>
   </ng-container>
-</div>
+</mat-card>

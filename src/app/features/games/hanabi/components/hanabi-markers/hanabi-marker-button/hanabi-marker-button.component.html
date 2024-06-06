@@ -1,9 +1,11 @@
-<div class="hanabi-marker-button"
-     [matMenuTriggerFor]="menu"
-     (menuOpened)="onMenuOpen()"
-     (menuClosed)="onMenuClose()">
+<mat-card class="hanabi-marker-button color-variant"
+          [matMenuTriggerFor]="menu"
+          (menuOpened)="onMenuOpen()"
+          (menuClosed)="onMenuClose()"
+          matRipple
+          [matRippleRadius]="18">
   <span *ngIf="visible">+</span>
-</div>
+</mat-card>
 
 <mat-menu #menu>
   <ng-template matMenuContent>

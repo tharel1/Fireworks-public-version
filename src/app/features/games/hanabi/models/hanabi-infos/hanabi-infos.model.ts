@@ -60,7 +60,7 @@ export class HanabiInfos implements ValueObject {
     return settings.colors.flatMap(color =>
       settings.values().map(i => HanabiCardInfos.builder()
         .withCard(HanabiCard.builder()
-          .withValue(i+1)
+          .withValue(i)
           .withColor(color)
           .build())
         .build())).toSet();

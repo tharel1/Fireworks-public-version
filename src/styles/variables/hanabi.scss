@@ -1,5 +1,4 @@
-@use "styles/functions/colors";
-@use "styles/palettes-deprecated";
+@use "styles/palettes";
 
 $card-width: 76px;
 $card-height: 220px;
@@ -13,9 +12,10 @@ $card-clue-height: $card-clue-height-visible + $card-clue-height-trim;
 
 $marker-width: 26px;
 $marker-height: 18px;
+$marker-radius: 8px;
 
-$red: colors.from-palette(palettes-deprecated.$red);
-$yellow: colors.from-palette(palettes-deprecated.$amber);
-$green: colors.from-palette(palettes-deprecated.$green);
-$blue: colors.from-palette(palettes-deprecated.$light-blue);
-$purple: colors.from-palette(palettes-deprecated.$deep-purple, 300);
+$red: palettes.$red;
+$yellow: palettes.$yellow;
+$green: palettes.$green;
+$blue: palettes.$blue;
+$purple: palettes.$purple;

@@ -1,12 +1,9 @@
 @use "styles/variables/hanabi";
-@use "styles/functions/colors";
-@use "styles/palettes-deprecated";
 
 .hanabi-marker-chip {
   box-sizing: border-box;
 
   &.mat-mdc-standard-chip {
-    border: solid 2px colors.from-palette(palettes-deprecated.$grey);
     &.red {
       border-color: hanabi.$red;
     }

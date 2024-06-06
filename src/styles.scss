@@ -1,5 +1,5 @@
 @use "@angular/material";
-@use "styles/palettes-deprecated";
+@use "styles/palettes";
 @use "styles/theming/toolbar";
 @use "styles/theming/button";
 @use "styles/theming/card";
@@ -14,7 +14,8 @@ body { margin: 0; font-family: ABeeZee, "Helvetica Neue", sans-serif; }
 $dark-theme: material.define-theme((
   color: (
     theme-type: dark,
-    primary: material.$orange-palette
+    primary: material.$orange-palette,
+    tertiary: palettes.$tertiary
   ),
   typography: (
     plain-family: "ABeeZee",
@@ -25,15 +26,14 @@ $dark-theme: material.define-theme((
 $light-theme: material.define-theme((
   color: (
     theme-type: light,
-    primary: material.$orange-palette
+    primary: material.$orange-palette,
+    tertiary: palettes.$tertiary
   ),
   typography: (
     plain-family: "ABeeZee",
     brand-family: "ABeeZee"
   )
 ));
-
-$warn: palettes-deprecated.$deep-orange;
 
 :root {
   @include material.core-theme($dark-theme);

@@ -1,5 +1,3 @@
-@use "styles/functions/colors";
-@use "styles/palettes-deprecated";
 @use "styles/variables/hanabi";
 
 .hanabi-card-container {
@@ -21,33 +19,33 @@
       height: hanabi.$card-height;
       box-shadow: hanabi.$card-shadow;
       border-radius: hanabi.$card-border-radius;
-      background-color: colors.from-palette(palettes-deprecated.$grey, 800);
 
       .hanabi-card-content {
         display: flex;
         flex-direction: column;
         align-items: center;
         gap: 10px;
+        overflow: hidden;
 
         .hanabi-card-value {
-          font-size: 4em;
+          font-family: "Satisfy", cursive;
+          font-size: 6em;
           line-height: 1;
         }
 
-        .hanabi-card-icon {
-          transform: scale(1.5);
+        img {
+          position: relative;
+          top: -45px;
         }
       }
 
       .hanabi-card-content-invisible {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding-top: 100px;
+        overflow: hidden;
 
-        .hanabi-card-icon {
-          color: colors.from-palette(palettes-deprecated.$grey, 600);
-          transform: scale(2);
+        img {
+          position: relative;
+          top: -45px;
+          left: -75px;
         }
       }
     }
@@ -60,8 +58,8 @@
 
     app-hanabi-critical {
       position: absolute;
-      top: 206px;
-      left: 58px;
+      top: 62px;
+      left: 59px;
     }
 
     app-hanabi-impossible-clues {

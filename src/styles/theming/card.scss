@@ -1,5 +1,4 @@
 @use "@angular/material";
-@use "styles/functions/colors";
 @use "sass:map";
 
 @mixin card-color($theme) {
@@ -9,6 +8,121 @@
       background-color: material.get-theme-color($theme, neutral, 24);
     } @else {
       background-color: material.get-theme-color($theme, neutral, 90);
+    }
+  }
+
+  mat-card {
+    &.color-variant {
+      border: none;
+      @if material.get-theme-type($theme) == dark {
+        background-color: material.get-theme-color($theme, neutral-variant, 25);
+      } @else {
+        background-color: material.get-theme-color($theme, neutral-variant, 90);
+      }
+    }
+  }
+
+  mat-card {
+    &.color-primary {
+      border: none;
+      @if material.get-theme-type($theme) == dark {
+        background-color: material.get-theme-color($theme, primary, 30);
+        color: material.get-theme-color($theme, primary, 90);
+      } @else {
+        background-color: material.get-theme-color($theme, primary, 80);
+        color: material.get-theme-color($theme, primary, 10);
+      }
+    }
+  }
+
+  mat-card {
+    &.color-secondary {
+      border: none;
+      @if material.get-theme-type($theme) == dark {
+        background-color: material.get-theme-color($theme, secondary, 30);
+        color: material.get-theme-color($theme, secondary, 90);
+      } @else {
+        background-color: material.get-theme-color($theme, secondary, 80);
+        color: material.get-theme-color($theme, secondary, 10);
+      }
+    }
+  }
+
+  mat-card {
+    &.color-tertiary {
+      border: none;
+      @if material.get-theme-type($theme) == dark {
+        background-color: material.get-theme-color($theme, tertiary, 30);
+        color: material.get-theme-color($theme, tertiary, 90);
+      } @else {
+        background-color: material.get-theme-color($theme, tertiary, 80);
+        color: material.get-theme-color($theme, tertiary, 10);
+      }
+    }
+  }
+
+  mat-card {
+    &.color-error {
+      border: none;
+      @if material.get-theme-type($theme) == dark {
+        background-color: material.get-theme-color($theme, error, 30);
+        color: material.get-theme-color($theme, error, 90);
+      } @else {
+        background-color: material.get-theme-color($theme, error, 80);
+        color: material.get-theme-color($theme, error, 10);
+      }
+    }
+  }
+
+  mat-card {
+    &.color-primary-inverse {
+      border: none;
+      @if material.get-theme-type($theme) == dark {
+        background-color: material.get-theme-color($theme, primary, 80);
+        color: material.get-theme-color($theme, primary, 20);
+      } @else {
+        background-color: material.get-theme-color($theme, primary, 40);
+        color: material.get-theme-color($theme, primary, 100);
+      }
+    }
+  }
+
+  mat-card {
+    &.color-secondary-inverse {
+      border: none;
+      @if material.get-theme-type($theme) == dark {
+        background-color: material.get-theme-color($theme, secondary, 80);
+        color: material.get-theme-color($theme, secondary, 20);
+      } @else {
+        background-color: material.get-theme-color($theme, secondary, 40);
+        color: material.get-theme-color($theme, secondary, 100);
+      }
+    }
+  }
+
+  mat-card {
+    &.color-tertiary-inverse {
+      border: none;
+      @if material.get-theme-type($theme) == dark {
+        background-color: material.get-theme-color($theme, tertiary, 80);
+        color: material.get-theme-color($theme, tertiary, 20);
+      } @else {
+        background-color: material.get-theme-color($theme, tertiary, 40);
+        color: material.get-theme-color($theme, tertiary, 100);
+      }
+    }
+  }
+
+  mat-card {
+    &.color-error-inverse {
+      border: none;
+      @if material.get-theme-type($theme) == dark {
+        background-color: material.get-theme-color($theme, error, 80);
+        color: material.get-theme-color($theme, error, 20);
+      } @else {
+        background-color: material.get-theme-color($theme, error, 40);
+        color: material.get-theme-color($theme, error, 100);
+      }
     }
   }
 }

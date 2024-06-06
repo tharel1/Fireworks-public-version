@@ -1,19 +1,10 @@
-@use "styles/functions/colors";
-@use "styles/palettes-deprecated";
-
 .player-bar {
-  position: relative;
   margin-top: -16px;
   padding: 4px 8px;
   border-radius: 5px;
-  color: white;
-  background-color: dimgrey;
   z-index: 2;
 
   display: flex;
+  flex-direction: row;
   align-items: baseline;
-
-  &.playing {
-    background-color: saddlebrown;
-  }
 }

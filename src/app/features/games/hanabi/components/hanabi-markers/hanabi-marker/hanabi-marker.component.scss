@@ -1,39 +1,33 @@
-@use "styles/palettes-deprecated";
-@use "styles/functions/colors";
 @use "styles/variables/hanabi";
 
-.hanabi-marker {
-  width: hanabi.$marker-width;
-  height: hanabi.$marker-height;
-  box-shadow: -1px -1px 1px 0 rgba(0,0,0,.2);
-  border-radius: 8px;
-  box-sizing: border-box;
-  cursor: pointer;
-  color: white;
-  background-color: colors.from-palette(palettes-deprecated.$grey);
-  font-size: small;
+mat-card {
+  &.hanabi-marker {
+    width: hanabi.$marker-width;
+    height: hanabi.$marker-height;
+    border-radius: hanabi.$marker-radius;
+    cursor: pointer;
+    font-size: small;
+    line-height: 0;
+    color: white;
 
-  &:hover {
-    border: solid 1px colors.from-palette(palettes-deprecated.$grey, 300);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &.red {
+      background-color: hanabi.$red;
+    }
+    &.yellow {
+      background-color: hanabi.$yellow;
+    }
+    &.green {
+      background-color: hanabi.$green;
+    }
+    &.blue {
+      background-color: hanabi.$blue;
+    }
+    &.purple {
+      background-color: hanabi.$purple;
+    }
   }
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.red {
-  background-color: hanabi.$red;
-}
-.yellow {
-  background-color: hanabi.$yellow;
-}
-.green {
-  background-color: hanabi.$green;
-}
-.blue {
-  background-color: hanabi.$blue;
-}
-.purple {
-  background-color: hanabi.$purple;
 }

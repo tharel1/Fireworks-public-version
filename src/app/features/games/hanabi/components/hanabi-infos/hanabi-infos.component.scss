@@ -1,6 +1,3 @@
-@use "styles/functions/colors";
-@use "styles";
-
 $bomb-number: 3;
 $bomb-size: 50px;
 $bomb-gap: 10px;
@@ -49,7 +46,6 @@ $bomb-gap: 10px;
       align-items: center;
 
       &.exploded {
-        border: solid 2px colors.from-palette(styles.$warn);
         font-size: x-large;
       }
     }

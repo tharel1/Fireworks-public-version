@@ -1,21 +1,13 @@
-@use "styles/functions/colors";
-@use "styles/palettes-deprecated";
 @use "styles/variables/hanabi";
 
 .hanabi-marker-button {
   width: hanabi.$marker-height;
   height: hanabi.$marker-height;
-  border-radius: 8px;
-  box-sizing: border-box;
+  border-radius: hanabi.$marker-radius;
   cursor: pointer;
-  color: colors.from-palette(palettes-deprecated.$grey, 600);
-  background-color: transparent;
 
   &:hover {
     width: hanabi.$marker-width;
-    border: solid 1px colors.from-palette(palettes-deprecated.$grey, 300);
-    color: colors.from-palette(palettes-deprecated.$grey, 300);
-    background-color: colors.from-palette(palettes-deprecated.$grey, 700);
   }
 
   display: flex;
