@@ -7,7 +7,7 @@
   .hanabi-card {
     display: flex;
     flex-direction: column;
-    cursor: default;
+    user-select: none;
     transition: transform 250ms ease-out;
 
     app-hanabi-clue {
