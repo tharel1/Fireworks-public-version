@@ -5,8 +5,7 @@ import {HanabiCommand} from "../../../models/hanabi-command/hanabi-command.model
 import {HanabiHistory} from "../../../models/hanabi-history.model";
 import {List} from "immutable";
 import {Changes} from "../../../../../../core/utils/changes.model";
-import {MatIcon} from "@angular/material/icon";
-import {MatDivider} from "@angular/material/divider";
+import {MatCard} from "@angular/material/card";
 
 @Component({
   selector: 'app-hanabi-commands',
@@ -14,8 +13,7 @@ import {MatDivider} from "@angular/material/divider";
   imports: [
     CommonModule,
     HanabiCommandComponent,
-    MatIcon,
-    MatDivider
+    MatCard
   ],
   templateUrl: './hanabi-commands.component.html',
   styleUrl: './hanabi-commands.component.scss',
