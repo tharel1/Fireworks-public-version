@@ -1,31 +1,23 @@
 @use "styles/variables/hanabi";
 
 .hanabi-marker-chip {
-  box-sizing: border-box;
+  min-width: 43px;
+  max-width: 58px;
 
-  &.mat-mdc-standard-chip {
-    &.red {
-      border-color: hanabi.$red;
-    }
-    &.yellow {
-      border-color: hanabi.$yellow;
-    }
-    &.green {
-      border-color: hanabi.$green;
-    }
-    &.blue {
-      border-color: hanabi.$blue;
-    }
-    &.purple {
-      border-color: hanabi.$purple;
-    }
-
-    ::ng-deep .mdc-evolution-chip__graphic {
-      width: 0;
-      .mdc-evolution-chip__checkmark {
-        opacity: 0;
-      }
-    }
+  &.red {
+    background-color: rgba(hanabi.$red, 0.25);
+  }
+  &.yellow {
+    background-color: rgba(hanabi.$yellow, 0.25);
+  }
+  &.green {
+    background-color: rgba(hanabi.$green, 0.25);
+  }
+  &.blue {
+    background-color: rgba(hanabi.$blue, 0.25);
+  }
+  &.purple {
+    background-color: rgba(hanabi.$purple, 0.25);
   }
 
   &.mat-mdc-standard-chip.mdc-evolution-chip--selected {
@@ -45,5 +37,4 @@
       background-color: hanabi.$purple;
     }
   }
-
 }

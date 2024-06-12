@@ -1,33 +1,36 @@
 <form [formGroup]="formGroup">
   <h2 mat-dialog-title>Preferences</h2>
-  <mat-dialog-content class="preferences-content">
-    <span class="content-description">You can use this panel to modify your preferences <mat-icon>favorite</mat-icon></span>
-    <mat-checkbox class="preferences-checkbox" [formControl]="formGroup.controls.showCritical">Show critical cards&nbsp;<app-tooltip-info [info]="'TODO'"></app-tooltip-info></mat-checkbox>
-    <mat-checkbox class="preferences-checkbox" [formControl]="formGroup.controls.markerCleaning">Enable marker cleaning (<mat-icon>bookmark_remove</mat-icon>)</mat-checkbox>
-    <mat-checkbox class="preferences-checkbox" [formControl]="formGroup.controls.markerSuggestions">Enable marker suggestions (&nbsp;<mat-icon>auto_fix_normal</mat-icon>)</mat-checkbox>
+  <mat-dialog-content>
+    <p>You can use this panel to modify your preferences</p>
+    <div class="preferences-checkbox-list">
+      <mat-checkbox class="preferences-checkbox" [formControl]="formGroup.controls.showCritical">Show critical cards&nbsp;<app-tooltip-info [info]="'TODO'"></app-tooltip-info></mat-checkbox>
+      <mat-checkbox class="preferences-checkbox" [formControl]="formGroup.controls.markerCleaning">Enable marker cleaning (<mat-icon>bookmark_remove</mat-icon>)</mat-checkbox>
+      <mat-checkbox class="preferences-checkbox" [formControl]="formGroup.controls.markerSuggestions">Enable marker suggestions (&nbsp;<mat-icon>auto_fix_normal</mat-icon>)</mat-checkbox>
+    </div>
 
-    Show critical cards
-
-    Show redundant clued cards
-
-    Enable marker suggestions
-    Resolve marker suggestions separately
+    <ul>
+      <li>Show critical cards</li>
+      <li>Show redundant clued cards</li>
+      <li>Enable marker suggestions</li>
+      <li>Resolve marker suggestions separately</li>
+    </ul>
     Suggestions :
-    - add marker with impossible clues
-    - add marker with visible cards
-    - add marker with the shrödinger principle
-    - add trash marker for trash cards
-    - remove incoherent markers
-
-    Enable temporal markers (???)
+    <ul>
+        <li>add marker with impossible clues</li>
+        <li>add marker with visible cards</li>
+        <li>add marker with the shrödinger principle</li>
+        <li>add trash marker for trash cards</li>
+        <li>remove incoherent markers</li>
+    </ul>
 
   </mat-dialog-content>
+
   <mat-dialog-actions>
     <button mat-stroked-button
-            (click)="onCancel()">Cancel</button>
+            mat-dialog-close>Cancel</button>
     <button mat-flat-button
-            [disabled]="!formGroup.dirty"
+            [mat-dialog-close]="onSave()"
             cdkFocusInitial
-            [mat-dialog-close]="onSave()">Save</button>
+            [disabled]="!formGroup.dirty">Save</button>
   </mat-dialog-actions>
 </form>

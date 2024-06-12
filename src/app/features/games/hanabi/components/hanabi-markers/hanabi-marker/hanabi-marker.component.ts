@@ -2,13 +2,17 @@ import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {HanabiMarker} from "../../../models/hanabi-marker.model";
 import {MatCard} from "@angular/material/card";
 import {MatRipple} from "@angular/material/core";
+import {MatTooltip} from "@angular/material/tooltip";
+import {MatBadge} from "@angular/material/badge";
 
 @Component({
   selector: 'app-hanabi-marker',
   standalone: true,
   imports: [
     MatCard,
-    MatRipple
+    MatRipple,
+    MatTooltip,
+    MatBadge
   ],
   templateUrl: './hanabi-marker.component.html',
   styleUrl: './hanabi-marker.component.scss',

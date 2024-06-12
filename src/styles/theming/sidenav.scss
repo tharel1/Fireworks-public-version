@@ -1,0 +1,21 @@
+@use "@angular/material";
+@use "sass:map";
+
+@mixin sidenav-color($theme) {
+  .mat-sidenav.mat-drawer {
+    &.type-side-sheet {
+      padding: 24px;
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+      border-left-color: var(--mat-divider-color);
+      .mat-drawer-inner-container {
+        overflow: unset;
+      }
+      @if material.get-theme-type($theme) == dark {
+        background-color: material.get-theme-color($theme, neutral, 10);
+      } @else {
+        background-color: material.get-theme-color($theme, neutral, 96);
+      }
+    }
+  }
+}

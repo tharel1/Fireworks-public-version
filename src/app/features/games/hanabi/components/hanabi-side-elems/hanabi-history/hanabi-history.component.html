@@ -3,8 +3,7 @@
     <mat-icon matBadge="!"
               [matBadgeHidden]="!isInHistory"
               aria-hidden="false"
-              matTooltip="You can't play while watching the history"
-              [matTooltipDisabled]="!isInHistory">history</mat-icon>
+              [matTooltip]="isInHistory ? 'You are watching the history' : 'History'">history</mat-icon>
     <mat-divider [vertical]="true"></mat-divider>
     <div class="hanabi-history-actions">
       <button mat-icon-button

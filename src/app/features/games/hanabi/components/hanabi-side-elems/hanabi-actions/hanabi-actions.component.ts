@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, HostListener, Input, Output} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, HostListener, Input, OnChanges, Output} from '@angular/core';
 import {MatCard, MatCardContent} from "@angular/material/card";
 import {MatDivider} from "@angular/material/divider";
 import {MatIcon} from "@angular/material/icon";
@@ -9,6 +9,8 @@ import {HanabiPreferences} from "../../../models/hanabi-preferences.model";
 import {CommonModule} from "@angular/common";
 import {HanabiAssistant} from "../../../models/hanabi-assistant.model";
 import {MatTooltip} from "@angular/material/tooltip";
+import {Changes} from "../../../../../../core/utils/changes.model";
+import {HanabiHint} from "../../../models/hanabi-hint.model";
 
 @Component({
   selector: 'app-hanabi-actions',
@@ -26,7 +28,7 @@ import {MatTooltip} from "@angular/material/tooltip";
   styleUrl: './hanabi-actions.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class HanabiActionsComponent {
+export class HanabiActionsComponent implements OnChanges {
 
   @Input() preferences: HanabiPreferences = HanabiPreferences.empty();
   @Input() assistant: HanabiAssistant = HanabiAssistant.empty();
@@ -34,19 +36,20 @@ export class HanabiActionsComponent {
   @Output() preferencesUpdate: EventEmitter<HanabiPreferences> = new EventEmitter<HanabiPreferences>();
   @Output() assistantUpdate: EventEmitter<HanabiAssistant> = new EventEmitter<HanabiAssistant>();
 
+  protected isWarningMarkers: boolean = false;
+
   constructor(
     public dialog: MatDialog
   ) {}
 
-  onPreferences(): void {
-    this.dialog.open(HanabiPreferencesDialogComponent, {data: this.preferences})
-      .afterClosed().subscribe((preferences: HanabiPreferences) => {
-        if (preferences) this.preferencesUpdate.emit(preferences);
-      });
+  ngOnChanges(changes: Changes<HanabiActionsComponent>): void {
+    if (changes.assistant) {
+      this.isWarningMarkers = this.assistant.hints.flatMap(h => h.markers).some(m => m.warning);
+    }
   }
 
   @HostListener('window:keydown.alt.v')
-  showImpossibleClues(): void {
+  protected showImpossibleClues(): void {
     if (this.assistant.showImpossibleClues) return;
 
     this.assistantUpdate.emit(HanabiAssistant.copy(this.assistant)
@@ -55,7 +58,7 @@ export class HanabiActionsComponent {
   }
 
   @HostListener('window:keyup', ['$event'])
-  hideImpossibleClues(event?: KeyboardEvent): void {
+  protected hideImpossibleClues(event?: KeyboardEvent): void {
     if (!this.assistant.showImpossibleClues) return;
 
     if (event && !event.altKey && event.key !== 'v') return;
@@ -63,5 +66,20 @@ export class HanabiActionsComponent {
     this.assistantUpdate.emit(HanabiAssistant.copy(this.assistant)
       .withShowImpossibleClues(false)
       .build());
+  }
+
+  protected onCleanMarkers(): void {
+    this.assistantUpdate.emit(HanabiAssistant.copy(this.assistant)
+      .withHints(this.assistant.hints.map(h => HanabiHint.copy(h)
+        .withMarkers(h.markers.filter(m => !m.warning))
+        .build()))
+      .build());
+  }
+
+  protected onPreferences(): void {
+    this.dialog.open(HanabiPreferencesDialogComponent, {data: this.preferences})
+      .afterClosed().subscribe((preferences: HanabiPreferences) => {
+      if (preferences) this.preferencesUpdate.emit(preferences);
+    });
   }
 }

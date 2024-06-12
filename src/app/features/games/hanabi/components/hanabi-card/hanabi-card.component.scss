@@ -108,6 +108,16 @@
   }
 }
 
+.selected {
+  &.hanabi-card-container {
+    .hanabi-card {
+      .hanabi-card-content-container {
+        border: solid 2px;
+      }
+    }
+  }
+}
+
 .faded {
   &.hanabi-card-container {
     opacity: 0;

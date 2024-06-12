@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
-import {HanabiCard} from "../../models/hanabi-card.model";
+import {HanabiCard} from "../../../models/hanabi-card.model";
 import {MatTooltip} from "@angular/material/tooltip";
 
 @Component({

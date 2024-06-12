@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {HanabiCommandDiscard} from "../../../../../models/hanabi-command/hanabi-command-discard.model";
 import {HanabiNumberPipe} from "../../../../../pipes/hanabi-number.pipe";
 import {UpperCasePipe} from "@angular/common";
-import {HanabiTinyCardComponent} from "../../../../hanabi-tiny-card/hanabi-tiny-card.component";
+import {HanabiTinyCardComponent} from "../../../../hanabi-card/hanabi-tiny-card/hanabi-tiny-card.component";
 
 @Component({
   selector: 'app-hanabi-command-discard',

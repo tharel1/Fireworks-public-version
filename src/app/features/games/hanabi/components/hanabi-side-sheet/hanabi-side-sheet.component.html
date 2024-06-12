@@ -1,0 +1,40 @@
+<div class="hanabi-side-sheet">
+  <div class="hanabi-side-sheet-title">
+    <span>Card details</span>
+    <button mat-icon-button (click)="onClose()"><mat-icon >close</mat-icon></button>
+  </div>
+
+  <div class="hanabi-side-sheet-markers">
+    <div class="hanabi-side-sheet-markers-title">
+      <span>Markers</span>
+      <button mat-icon-button matTooltip="Remove all" (click)="onRemoveMarkers()"><mat-icon >delete</mat-icon></button>
+    </div>
+    <div *ngFor="let markerRow of mainMarkerRows"
+         class="hanabi-side-sheet-markers-chips">
+      <app-hanabi-marker-chip *ngFor="let marker of markerRow"
+                              [marker]="marker"
+                              [selected]="isSelected(marker)"
+                              (click)="onMarkerChip(marker)"></app-hanabi-marker-chip>
+    </div>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>Others</mat-panel-title>
+      </mat-expansion-panel-header>
+      <div *ngFor="let markerRow of otherMarkerRows"
+           class="hanabi-side-sheet-markers-chips">
+        <app-hanabi-marker-chip *ngFor="let marker of markerRow"
+                                [marker]="marker"
+                                [selected]="isSelected(marker)"
+                                (click)="onMarkerChip(marker)"></app-hanabi-marker-chip>
+      </div>
+    </mat-expansion-panel>
+  </div>
+
+  <mat-divider *ngIf="isCritical && !hint.isInPovHand"></mat-divider>
+  <mat-card *ngIf="isCritical && !hint.isInPovHand" class="color-error-inverse">
+    <mat-card-content class="hanabi-side-sheet-critical">
+      <mat-icon>error</mat-icon>
+      <span>This card is critical</span>
+    </mat-card-content>
+  </mat-card>
+</div>

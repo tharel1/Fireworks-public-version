@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {HanabiMarker} from "../../../models/hanabi-marker.model";
 import {MatChipOption} from "@angular/material/chips";
 
@@ -15,12 +15,4 @@ import {MatChipOption} from "@angular/material/chips";
 export class HanabiMarkerChipComponent {
   @Input() marker: HanabiMarker = HanabiMarker.empty();
   @Input() selected: boolean = false;
-
-  @Output() selectMarker: EventEmitter<HanabiMarker> = new EventEmitter<HanabiMarker>();
-  @Output() deselectMarker: EventEmitter<HanabiMarker> = new EventEmitter<HanabiMarker>();
-
-  protected onClick(): void {
-    if (this.selected) this.deselectMarker.emit(this.marker);
-    else this.selectMarker.emit(this.marker);
-  }
 }

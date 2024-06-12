@@ -7,6 +7,7 @@
                    [visible]="visible"
                    [clickable]="true"
                    [small]="true"
+                   [selected]="cardWithInfos.selected"
                    [showCritical]="preferences.showCritical && visible"
                    [showMarkers]="true"
                    [showImpossibleClues]="assistant.showImpossibleClues"
@@ -14,5 +15,6 @@
                    (discard)="onDiscard($event)"
                    (clueColor)="onClueColor($event)"
                    (clueValue)="onClueValue($event)"
-                   (hintUpdate)="onHintUpdate($event)"/>
+                   (hintUpdate)="onHintUpdate($event)"
+                   (selectedCardUpdate)="onSelectedCardUpdate($event)"/>
 </div>

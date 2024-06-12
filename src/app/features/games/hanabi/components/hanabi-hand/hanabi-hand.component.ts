@@ -39,8 +39,9 @@ export class HanabiHandComponent implements OnChanges {
     if (changes.hand || changes.assistant) {
       this.cardsWithInfos = this.hand.map(c => ({
         card: c,
-        infos: this.infos.cards.find(s => s.card.isIdentical(c)) ?? HanabiCardInfos.empty(),
-        hint: this.assistant.hints.find(h => h.cardId === c.id) ?? HanabiHint.empty()
+        infos: this.infos.getCardInfoByCard(c),
+        hint: this.assistant.hints.find(h => h.cardId === c.id) ?? HanabiHint.empty(),
+        selected: this.assistant.selectedCardId === c.id
       }));
     }
   }
@@ -66,10 +67,17 @@ export class HanabiHandComponent implements OnChanges {
       .withHints(this.assistant.hints.map(h => h.cardId === hint.cardId ? hint : h))
       .build());
   }
+
+  protected onSelectedCardUpdate(card: HanabiCard): void {
+    this.assistantUpdate.emit(HanabiAssistant.copy(this.assistant)
+      .withSelectedCardId(this.assistant.selectedCardId === card.id ? undefined : card.id)
+      .build());
+  }
 }
 
 interface CardWithInfos {
   readonly card: HanabiCard,
   readonly infos: HanabiCardInfos,
-  readonly hint: HanabiHint
+  readonly hint: HanabiHint,
+  readonly selected: boolean
 }

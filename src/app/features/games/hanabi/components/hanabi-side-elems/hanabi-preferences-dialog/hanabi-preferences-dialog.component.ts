@@ -4,7 +4,6 @@ import {
   MatDialogActions,
   MatDialogClose,
   MatDialogContent,
-  MatDialogRef,
   MatDialogTitle
 } from "@angular/material/dialog";
 import {MatButton} from "@angular/material/button";
@@ -42,7 +41,6 @@ export class HanabiPreferencesDialogComponent {
 
   constructor(
     private fb: FormBuilder,
-    protected dialogRef: MatDialogRef<HanabiPreferencesDialogComponent>,
     @Inject(MAT_DIALOG_DATA) protected preferences: HanabiPreferences,
   ) {
     this.formGroup.patchValue({
@@ -50,10 +48,6 @@ export class HanabiPreferencesDialogComponent {
       markerCleaning: this.preferences.markerCleaning,
       markerSuggestions: this.preferences.markerSuggestions
     })
-  }
-
-  onCancel(): void {
-    this.dialogRef.close();
   }
 
   onSave(): HanabiPreferences | undefined {

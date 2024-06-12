@@ -4,6 +4,8 @@ import {HanabiCard} from "../hanabi-card.model";
 import {HanabiSettings} from "../hanabi-settings.model";
 import {HanabiGame} from "../hanabi-game.model";
 import {HanabiPlayer} from "../hanabi-player.model";
+import {User} from "../../../../users/models/user.model";
+import {HanabiMarker} from "../hanabi-marker.model";
 
 export class HanabiInfos implements ValueObject {
 
@@ -80,7 +82,9 @@ export class HanabiInfos implements ValueObject {
     return list.toSet();
   }
 
-  createPov(pov: HanabiPlayer): HanabiInfosFromPov {
+  createPov(currentUser: User): HanabiInfosFromPov {
+    const pov = this.game.players.find(p => p.user.equals(currentUser)) ?? HanabiPlayer.empty()
+
     const visibleCards = this.game.players
       .filter(p => !p.equals(pov))
       .flatMap(p => p.cards);
@@ -90,6 +94,15 @@ export class HanabiInfos implements ValueObject {
       .withCards(HanabiInfos.modifyCardInfos(this.cards, visibleCards, HanabiCardInfos.incrVisible))
       .withPov(pov)
       .build();
+  }
+
+  getCardInfoByCard(card: HanabiCard): HanabiCardInfos {
+    return this.cards.find(i => i.card.isIdentical(card)) ?? HanabiCardInfos.empty()
+  }
+
+  getCardInfoByMarker(marker: HanabiMarker): HanabiCardInfos {
+    const markerCard = HanabiCard.builder().withValue(+marker.value).withColor(marker.color ?? HanabiCard.Color.RED).build();
+    return this.getCardInfoByCard(markerCard);
   }
 
 }

@@ -2,9 +2,7 @@ import {List, Set, ValueObject} from "immutable";
 import {HanabiPlayer} from "./hanabi-player.model";
 import {HanabiCard} from "./hanabi-card.model";
 import {HanabiSettings} from "./hanabi-settings.model";
-import {HanabiHint} from "./hanabi-hint.model";
-import {HanabiAssistant} from "./hanabi-assistant.model";
-import { HanabiInfos } from "./hanabi-infos/internal";
+import {HanabiInfos} from "./hanabi-infos/internal";
 
 export class HanabiGame implements ValueObject {
 
@@ -152,14 +150,6 @@ export class HanabiGame implements ValueObject {
 
   createInfos(): HanabiInfos {
     return HanabiInfos.fromGame(this);
-  }
-
-  createAssistant(): HanabiAssistant {
-    return HanabiAssistant.builder()
-      .withHints(this.allCards().map(c => HanabiHint.builder()
-        .withCardId(c.id)
-        .build()))
-      .build();
   }
 
 }

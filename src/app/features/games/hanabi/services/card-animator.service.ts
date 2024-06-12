@@ -61,6 +61,7 @@ export class CardAnimator {
         const newPosition = this.getPosition(elem);
         elem.style.top = `${prevPosition.top - newPosition.top}px`;
         elem.style.left = `${prevPosition.left - newPosition.left}px`;
+        elem.style.zIndex = '2';
         timer(10+delay).subscribe(() => {
           elem.style.top = `0px`;
           elem.style.left = `0px`;
@@ -70,6 +71,7 @@ export class CardAnimator {
           this.saveAllCardPositions(state);
           elem.style.top = ``;
           elem.style.left = ``;
+          elem.style.zIndex = ``;
           elem.classList.remove('start-animation');
           if (fade) this.fadeElement(elem);
         });

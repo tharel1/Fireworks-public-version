@@ -1,12 +1,6 @@
-.preferences-content {
+.preferences-checkbox-list {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-
-  .content-description {
-    display: flex;
-    gap: 10px;
-  }
 
   ::ng-deep mat-checkbox {
     &.preferences-checkbox {

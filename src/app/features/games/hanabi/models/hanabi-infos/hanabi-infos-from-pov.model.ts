@@ -2,6 +2,9 @@ import {Set} from "immutable";
 import {HanabiPlayer} from "../hanabi-player.model";
 import {HanabiGame} from "../hanabi-game.model";
 import {HanabiCardInfos, HanabiInfos} from "./internal";
+import {HanabiAssistant} from "../hanabi-assistant.model";
+import {HanabiHint} from "../hanabi-hint.model";
+import {HanabiCard} from "../hanabi-card.model";
 
 export class HanabiInfosFromPov extends HanabiInfos {
 
@@ -32,6 +35,29 @@ export class HanabiInfosFromPov extends HanabiInfos {
       .withGame(HanabiGame.fromJson(json.game))
       .withCards(Set(json.cards).map(c => HanabiCardInfos.fromJson(c)))
       .withPov(HanabiPlayer.fromJson(json.pov))
+      .build();
+  }
+
+  allVisibleCards(): Set<HanabiCard> {
+    return Set.of(
+      ...this.game.drawPile,
+      ...this.game.board,
+      ...this.game.discardPile,
+      ...this.game.players.filter(p => !p.equals(this.pov)).flatMap(p => p.cards)
+    );
+  }
+
+  createAssistant(): HanabiAssistant {
+    return HanabiAssistant.builder()
+      .withHints(Set.of(
+        ...this.allVisibleCards().map(c => HanabiHint.builder()
+          .withCardId(c.id)
+          .build()),
+        ...this.pov.cards.map(c => HanabiHint.builder()
+          .withCardId(c.id)
+          .withIsInPovHand(true)
+          .build())
+        ))
       .build();
   }
 

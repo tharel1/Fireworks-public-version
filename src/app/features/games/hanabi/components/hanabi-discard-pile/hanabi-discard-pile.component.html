@@ -5,6 +5,9 @@
                  [noClues]="true"/>
 
 <mat-card>
+  <mat-card-header>
+    <mat-card-subtitle>Discard pile :</mat-card-subtitle>
+  </mat-card-header>
   <mat-card-content class="hanabi-discardpile">
     <div *ngFor="let _ of [].constructor(settings.maxValue); let value=index" class="hanabi-discardpile-column">
       <div *ngFor="let color of settings.colors" class="hanabi-discardpile-item">

@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, Component, Input, OnChanges} from '@angular/cor
 import {CommonModule} from '@angular/common';
 import {List, Map} from "immutable";
 import {HanabiCard} from "../../models/hanabi-card.model";
-import {MatCard, MatCardContent} from "@angular/material/card";
+import {MatCard, MatCardContent, MatCardHeader, MatCardSubtitle} from "@angular/material/card";
 import {Changes} from "../../../../../core/utils/changes.model";
 import {HanabiSettings} from "../../models/hanabi-settings.model";
 import {HanabiCardComponent} from "../hanabi-card/hanabi-card.component";
@@ -10,7 +10,7 @@ import {HanabiCardComponent} from "../hanabi-card/hanabi-card.component";
 @Component({
   selector: 'app-hanabi-discard-pile',
   standalone: true,
-  imports: [CommonModule, HanabiCardComponent, MatCard, MatCardContent],
+  imports: [CommonModule, HanabiCardComponent, MatCard, MatCardContent, MatCardSubtitle, MatCardHeader],
   templateUrl: './hanabi-discard-pile.component.html',
   styleUrls: ['./hanabi-discard-pile.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

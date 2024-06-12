@@ -9,13 +9,12 @@ import {CommonModule} from "@angular/common";
 import {Changes} from "../../../../../core/utils/changes.model";
 import {List} from "immutable";
 import {HanabiPlayer} from "../../models/hanabi-player.model";
-import {UserStore} from "../../../../../core/stores/user.store";
 import {HanabiHistory} from "../../models/hanabi-history.model";
 import {HanabiCommand} from "../../models/hanabi-command/hanabi-command.model";
 import {SnackBarService} from "../../../../../shared/services/snack-bar.service";
 import {HanabiAssistant} from "../../models/hanabi-assistant.model";
 import {HanabiPreferences} from "../../models/hanabi-preferences.model";
-import {HanabiInfos} from "../../models/hanabi-infos/hanabi-infos.model";
+import {HanabiInfosFromPov} from "../../models/hanabi-infos/hanabi-infos-from-pov.model";
 
 @Component({
   selector: 'app-hanabi-state',
@@ -36,7 +35,7 @@ export class HanabiStateComponent implements OnChanges {
   @Input() game: HanabiGame = HanabiGame.empty();
   @Input() history: HanabiHistory = HanabiHistory.empty();
   @Input() preferences: HanabiPreferences = HanabiPreferences.empty();
-  @Input() infos: HanabiInfos = HanabiInfos.empty();
+  @Input() infos: HanabiInfosFromPov = HanabiInfosFromPov.empty();
   @Input() assistant: HanabiAssistant = HanabiAssistant.empty();
 
   @Output() command: EventEmitter<HanabiCommand> = new EventEmitter<HanabiCommand>();
@@ -48,14 +47,13 @@ export class HanabiStateComponent implements OnChanges {
   protected isInHistory: boolean = false;
 
   constructor(
-    private userStore: UserStore,
     private snackBarService: SnackBarService
   ) { }
 
   ngOnChanges(changes: Changes<HanabiStateComponent>): void {
     if (changes.game || changes.history) {
       this.state = this.history.state ?? this.game;
-      this.selfPlayer = this.state.players.find(p => p.user.equals(this.userStore.user)) ?? HanabiPlayer.empty();
+      this.selfPlayer = this.infos.pov;
       this.orderedPlayers = List.of(
         ...this.state.players.skipUntil(p => p.equals(this.selfPlayer)),
         ...this.state.players.takeUntil(p => p.equals(this.selfPlayer)));

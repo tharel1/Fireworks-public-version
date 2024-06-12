@@ -1,0 +1,37 @@
+.hanabi-side-sheet {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+
+  .hanabi-side-sheet-title {
+    font-size: x-large;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+
+  .hanabi-side-sheet-markers {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+
+    .hanabi-side-sheet-markers-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .hanabi-side-sheet-markers-chips {
+      display: flex;
+      justify-content: center;
+      gap: 2px;
+    }
+  }
+
+  .hanabi-side-sheet-critical {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+}

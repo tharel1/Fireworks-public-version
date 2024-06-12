@@ -1,5 +1,6 @@
 <mat-card>
   <mat-card-content class="hanabi-actions">
+
     <button mat-icon-button
             matTooltip="Vision"
             (mousedown)="showImpossibleClues()"
@@ -8,20 +9,27 @@
       <mat-icon>{{ assistant.showImpossibleClues ? 'visibility' : 'visibility_off' }}</mat-icon>
     </button>
     <mat-divider [vertical]="true"/>
+
     <button mat-icon-button
-            [disabled]="true">
-      <mat-icon>auto_fix_off</mat-icon>
+            matTooltip="Clean markers"
+            [matTooltipDisabled]="!isWarningMarkers"
+            [disabled]="!isWarningMarkers"
+            (click)="onCleanMarkers()">
+      <mat-icon>{{ isWarningMarkers ? 'auto_fix_high' : 'auto_fix_off' }}</mat-icon>
     </button>
     <mat-divider [vertical]="true"/>
+
     <button mat-icon-button
             [disabled]="true">
       <mat-icon>question_mark</mat-icon>
     </button>
     <mat-divider [vertical]="true"/>
+
     <button mat-icon-button
             matTooltip="Preferences"
             (click)="onPreferences()">
       <mat-icon>favorite</mat-icon>
     </button>
+
   </mat-card-content>
 </mat-card>

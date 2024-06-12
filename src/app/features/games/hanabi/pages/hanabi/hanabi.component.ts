@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, HostListener, OnDestroy, OnInit} from '@angular/core';
+import {AfterViewInit, Component, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {HanabiGame} from "../../models/hanabi-game.model";
 import {map, Subscription, tap, timer} from "rxjs";
 import {HanabiStore} from "../../../../../core/stores/hanabi.store";
@@ -17,7 +17,10 @@ import {HanabiCommand} from "../../models/hanabi-command/internal";
 import {HanabiPreferences} from "../../models/hanabi-preferences.model";
 import {SnackBarService} from "../../../../../shared/services/snack-bar.service";
 import {HanabiAssistant} from "../../models/hanabi-assistant.model";
-import {HanabiInfos} from '../../models/hanabi-infos/internal';
+import {HanabiInfosFromPov} from '../../models/hanabi-infos/internal';
+import {MatSidenav, MatSidenavContainer, MatSidenavContent} from "@angular/material/sidenav";
+import {HanabiSideSheetComponent} from "../../components/hanabi-side-sheet/hanabi-side-sheet.component";
+import {UserStore} from "../../../../../core/stores/user.store";
 
 @Component({
   selector: 'app-hanabi',
@@ -26,7 +29,11 @@ import {HanabiInfos} from '../../models/hanabi-infos/internal';
   imports: [
     ProgressBarComponent,
     HanabiStateComponent,
-    HanabiSideElemsComponent
+    HanabiSideElemsComponent,
+    MatSidenav,
+    HanabiSideSheetComponent,
+    MatSidenavContent,
+    MatSidenavContainer
   ],
   standalone: true
 })
@@ -35,16 +42,19 @@ export class HanabiComponent implements OnInit, OnDestroy, AfterViewInit {
   game: HanabiGame = HanabiGame.empty();
   history: HanabiHistory = HanabiHistory.empty();
   preferences: HanabiPreferences = HanabiPreferences.empty();
-  infos: HanabiInfos = HanabiInfos.empty();
+  infos: HanabiInfosFromPov = HanabiInfosFromPov.empty();
   assistant: HanabiAssistant = HanabiAssistant.empty();
 
   protected sending = false;
 
   private readonly watcher = new Subscription();
 
+  @ViewChild('side_sheet') private sideSheet!: MatSidenav;
+
   constructor(
     private socketService: SocketService,
     private store: HanabiStore,
+    private userStore: UserStore,
     private cardAnimator: CardAnimator,
     private clueAnimator: ClueAnimator,
     private snackBarService: SnackBarService
@@ -55,15 +65,16 @@ export class HanabiComponent implements OnInit, OnDestroy, AfterViewInit {
     this.preferences = HanabiPreferences.builder()
       .withShowCritical(true)
       .build();
-    this.infos = this.game.createInfos();
-    this.assistant = this.game.createAssistant();
+    this.infos = this.game.createInfos().createPov(this.userStore.user);
+    this.assistant = this.infos.createAssistant();
 
     this.watcher.add(this.socketService.fromEvent<HanabiCommand>('updated').pipe(
       map(command => HanabiCommand.fromJson(command)),
       tap(command => {
         this.sending = false;
         this.game = command.update(this.game);
-        this.infos = this.game.createInfos();
+        this.infos = this.game.createInfos().createPov(this.userStore.user);
+        this.assistant = this.assistant.update(this.infos);
         this.history = HanabiHistory.builder()
           .withGame(this.game)
           .withCommands(this.history.commands.push(command))
@@ -78,37 +89,20 @@ export class HanabiComponent implements OnInit, OnDestroy, AfterViewInit {
     this.watcher.unsubscribe();
   }
 
+
+
+  // Events
   protected onCommand(command: HanabiCommand): void {
     this.sending = true;
     timer(250).subscribe(() => this.socketService.emit('update', command));
-  }
-
-  protected onPreferences(preferences: HanabiPreferences): void {
-    this.preferences = preferences;
-    this.snackBarService.success(`Your preferences were successfully saved.`);
-  }
-
-  protected onAssistant(assistant: HanabiAssistant): void {
-    this.assistant = assistant;
-  }
-
-
-
-  // Animator
-  ngAfterViewInit(): void {
-    timer(0).subscribe(() => this.cardAnimator.saveAllCardPositions(this.game));
-  }
-
-  @HostListener('window:resize')
-  private onResize(): void {
-    this.cardAnimator.saveAllCardPositions(this.game);
   }
 
   protected onHistory(history: HanabiHistory): void {
     this.history = history;
 
     const gameOrHistory = this.history.state ?? this.game;
-    this.infos = gameOrHistory.createInfos();
+    this.infos = gameOrHistory.createInfos().createPov(this.userStore.user);
+    this.assistant = this.assistant.update(this.infos);
 
     switch (this.history.lastAction) {
       case HanabiHistory.Action.GO_FORWARD:
@@ -122,6 +116,41 @@ export class HanabiComponent implements OnInit, OnDestroy, AfterViewInit {
         timer(0).subscribe(() => this.cardAnimator.saveAllCardPositions(gameOrHistory));
         return;
     }
+  }
+
+  protected onPreferences(preferences: HanabiPreferences): void {
+    this.preferences = preferences;
+    this.snackBarService.success(`Your preferences were successfully saved.`);
+  }
+
+  protected onAssistant(assistant: HanabiAssistant): void {
+    this.assistant = assistant;
+
+    if (this.assistant.selectedCardId !== undefined) this.openSideSheet();
+    else this.closeSideSheet();
+  }
+
+
+
+  // Side sheet
+  protected openSideSheet(): void {
+    this.sideSheet.open().then(() => this.cardAnimator.saveAllCardPositions(this.game));
+  }
+
+  protected closeSideSheet(): void {
+    this.sideSheet.close().then(() => this.cardAnimator.saveAllCardPositions(this.game));
+  }
+
+
+
+  // Animations
+  ngAfterViewInit(): void {
+    timer(0).subscribe(() => this.cardAnimator.saveAllCardPositions(this.game));
+  }
+
+  @HostListener('window:resize')
+  private onResize(): void {
+    this.cardAnimator.saveAllCardPositions(this.game);
   }
 
   private animateForward(state: HanabiGame, command?: HanabiCommand): void {

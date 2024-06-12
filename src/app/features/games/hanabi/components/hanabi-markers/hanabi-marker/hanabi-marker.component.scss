@@ -8,25 +8,29 @@ mat-card {
     cursor: pointer;
     font-size: small;
     line-height: 0;
-    color: white;
 
     display: flex;
     justify-content: center;
     align-items: center;
 
     &.red {
+      color: white;
       background-color: hanabi.$red;
     }
     &.yellow {
+      color: white;
       background-color: hanabi.$yellow;
     }
     &.green {
+      color: white;
       background-color: hanabi.$green;
     }
     &.blue {
+      color: white;
       background-color: hanabi.$blue;
     }
     &.purple {
+      color: white;
       background-color: hanabi.$purple;
     }
   }

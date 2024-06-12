@@ -8,8 +8,7 @@
                      [colorClue]="card.colorClue"/>
 
     <mat-card class="hanabi-card-content-container color-variant"
-              [matMenuTriggerFor]="clickable ? (visible ? clueMenu : playMenu) : null"
-              [class]="visible ? card.color : ''">
+              [matMenuTriggerFor]="clickable ? (visible ? clueMenu : playMenu) : null">
 
       <mat-card-content *ngIf="!visible"
                         class="hanabi-card-content-invisible">
@@ -18,7 +17,8 @@
       </mat-card-content>
 
       <mat-card-content *ngIf="visible"
-                        class="hanabi-card-content">
+                        class="hanabi-card-content"
+                        [class]="visible ? card.color : ''">
         <span class="hanabi-card-value">{{ card.value }}</span>
         <img *ngIf="!showImpossibleClues"
              [ngSrc]="'assets/images/hanabi/fireworks-' + card.value + '-' + card.color + '.png'" alt="" height="210" width="210">
@@ -27,10 +27,9 @@
 
     <app-hanabi-markers *ngIf="showMarkers"
                         [markers]="hint.markers"
-                        [card]="card"
-                        [settings]="settings"
                         [buttonVisible]="markerButtonVisible"
-                        (markersUpdate)="onMarkersUpdate($event)"></app-hanabi-markers>
+                        (markersUpdate)="onMarkersUpdate($event)"
+                        (selectedCardUpdate)="onSelectedCardUpdate()"></app-hanabi-markers>
 
     <app-hanabi-critical *ngIf="showCritical"
                          [isCritical]="isCritical"></app-hanabi-critical>

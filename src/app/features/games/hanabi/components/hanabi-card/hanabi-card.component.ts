@@ -48,6 +48,7 @@ export class HanabiCardComponent implements OnInit, OnChanges {
   @Input() visible: boolean = true;
   @Input() clickable: boolean = false;
   @Input() small: boolean = false;
+  @Input() selected: boolean = false;
   @Input() faded: boolean = false;
   @Input() noShadow: boolean = false;
   @Input() noClues: boolean = false;
@@ -60,6 +61,7 @@ export class HanabiCardComponent implements OnInit, OnChanges {
   @Output() clueColor: EventEmitter<HanabiCard> = new EventEmitter<HanabiCard>();
   @Output() clueValue: EventEmitter<HanabiCard> = new EventEmitter<HanabiCard>();
   @Output() hintUpdate: EventEmitter<HanabiHint> = new EventEmitter<HanabiHint>();
+  @Output() selectedCardUpdate: EventEmitter<HanabiCard> = new EventEmitter<HanabiCard>();
 
   protected isCritical = false;
   protected markerButtonVisible = false;
@@ -106,6 +108,10 @@ export class HanabiCardComponent implements OnInit, OnChanges {
       .build())
   }
 
+  protected onSelectedCardUpdate(): void {
+    return this.selectedCardUpdate.emit(this.card);
+  }
+
   private computeClasses(animating: boolean = false): void {
     let classes = List.of('');
 
@@ -114,6 +120,9 @@ export class HanabiCardComponent implements OnInit, OnChanges {
     }
     if (this.small) {
       classes = classes.push('small');
+    }
+    if (this.selected) {
+      classes = classes.push('selected');
     }
     if (this.faded) {
       classes = classes.push('faded');

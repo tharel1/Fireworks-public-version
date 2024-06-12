@@ -1,19 +1,32 @@
-<app-progress-bar [loading]="sending"></app-progress-bar>
-<div id="game-root"
-     class="game-root">
-  <app-hanabi-state class="hanabi-state"
-                    [game]="game"
-                    [history]="history"
-                    [preferences]="preferences"
-                    [infos]="infos"
-                    [assistant]="assistant"
-                    (command)="onCommand($event)"
-                    (assistantUpdate)="onAssistant($event)"></app-hanabi-state>
-  <app-hanabi-side-elems [game]="game"
-                         [history]="history"
-                         [preferences]="preferences"
-                         [assistant]="assistant"
-                         (historyUpdate)="onHistory($event)"
-                         (preferencesUpdate)="onPreferences($event)"
-                         (assistantUpdate)="onAssistant($event)"></app-hanabi-side-elems>
-</div>
+<mat-sidenav-container>
+
+  <mat-sidenav-content>
+    <app-progress-bar [loading]="sending"></app-progress-bar>
+    <div id="game-root"
+         class="game-root">
+      <app-hanabi-state class="hanabi-state"
+                        [game]="game"
+                        [history]="history"
+                        [preferences]="preferences"
+                        [infos]="infos"
+                        [assistant]="assistant"
+                        (command)="onCommand($event)"
+                        (assistantUpdate)="onAssistant($event)"></app-hanabi-state>
+      <app-hanabi-side-elems [game]="game"
+                             [history]="history"
+                             [preferences]="preferences"
+                             [assistant]="assistant"
+                             (historyUpdate)="onHistory($event)"
+                             (preferencesUpdate)="onPreferences($event)"
+                             (assistantUpdate)="onAssistant($event)"></app-hanabi-side-elems>
+    </div>
+  </mat-sidenav-content>
+
+  <mat-sidenav #side_sheet position="end" mode="side" class="type-side-sheet">
+    <app-hanabi-side-sheet [game]="game"
+                           [infos]="infos"
+                           [assistant]="assistant"
+                           (assistantUpdate)="onAssistant($event)"></app-hanabi-side-sheet>
+  </mat-sidenav>
+
+</mat-sidenav-container>
