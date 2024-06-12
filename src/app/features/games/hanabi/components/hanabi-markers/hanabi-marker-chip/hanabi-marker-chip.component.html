@@ -1,3 +1,4 @@
 <mat-chip-option class="hanabi-marker-chip"
                  [class]="marker.color"
-                 [selected]="selected">{{marker.value}}&nbsp;</mat-chip-option>
+                 [selected]="selected"
+                 [matTooltip]="marker.description">{{marker.value}}&nbsp;</mat-chip-option>
