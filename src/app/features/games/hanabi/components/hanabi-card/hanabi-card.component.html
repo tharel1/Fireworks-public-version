@@ -27,6 +27,7 @@
 
     <app-hanabi-markers *ngIf="showMarkers"
                         [markers]="hint.markers"
+                        [showWarnings]="showMarkerWarnings"
                         [buttonVisible]="markerButtonVisible"
                         (markersUpdate)="onMarkersUpdate($event)"
                         (selectedCardUpdate)="onSelectedCardUpdate()"></app-hanabi-markers>

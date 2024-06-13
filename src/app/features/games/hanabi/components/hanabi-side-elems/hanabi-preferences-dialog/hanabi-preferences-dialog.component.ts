@@ -35,8 +35,8 @@ export class HanabiPreferencesDialogComponent {
 
   protected formGroup = this.fb.group({
     showCritical: this.fb.control<boolean>(false),
+    showMarkerWarnings: this.fb.control<boolean>(false),
     markerCleaning: this.fb.control<boolean>(false),
-    markerSuggestions: this.fb.control<boolean>(false),
   });
 
   constructor(
@@ -45,8 +45,8 @@ export class HanabiPreferencesDialogComponent {
   ) {
     this.formGroup.patchValue({
       showCritical: this.preferences.showCritical,
+      showMarkerWarnings: this.preferences.showMarkerWarnings,
       markerCleaning: this.preferences.markerCleaning,
-      markerSuggestions: this.preferences.markerSuggestions
     })
   }
 
@@ -57,8 +57,8 @@ export class HanabiPreferencesDialogComponent {
 
     return HanabiPreferences.builder()
       .withShowCritical(value.showCritical ?? false)
+      .withShowMarkerWarnings(value.showMarkerWarnings ?? false)
       .withMarkerCleaning(value.markerCleaning ?? false)
-      .withMarkerSuggestions(value.markerSuggestions ?? false)
       .build();
   }
 }

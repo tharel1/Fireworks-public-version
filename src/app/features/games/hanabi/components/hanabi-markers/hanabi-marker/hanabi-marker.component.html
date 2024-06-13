@@ -5,7 +5,7 @@
           matTooltipPosition="right"
 
           matBadge="!"
-          [matBadgeHidden]="!marker.warning"
+          [matBadgeHidden]="!showWarning || !marker.warning"
 
           matRipple
           [matRippleRadius]="18">

@@ -20,4 +20,5 @@ import {MatBadge} from "@angular/material/badge";
 })
 export class HanabiMarkerComponent {
   @Input() marker: HanabiMarker = HanabiMarker.empty();
+  @Input() showWarning: boolean = false;
 }

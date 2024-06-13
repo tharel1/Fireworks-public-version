@@ -3,13 +3,13 @@ import {ValueObject} from "immutable";
 export class HanabiPreferences implements ValueObject {
 
   readonly showCritical: boolean;
+  readonly showMarkerWarnings: boolean;
   readonly markerCleaning: boolean;
-  readonly markerSuggestions: boolean;
 
   constructor(builder: Builder) {
     this.showCritical = builder.showCritical;
+    this.showMarkerWarnings = builder.showMarkerWarnings;
     this.markerCleaning = builder.markerCleaning;
-    this.markerSuggestions = builder.markerSuggestions;
   }
 
   static builder(): Builder {
@@ -23,15 +23,15 @@ export class HanabiPreferences implements ValueObject {
   static copy(copy: HanabiPreferences): Builder {
     return HanabiPreferences.builder()
       .withShowCritical(copy.showCritical)
-      .withMarkerCleaning(copy.markerCleaning)
-      .withMarkerSuggestions(copy.markerSuggestions);
+      .withShowMarkerWarnings(copy.showMarkerWarnings)
+      .withMarkerCleaning(copy.markerCleaning);
   }
 
   static fromJson(json: any): HanabiPreferences {
     return HanabiPreferences.builder()
       .withShowCritical(json.showCritical)
+      .withShowMarkerWarnings(json.showMarkerWarnings)
       .withMarkerCleaning(json.markerCleaning)
-      .withMarkerSuggestions(json.markerSuggestions)
       .build();
   }
 
@@ -51,21 +51,21 @@ export namespace HanabiPreferences {
 class Builder {
 
   showCritical: boolean = false;
+  showMarkerWarnings: boolean = false;
   markerCleaning: boolean = false;
-  markerSuggestions: boolean = false;
 
   withShowCritical(showCritical: boolean): Builder {
     this.showCritical = showCritical;
     return this;
   }
 
-  withMarkerCleaning(markerCleaning: boolean): Builder {
-    this.markerCleaning = markerCleaning;
+  withShowMarkerWarnings(showMarkerWarnings: boolean): Builder {
+    this.showMarkerWarnings = showMarkerWarnings;
     return this;
   }
 
-  withMarkerSuggestions(markerSuggestions: boolean): Builder {
-    this.markerSuggestions = markerSuggestions;
+  withMarkerCleaning(markerCleaning: boolean): Builder {
+    this.markerCleaning = markerCleaning;
     return this;
   }
 

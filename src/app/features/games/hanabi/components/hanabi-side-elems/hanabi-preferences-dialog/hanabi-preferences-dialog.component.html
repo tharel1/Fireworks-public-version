@@ -1,27 +1,25 @@
 <form [formGroup]="formGroup">
   <h2 mat-dialog-title>Preferences</h2>
+
   <mat-dialog-content>
+
     <p>You can use this panel to modify your preferences</p>
+
     <div class="preferences-checkbox-list">
-      <mat-checkbox class="preferences-checkbox" [formControl]="formGroup.controls.showCritical">Show critical cards&nbsp;<app-tooltip-info [info]="'TODO'"></app-tooltip-info></mat-checkbox>
-      <mat-checkbox class="preferences-checkbox" [formControl]="formGroup.controls.markerCleaning">Enable marker cleaning (<mat-icon>bookmark_remove</mat-icon>)</mat-checkbox>
-      <mat-checkbox class="preferences-checkbox" [formControl]="formGroup.controls.markerSuggestions">Enable marker suggestions (&nbsp;<mat-icon>auto_fix_normal</mat-icon>)</mat-checkbox>
+      <mat-checkbox class="preferences-checkbox" [formControl]="formGroup.controls.showCritical">
+        Show critical cards&nbsp;
+        <app-tooltip-info [info]="'Shows the cards that must be played but are only present in one copy.'"></app-tooltip-info>
+      </mat-checkbox>
+      <mat-checkbox class="preferences-checkbox" [formControl]="formGroup.controls.showMarkerWarnings">
+        Show inconsistent markers&nbsp;
+        <app-tooltip-info [info]="'Markers can be inconsistent when they are in contradiction with the card clues, with the vision or with the visible cards in the game.'"></app-tooltip-info>
+      </mat-checkbox>
+      <mat-checkbox class="preferences-checkbox" [formControl]="formGroup.controls.markerCleaning">
+        Enable marker cleaning (<mat-icon>auto_fix_high</mat-icon>)
+      </mat-checkbox>
     </div>
 
-    <ul>
-      <li>Show critical cards</li>
-      <li>Show redundant clued cards</li>
-      <li>Enable marker suggestions</li>
-      <li>Resolve marker suggestions separately</li>
-    </ul>
-    Suggestions :
-    <ul>
-        <li>add marker with impossible clues</li>
-        <li>add marker with visible cards</li>
-        <li>add marker with the shrödinger principle</li>
-        <li>add trash marker for trash cards</li>
-        <li>remove incoherent markers</li>
-    </ul>
+    <p></p>
 
   </mat-dialog-content>
 

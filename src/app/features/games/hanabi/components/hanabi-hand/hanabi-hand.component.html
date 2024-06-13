@@ -10,6 +10,7 @@
                    [selected]="cardWithInfos.selected"
                    [showCritical]="preferences.showCritical && visible"
                    [showMarkers]="true"
+                   [showMarkerWarnings]="preferences.showMarkerWarnings"
                    [showImpossibleClues]="assistant.showImpossibleClues"
                    (play)="onPlay($event)"
                    (discard)="onDiscard($event)"

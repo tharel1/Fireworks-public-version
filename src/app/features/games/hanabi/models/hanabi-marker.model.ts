@@ -80,7 +80,7 @@ export class HanabiMarker implements ValueObject {
 
     if (card.valueClue.size > 0 && card.colorClue.size > 0
       && (this.value !== card.value.toString() || this.color !== card.color))
-      return `Card is ${card.color}${card.value}`;
+      return `Card is '${card.color}${card.value}'`;
 
     if (this.value && card.valueClue.size > 0 && !card.valueClue.contains(+this.value))
       return `Card already clued '${card.valueClue.last()}'`;
@@ -95,14 +95,14 @@ export class HanabiMarker implements ValueObject {
     let description = '';
 
     if (card.impossibleColors.size > 0 && this.color && card.impossibleColors.contains(this.color)) {
-      description += `'${this.color}'`;
+      description += `${this.color}`;
     }
     if (card.impossibleValues.size > 0 && card.impossibleValues.contains(+this.value)) {
-      description += `'${this.value}'`;
+      description += `${this.value}`;
     }
 
     if (description)
-      return `Card can't be ${description}`;
+      return `Card can't be '${description}'`;
 
     return '';
   }
@@ -111,7 +111,7 @@ export class HanabiMarker implements ValueObject {
     if (!this.isFull()) return '';
 
     if (isInPovHand && markerCardInfo.allVisible())
-      return `All ${this.color}${this.value} are visible`
+      return `All '${this.color}${this.value}' are visible`
 
     return '';
   }

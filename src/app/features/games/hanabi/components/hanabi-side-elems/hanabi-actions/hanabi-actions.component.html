@@ -12,10 +12,10 @@
 
     <button mat-icon-button
             matTooltip="Clean markers"
-            [matTooltipDisabled]="!isWarningMarkers"
-            [disabled]="!isWarningMarkers"
+            [matTooltipDisabled]="!preferences.markerCleaning || !hasMarkersToClean"
+            [disabled]="!preferences.markerCleaning || !hasMarkersToClean"
             (click)="onCleanMarkers()">
-      <mat-icon>{{ isWarningMarkers ? 'auto_fix_high' : 'auto_fix_off' }}</mat-icon>
+      <mat-icon>{{ preferences.markerCleaning ? (hasMarkersToClean ? 'auto_fix_high' : 'auto_fix_normal') : 'auto_fix_off' }}</mat-icon>
     </button>
     <mat-divider [vertical]="true"/>
 

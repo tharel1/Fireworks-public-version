@@ -51,9 +51,11 @@ export class HanabiCardComponent implements OnInit, OnChanges {
   @Input() selected: boolean = false;
   @Input() faded: boolean = false;
   @Input() noShadow: boolean = false;
+
   @Input() noClues: boolean = false;
   @Input() showCritical: boolean = false;
   @Input() showMarkers: boolean = false;
+  @Input() showMarkerWarnings: boolean = false;
   @Input() showImpossibleClues: boolean = false;
 
   @Output() play: EventEmitter<HanabiCard> = new EventEmitter<HanabiCard>();

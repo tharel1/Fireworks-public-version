@@ -64,6 +64,8 @@ export class HanabiComponent implements OnInit, OnDestroy, AfterViewInit {
     this.game = this.store.game ?? HanabiGame.empty();
     this.preferences = HanabiPreferences.builder()
       .withShowCritical(true)
+      .withShowMarkerWarnings(true)
+      .withMarkerCleaning(true)
       .build();
     this.infos = this.game.createInfos().createPov(this.userStore.user);
     this.assistant = this.infos.createAssistant();

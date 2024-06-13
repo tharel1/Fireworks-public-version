@@ -19,6 +19,7 @@ import {CommonModule} from "@angular/common";
 })
 export class HanabiMarkersComponent {
   @Input() markers: List<HanabiMarker> = List.of();
+  @Input() showWarnings: boolean = false;
   @Input() buttonVisible: boolean = false;
 
   @Output() markersUpdate: EventEmitter<List<HanabiMarker>> = new EventEmitter<List<HanabiMarker>>();

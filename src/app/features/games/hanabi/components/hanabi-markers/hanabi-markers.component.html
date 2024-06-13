@@ -1,6 +1,7 @@
 <div class="hanabi-markers">
   <app-hanabi-marker *ngFor="let marker of markers"
                      [marker]="marker"
+                     [showWarning]="showWarnings"
                      (click)="onMarkerClick(marker)"></app-hanabi-marker>
   <app-hanabi-marker-button [visible]="buttonVisible"
                             (click)="onMarkerButtonClick()"></app-hanabi-marker-button>

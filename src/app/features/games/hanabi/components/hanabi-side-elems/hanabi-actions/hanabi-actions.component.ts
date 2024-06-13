@@ -36,7 +36,7 @@ export class HanabiActionsComponent implements OnChanges {
   @Output() preferencesUpdate: EventEmitter<HanabiPreferences> = new EventEmitter<HanabiPreferences>();
   @Output() assistantUpdate: EventEmitter<HanabiAssistant> = new EventEmitter<HanabiAssistant>();
 
-  protected isWarningMarkers: boolean = false;
+  protected hasMarkersToClean: boolean = false;
 
   constructor(
     public dialog: MatDialog
@@ -44,7 +44,7 @@ export class HanabiActionsComponent implements OnChanges {
 
   ngOnChanges(changes: Changes<HanabiActionsComponent>): void {
     if (changes.assistant) {
-      this.isWarningMarkers = this.assistant.hints.flatMap(h => h.markers).some(m => m.warning);
+      this.hasMarkersToClean = this.assistant.hints.flatMap(h => h.markers).some(m => m.warning);
     }
   }
 
