@@ -69,8 +69,8 @@ export class HanabiInfos implements ValueObject {
     cards = this.modifyCardInfos(cards, game.board, HanabiCardInfos.incrPlayed);
     cards = this.modifyCardInfos(cards, game.discardPile, HanabiCardInfos.incrDiscarded);
 
-    const maxValueByColor = this.initMaxValueByColor(game, cards);
-    const boardValueByColor = this.initBoardValueByColor(game.board);
+    const maxValueByColor = this.initMaxValueByColor(game.settings, cards);
+    const boardValueByColor = this.initBoardValueByColor(game.settings, game.board);
 
     return HanabiInfos.builder()
       .withGame(game)
@@ -106,20 +106,22 @@ export class HanabiInfos implements ValueObject {
     return list.toSet();
   }
 
-  private static initMaxValueByColor(game: HanabiGame, cardInfos: Set<HanabiCardInfos>): Map<HanabiCard.Color, number> {
+  private static initMaxValueByColor(settings: HanabiSettings, cardInfos: Set<HanabiCardInfos>): Map<HanabiCard.Color, number> {
     return cardInfos.groupBy(c => c.card.color)
       .map(set => {
         const lostCard = set.toList()
           .sortBy(c => c.card.value)
           .find(c => c.isLost());
 
-        return lostCard ? lostCard.card.value-1 : game.settings.maxValue;
+        return lostCard ? lostCard.card.value-1 : settings.maxValue;
       })
   }
 
-  private static initBoardValueByColor(board: List<HanabiCard>): Map<HanabiCard.Color, number> {
-    return board.groupBy(c => c.color)
-      .map(list => list.maxBy(c => c.value))
+  private static initBoardValueByColor(settings: HanabiSettings, board: List<HanabiCard>): Map<HanabiCard.Color, number> {
+    return settings.colors.groupBy(color => color)
+      .map((_, color) => board
+        .filter(c => c.color === color)
+        .maxBy(c => c.value))
       .map(c => c?.value ?? 0);
   }
 
