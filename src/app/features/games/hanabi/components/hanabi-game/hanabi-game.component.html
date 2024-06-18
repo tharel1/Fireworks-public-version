@@ -1,16 +1,16 @@
-<div class="hanabi-state">
-  <div class="hanabi-state-left">
-    <app-hanabi-board [board]="state.board" [settings]="state.settings"></app-hanabi-board>
+<div class="hanabi-game">
+  <div class="hanabi-game-left">
+    <app-hanabi-board [board]="game.board" [settings]="game.settings"></app-hanabi-board>
     <div class="hanabi-infos">
-      <app-hanabi-draw-pile [drawPile]="state.drawPile"></app-hanabi-draw-pile>
-      <app-hanabi-infos [game]="state"></app-hanabi-infos>
+      <app-hanabi-draw-pile [drawPile]="game.drawPile"></app-hanabi-draw-pile>
+      <app-hanabi-infos [game]="game"></app-hanabi-infos>
     </div>
-    <app-hanabi-discard-pile [discardPile]="state.discardPile" [settings]="state.settings"></app-hanabi-discard-pile>
+    <app-hanabi-discard-pile [discardPile]="game.discardPile" [settings]="game.settings"></app-hanabi-discard-pile>
   </div>
-  <div class="hanabi-state-right">
+  <div class="hanabi-game-right">
     <app-hanabi-player *ngFor="let player of orderedPlayers"
                        [player]="player"
-                       [settings]="state.settings"
+                       [settings]="game.settings"
                        [preferences]="preferences"
                        [infos]="infos"
                        [assistant]="assistant"

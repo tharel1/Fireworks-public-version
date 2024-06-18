@@ -1,8 +1,8 @@
-.hanabi-state {
+.hanabi-game {
   display: flex;
   justify-content: space-between;
 
-  .hanabi-state-left {
+  .hanabi-game-left {
     display: flex;
     flex-direction: column;
     gap: 30px;
@@ -14,7 +14,7 @@
     }
   }
 
-  .hanabi-state-right {
+  .hanabi-game-right {
     display: flex;
     flex-direction: column;
     gap: 20px;

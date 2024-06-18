@@ -17,7 +17,7 @@ import {HanabiPreferences} from "../../models/hanabi-preferences.model";
 import {HanabiInfosFromPov} from "../../models/hanabi-infos/hanabi-infos-from-pov.model";
 
 @Component({
-  selector: 'app-hanabi-state',
+  selector: 'app-hanabi-game',
   standalone: true,
   imports: [
     CommonModule,
@@ -27,12 +27,12 @@ import {HanabiInfosFromPov} from "../../models/hanabi-infos/hanabi-infos-from-po
     HanabiDiscardPileComponent,
     HanabiPlayerComponent
   ],
-  templateUrl: './hanabi-state.component.html',
-  styleUrls: ['./hanabi-state.component.scss'],
+  templateUrl: './hanabi-game.component.html',
+  styleUrls: ['./hanabi-game.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class HanabiStateComponent implements OnChanges {
-  @Input() state: HanabiGame = HanabiGame.empty();
+export class HanabiGameComponent implements OnChanges {
+  @Input() game: HanabiGame = HanabiGame.empty();
   @Input() history: HanabiHistory = HanabiHistory.empty();
   @Input() preferences: HanabiPreferences = HanabiPreferences.empty();
   @Input() infos: HanabiInfosFromPov = HanabiInfosFromPov.empty();
@@ -49,12 +49,12 @@ export class HanabiStateComponent implements OnChanges {
     private snackBarService: SnackBarService
   ) { }
 
-  ngOnChanges(changes: Changes<HanabiStateComponent>): void {
-    if (changes.state || changes.infos) {
+  ngOnChanges(changes: Changes<HanabiGameComponent>): void {
+    if (changes.game || changes.infos) {
       this.selfPlayer = this.infos.pov;
       this.orderedPlayers = List.of(
-        ...this.state.players.skipUntil(p => p.equals(this.selfPlayer)),
-        ...this.state.players.takeUntil(p => p.equals(this.selfPlayer)));
+        ...this.game.players.skipUntil(p => p.equals(this.selfPlayer)),
+        ...this.game.players.takeUntil(p => p.equals(this.selfPlayer)));
     }
 
     if (changes.history)
@@ -62,7 +62,7 @@ export class HanabiStateComponent implements OnChanges {
   }
 
   protected onCommand(command: HanabiCommand): void {
-    if (this.state.finished)
+    if (this.game.finished)
       return this.snackBarService.error(`The game is finished.`);
 
     if (this.isInHistory)
@@ -71,13 +71,13 @@ export class HanabiStateComponent implements OnChanges {
     if (!this.selfPlayer.playing)
       return this.snackBarService.error(`It's not your turn.`);
 
-    const error = command.checkError(this.state);
+    const error = command.checkError(this.game);
     if (error)
       return this.snackBarService.warn(error);
 
     this.selfPlayer = HanabiPlayer.copy(this.selfPlayer).withPlaying(false).build();
 
-    this.command.emit(command.fill(this.state));
+    this.command.emit(command.fill(this.game));
   }
 
   protected onAssistantUpdate(assistant: HanabiAssistant): void {

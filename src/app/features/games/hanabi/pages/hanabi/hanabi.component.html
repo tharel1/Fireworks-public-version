@@ -4,14 +4,14 @@
     <app-progress-bar [loading]="sending"></app-progress-bar>
     <div id="game-root"
          class="game-root">
-      <app-hanabi-state class="hanabi-state"
-                        [state]="gameOrHistory"
+      <app-hanabi-game class="hanabi-game"
+                        [game]="gameOrHistory"
                         [history]="history"
                         [preferences]="preferences"
                         [infos]="infos"
                         [assistant]="assistant"
                         (command)="onCommand($event)"
-                        (assistantUpdate)="onAssistant($event)"></app-hanabi-state>
+                        (assistantUpdate)="onAssistant($event)"></app-hanabi-game>
       <app-hanabi-side-elems [game]="gameOrHistory"
                              [history]="history"
                              [preferences]="preferences"

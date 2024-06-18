@@ -11,7 +11,7 @@ import {HanabiCommandClueColor} from "../../models/hanabi-command/hanabi-command
 import {ClueAnimator} from "../../services/clue-animator.service";
 import {HanabiCommandClueValue} from "../../models/hanabi-command/hanabi-command-clue-value.model";
 import {ProgressBarComponent} from "../../../../../shared/components/progress-bar/progress-bar.component";
-import {HanabiStateComponent} from "../../components/hanabi-state/hanabi-state.component";
+import {HanabiGameComponent} from "../../components/hanabi-game/hanabi-game.component";
 import {HanabiSideElemsComponent} from "../../components/hanabi-side-elems/hanabi-side-elems.component";
 import {HanabiCommand} from "../../models/hanabi-command/internal";
 import {HanabiPreferences} from "../../models/hanabi-preferences.model";
@@ -33,7 +33,7 @@ import {
   styleUrls: ['./hanabi.component.scss'],
   imports: [
     ProgressBarComponent,
-    HanabiStateComponent,
+    HanabiGameComponent,
     HanabiSideElemsComponent,
     MatSidenav,
     HanabiSideSheetComponent,
@@ -181,7 +181,7 @@ export class HanabiComponent implements OnInit, OnDestroy, AfterViewInit {
     this.cardAnimator.saveAllCardPositions(this.game);
   }
 
-  private animateForward(state: HanabiGame, command?: HanabiCommand): void {
+  private animateForward(game: HanabiGame, command?: HanabiCommand): void {
     switch (command?.type) {
       case HanabiCommand.Type.PLAY:
         const playCommand = command as HanabiCommandPlay;
@@ -189,16 +189,16 @@ export class HanabiComponent implements OnInit, OnDestroy, AfterViewInit {
           document.getElementById('game-root')?.classList.remove('bomb-exploded');
           timer(0).subscribe(() => document.getElementById('game-root')?.classList.add('bomb-exploded'));
         }
-        this.cardAnimator.scheduleCardToMove(100, state, playCommand.card, playCommand.isBomb);
-        state.players.find(p => p.equals(playCommand.source))?.cards.forEach(c => {
-          this.cardAnimator.scheduleCardToMove(100, state, c);
+        this.cardAnimator.scheduleCardToMove(100, game, playCommand.card, playCommand.isBomb);
+        game.players.find(p => p.equals(playCommand.source))?.cards.forEach(c => {
+          this.cardAnimator.scheduleCardToMove(100, game, c);
         });
         return;
       case HanabiCommand.Type.DISCARD:
         const discardCommand = command as HanabiCommandDiscard;
-        this.cardAnimator.scheduleCardToMove(100, state, discardCommand.card, true);
-        state.players.find(p => p.equals(discardCommand.source))?.cards.forEach(c => {
-          this.cardAnimator.scheduleCardToMove(100, state, c);
+        this.cardAnimator.scheduleCardToMove(100, game, discardCommand.card, true);
+        game.players.find(p => p.equals(discardCommand.source))?.cards.forEach(c => {
+          this.cardAnimator.scheduleCardToMove(100, game, c);
         });
         return;
       case HanabiCommand.Type.CLUE_COLOR:
@@ -222,20 +222,20 @@ export class HanabiComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  private animateBackward(state: HanabiGame, command?: HanabiCommand): void {
+  private animateBackward(game: HanabiGame, command?: HanabiCommand): void {
     switch (command?.type) {
       case HanabiCommand.Type.PLAY:
         const playCommand = command as HanabiCommandPlay;
-        this.cardAnimator.scheduleCardToMove(100, state, state.drawPile.last());
-        state.players.find(p => p.equals(playCommand.source))?.cards.forEach(c => {
-          this.cardAnimator.scheduleCardToMove(100, state, c);
+        this.cardAnimator.scheduleCardToMove(100, game, game.drawPile.last());
+        game.players.find(p => p.equals(playCommand.source))?.cards.forEach(c => {
+          this.cardAnimator.scheduleCardToMove(100, game, c);
         });
         return;
       case HanabiCommand.Type.DISCARD:
         const discardCommand = command as HanabiCommandDiscard;
-        this.cardAnimator.scheduleCardToMove(100, state, state.drawPile.last());
-        state.players.find(p => p.equals(discardCommand.source))?.cards.forEach(c => {
-          this.cardAnimator.scheduleCardToMove(100, state, c);
+        this.cardAnimator.scheduleCardToMove(100, game, game.drawPile.last());
+        game.players.find(p => p.equals(discardCommand.source))?.cards.forEach(c => {
+          this.cardAnimator.scheduleCardToMove(100, game, c);
         });
         return;
       default:
