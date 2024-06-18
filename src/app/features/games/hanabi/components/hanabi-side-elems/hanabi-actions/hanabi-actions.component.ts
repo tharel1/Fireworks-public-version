@@ -39,7 +39,7 @@ export class HanabiActionsComponent implements OnChanges {
   protected hasMarkersToClean: boolean = false;
 
   constructor(
-    public dialog: MatDialog
+    private readonly dialog: MatDialog
   ) {}
 
   ngOnChanges(changes: Changes<HanabiActionsComponent>): void {

@@ -8,11 +8,11 @@ import {Map} from "immutable";
 export class HanabiNumberPipe implements PipeTransform {
 
   protected readonly map: Map<number, string> = Map([
-    [1, 'ONE'],
-    [2, 'TWO'],
-    [3, 'THREE'],
-    [4, 'FOUR'],
-    [5, 'FIVE'],
+    [1, 'one'],
+    [2, 'two'],
+    [3, 'three'],
+    [4, 'four'],
+    [5, 'five'],
   ]);
 
   transform(value: number, ...args: unknown[]): string {

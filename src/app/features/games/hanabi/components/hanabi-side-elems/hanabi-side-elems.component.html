@@ -1,9 +1,12 @@
 <div class="hanabi-side-elems">
+  <app-hanabi-state [game]="game"
+                    [history]="history"
+                    [infos]="infos"></app-hanabi-state>
   <app-hanabi-actions [preferences]="preferences"
                       [assistant]="assistant"
                       (preferencesUpdate)="onPreferences($event)"
                       (assistantUpdate)="onAssistant($event)"></app-hanabi-actions>
-  <app-hanabi-indicators [game]="game"></app-hanabi-indicators>
+  <app-hanabi-indicators [infos]="infos"></app-hanabi-indicators>
   <mat-divider></mat-divider>
   <app-hanabi-history [history]="history"
                       (historyUpdate)="onHistory($event)"/>

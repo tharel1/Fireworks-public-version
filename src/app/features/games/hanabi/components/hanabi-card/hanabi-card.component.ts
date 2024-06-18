@@ -71,7 +71,7 @@ export class HanabiCardComponent implements OnInit, OnChanges {
   protected classes: string[] = [];
 
   constructor(
-    private cardAnimator: CardAnimator
+    private readonly cardAnimator: CardAnimator
   ) { }
 
   ngOnInit(): void {

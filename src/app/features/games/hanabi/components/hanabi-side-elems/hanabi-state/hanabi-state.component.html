@@ -1,0 +1,47 @@
+<ng-container [ngSwitch]="state">
+
+
+  <mat-card *ngSwitchCase="HanabiState.IN_HISTORY"
+            class="color-error">
+    <mat-card-content class="hanabi-state">
+      <mat-icon>history</mat-icon>
+      <span>Watching the history.</span>
+    </mat-card-content>
+  </mat-card>
+
+
+  <mat-card *ngSwitchCase="HanabiState.GAME_FINISHED"
+            class="color-tertiary">
+    <mat-card-content class="hanabi-state">
+      <mat-icon>check</mat-icon>
+      <div class="hanabi-state-finished">
+        <span>Game finished.</span>
+        <button mat-icon-button
+                class="hanabi-state-score-button"
+                matTooltip="Scores"
+                (click)="onScores()">
+          <mat-icon>leaderboard</mat-icon>
+        </button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+
+  <mat-card *ngSwitchCase="HanabiState.SELF_TURN"
+            class="color-primary-inverse">
+    <mat-card-content class="hanabi-state">
+      <mat-icon> {{ ((beat$ | async)??0)%2===0 ? 'hourglass_bottom' : 'hourglass_top' }}</mat-icon>
+      <span>Your turn to play.</span>
+    </mat-card-content>
+  </mat-card>
+
+
+  <mat-card *ngSwitchCase="HanabiState.OTHER_TURN">
+    <mat-card-content class="hanabi-state">
+      <mat-icon>info</mat-icon>
+      <span>Waiting for {{currentPlayer?.user?.name}}.</span>
+    </mat-card-content>
+  </mat-card>
+
+
+</ng-container>

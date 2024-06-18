@@ -2,8 +2,8 @@ import {ChangeDetectionStrategy, Component, Input, OnChanges} from '@angular/cor
 import {MatCard, MatCardContent} from "@angular/material/card";
 import {CommonModule} from "@angular/common";
 import {TooltipInfoComponent} from "../../../../../../shared/components/tooltip-info/tooltip-info.component";
-import {HanabiGame} from "../../../models/hanabi-game.model";
 import {Changes} from "../../../../../../core/utils/changes.model";
+import {HanabiInfos} from "../../../models/hanabi-infos/hanabi-infos.model";
 
 @Component({
   selector: 'app-hanabi-indicators',
@@ -19,15 +19,15 @@ import {Changes} from "../../../../../../core/utils/changes.model";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HanabiIndicatorsComponent implements OnChanges {
-  @Input() game: HanabiGame = HanabiGame.empty();
+  @Input() infos: HanabiInfos = HanabiInfos.empty();
 
-  protected efficiency?: number;
+  protected efficiency: number = 0;
   protected pace: number = 0;
 
   ngOnChanges(changes: Changes<HanabiIndicatorsComponent>): void {
-    if (changes.game) {
-      this.efficiency = this.game.efficiency();
-      this.pace = this.game.pace();
+    if (changes.infos) {
+      this.efficiency = this.infos.efficiency();
+      this.pace = this.infos.pace();
     }
   }
 

@@ -36,7 +36,7 @@ export class NavbarComponent implements OnChanges {
   protected readonly Theme = Theme;
 
   constructor(
-    protected themingService: ThemingService
+    private readonly themingService: ThemingService
   ) {}
 
   ngOnChanges(): void {

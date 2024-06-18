@@ -22,5 +22,5 @@ export class PlayerBarComponent {
   @Input() name: string = '';
   @Input() playing: boolean = false;
 
-  protected beat$: Observable<number> = timer(0, 1000);
+  protected readonly beat$: Observable<number> = timer(0, 1000);
 }

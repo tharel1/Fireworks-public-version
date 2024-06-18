@@ -170,21 +170,6 @@ export class HanabiGame implements ValueObject {
     );
   }
 
-  efficiency(): number | undefined {
-    const cluedCards = this.playersCards().filter(c => c.isClued()).size;
-    const cluedCardsWithoutTrash = cluedCards - 0;
-    const remainingCardsToClue = this.settings.maxScore() - this.score() - cluedCardsWithoutTrash;
-
-    const cluesWithHighestCards = this.remainingCards().filter(c => c.value === this.settings.maxValue).size - 1;
-    const remainingClues = this.clues + this.pace() + cluesWithHighestCards;
-
-    return remainingCardsToClue / remainingClues;
-  }
-
-  pace(): number {
-    return this.score() + this.drawPile.size + this.settings.playersNumber - this.settings.maxScore();
-  }
-
   createInfos(): HanabiInfos {
     return HanabiInfos.fromGame(this);
   }

@@ -9,6 +9,8 @@ import {HanabiIndicatorsComponent} from "./hanabi-indicators/hanabi-indicators.c
 import {HanabiHistoryComponent} from "./hanabi-history/hanabi-history.component";
 import {HanabiPreferences} from "../../models/hanabi-preferences.model";
 import {HanabiAssistant} from "../../models/hanabi-assistant/hanabi-assistant.model";
+import {HanabiStateComponent} from "./hanabi-state/hanabi-state.component";
+import {HanabiInfosFromPov} from "../../models/hanabi-infos/hanabi-infos-from-pov.model";
 
 @Component({
   selector: 'app-hanabi-side-elems',
@@ -20,6 +22,7 @@ import {HanabiAssistant} from "../../models/hanabi-assistant/hanabi-assistant.mo
     HanabiCommandsComponent,
     HanabiIndicatorsComponent,
     HanabiHistoryComponent,
+    HanabiStateComponent,
   ],
   templateUrl: './hanabi-side-elems.component.html',
   styleUrl: './hanabi-side-elems.component.scss',
@@ -29,6 +32,7 @@ export class HanabiSideElemsComponent {
   @Input() game: HanabiGame = HanabiGame.empty();
   @Input() history: HanabiHistory = HanabiHistory.empty();
   @Input() preferences: HanabiPreferences = HanabiPreferences.empty();
+  @Input() infos: HanabiInfosFromPov = HanabiInfosFromPov.empty();
   @Input() assistant: HanabiAssistant = HanabiAssistant.empty();
 
   @Output() historyUpdate: EventEmitter<HanabiHistory> = new EventEmitter<HanabiHistory>();

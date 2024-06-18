@@ -25,7 +25,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {
   HanabiScoresDialogComponent,
   HanabiScoresDialogData
-} from "../../components/hanabi-scores-dialog/hanabi-scores-dialog.component";
+} from "../../components/hanabi-side-elems/hanabi-scores-dialog/hanabi-scores-dialog.component";
 
 @Component({
   selector: 'app-hanabi',
@@ -58,13 +58,13 @@ export class HanabiComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('side_sheet') private sideSheet!: MatSidenav;
 
   constructor(
-    private socketService: SocketService,
-    private store: HanabiStore,
-    private userStore: UserStore,
-    private snackBarService: SnackBarService,
-    private dialog: MatDialog,
-    private cardAnimator: CardAnimator,
-    private clueAnimator: ClueAnimator
+    private readonly socketService: SocketService,
+    private readonly store: HanabiStore,
+    private readonly userStore: UserStore,
+    private readonly snackBarService: SnackBarService,
+    private readonly dialog: MatDialog,
+    private readonly cardAnimator: CardAnimator,
+    private readonly clueAnimator: ClueAnimator
   ) {}
 
   ngOnInit(): void {
@@ -106,7 +106,6 @@ export class HanabiComponent implements OnInit, OnDestroy, AfterViewInit {
     this.gameOrHistory = this.history.state ?? this.game;
     this.infos = this.gameOrHistory.createInfos().createPov(this.userStore.user);
     this.assistant = this.assistant.update(this.infos);
-    if (this.gameOrHistory.finished) this.onGameFinished();
 
     switch (this.history.lastAction) {
       case HanabiHistory.Action.GO_FORWARD:

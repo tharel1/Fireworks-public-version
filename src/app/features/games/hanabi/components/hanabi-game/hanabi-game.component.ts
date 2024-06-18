@@ -46,7 +46,7 @@ export class HanabiGameComponent implements OnChanges {
   protected isInHistory: boolean = false;
 
   constructor(
-    private snackBarService: SnackBarService
+    private readonly snackBarService: SnackBarService
   ) { }
 
   ngOnChanges(changes: Changes<HanabiGameComponent>): void {

@@ -198,6 +198,25 @@ export class HanabiInfos implements ValueObject {
     return undefined;
   }
 
+  efficiency(): number {
+    const cluedCards = this.game.playersCards().filter(c => c.isClued());
+    const trashCards = cluedCards.filter(c => this.isKnownForTrash(c));
+    const cluedCardsWithoutTrash = cluedCards.size - trashCards.size;
+    const remainingCardsToClue = this.game.settings.maxScore() - this.game.score() - cluedCardsWithoutTrash;
+
+    const cluesWithHighestCards = this.game.remainingCards().filter(c => c.value === this.game.settings.maxValue).size - 1;
+    const remainingClues = this.game.clues + this.pace() + cluesWithHighestCards;
+
+    return remainingCardsToClue / remainingClues;
+  }
+
+  pace(): number {
+    return this.game.score()
+         + this.game.drawPile.size
+         + this.game.settings.playersNumber
+         - this.game.settings.maxScore();
+  }
+
   createPov(currentUser: User): HanabiInfosFromPov {
     const pov = this.game.players.find(p => p.user.equals(currentUser)) ?? HanabiPlayer.empty()
 

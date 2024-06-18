@@ -54,6 +54,6 @@
 <mat-menu #clueMenu yPosition="above">
   <ng-template matMenuContent>
     <button mat-menu-item (click)="onClueColor()">Clue <b [class]="card.color">{{ card.color | uppercase }}</b></button>
-    <button mat-menu-item (click)="onClueValue()">Clue <b>{{ card.value | hanabiNumber }}</b></button>
+    <button mat-menu-item (click)="onClueValue()">Clue <b>{{ card.value | hanabiNumber | uppercase }}</b></button>
   </ng-template>
 </mat-menu>

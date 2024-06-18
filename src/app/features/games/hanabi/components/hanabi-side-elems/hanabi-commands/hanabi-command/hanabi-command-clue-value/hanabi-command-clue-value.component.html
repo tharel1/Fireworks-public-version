@@ -1,7 +1,7 @@
 <span>
   <i>{{ command.source.user.name }}</i>
   clued
-  <b> {{ command.value | hanabiNumber }} </b>
+  <b> {{ command.value | hanabiNumber | titlecase }} </b>
   to
   <i>{{ command.target.user.name }}</i>
 </span>

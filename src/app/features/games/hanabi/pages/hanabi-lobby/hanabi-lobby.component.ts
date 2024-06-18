@@ -42,10 +42,10 @@ export class HanabiLobbyComponent implements OnInit, OnDestroy {
   private readonly watcher = new Subscription();
 
   constructor(
-    private socketService: SocketService,
-    private router: Router,
-    private hanabiStore: HanabiStore,
-    private userStore: UserStore
+    private readonly socketService: SocketService,
+    private readonly router: Router,
+    private readonly hanabiStore: HanabiStore,
+    private readonly userStore: UserStore
   ) {}
 
   ngOnInit(): void {

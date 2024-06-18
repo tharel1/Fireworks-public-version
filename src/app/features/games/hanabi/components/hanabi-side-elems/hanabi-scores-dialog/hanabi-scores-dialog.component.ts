@@ -1,12 +1,12 @@
 import {ChangeDetectionStrategy, Component, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogModule} from "@angular/material/dialog";
-import {HanabiScore} from "../../models/hanabi-score.model";
+import {HanabiScore} from "../../../models/hanabi-score.model";
 import {MatTableModule} from "@angular/material/table";
 import {MatButton} from "@angular/material/button";
 import {CommonModule} from "@angular/common";
-import {HanabiGame} from "../../models/hanabi-game.model";
-import {HanabiInfosFromPov} from "../../models/hanabi-infos/hanabi-infos-from-pov.model";
-import {HanabiPlayer} from "../../models/hanabi-player.model";
+import {HanabiGame} from "../../../models/hanabi-game.model";
+import {HanabiInfosFromPov} from "../../../models/hanabi-infos/hanabi-infos-from-pov.model";
+import {HanabiPlayer} from "../../../models/hanabi-player.model";
 
 @Component({
   selector: 'app-hanabi-scores-dialog',
@@ -32,7 +32,7 @@ export class HanabiScoresDialogComponent {
   protected readonly columns: string[] = ['name', 'score'];
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) data: HanabiScoresDialogData
+    @Inject(MAT_DIALOG_DATA) private readonly data: HanabiScoresDialogData
   ) {
     this.scores = data.game.createScores().sortBy(s => s.rank).toArray();
     this.maxScore = data.game.settings.maxScore();
@@ -50,7 +50,7 @@ export class HanabiScoresDialogComponent {
       case "ok":
         return `Not bad!`;
       case "bad":
-        return `You will do better next time!`;
+        return `Try again!`;
     }
   }
 

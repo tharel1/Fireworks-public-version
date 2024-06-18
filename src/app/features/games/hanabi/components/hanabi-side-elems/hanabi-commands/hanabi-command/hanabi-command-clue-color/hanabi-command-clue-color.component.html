@@ -1,7 +1,7 @@
 <span>
   <i>{{ command.source.user.name }}</i>
   clued
-  <b [class]="command.color"> {{ command.color | uppercase }} </b>
+  <b [class]="command.color"> {{ command.color | titlecase }} </b>
   to
   <i>{{ command.target.user.name }}</i>
 </span>

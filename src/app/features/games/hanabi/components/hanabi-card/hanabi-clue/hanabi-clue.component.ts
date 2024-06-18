@@ -29,7 +29,7 @@ export class HanabiClueComponent implements OnChanges {
   protected active: boolean = false;
 
   constructor(
-    private clueAnimator: ClueAnimator
+    private readonly clueAnimator: ClueAnimator
   ) { }
 
   ngOnChanges(changes: Changes<HanabiClueComponent>): void {

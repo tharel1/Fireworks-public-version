@@ -44,8 +44,8 @@ export class HanabiPreferencesDialogComponent {
   protected readonly HanabiConstants = HanabiConstants;
 
   constructor(
-    private fb: FormBuilder,
-    @Inject(MAT_DIALOG_DATA) protected preferences: HanabiPreferences,
+    private readonly fb: FormBuilder,
+    @Inject(MAT_DIALOG_DATA) private readonly preferences: HanabiPreferences,
   ) {
     this.formGroup.patchValue({
       showCritical: this.preferences.showCritical,
