@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
-import {HanabiMarker} from "../../../models/hanabi-marker.model";
+import {HanabiMarker} from "../../../models/hanabi-assistant/hanabi-marker.model";
 import {MatChipOption} from "@angular/material/chips";
 import {MatTooltip} from "@angular/material/tooltip";
 

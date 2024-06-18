@@ -1,0 +1,12 @@
+@use "@angular/material";
+@use "sass:map";
+
+@mixin color($theme) {
+  mat-expansion-panel {
+    @if material.get-theme-type($theme) == dark {
+      background-color: material.get-theme-color($theme, neutral, 24);
+    } @else {
+      background-color: material.get-theme-color($theme, neutral, 98);
+    }
+  }
+}

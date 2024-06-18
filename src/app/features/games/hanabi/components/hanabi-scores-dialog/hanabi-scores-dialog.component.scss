@@ -1,0 +1,19 @@
+@use "styles/palettes";
+
+.perfect {
+  color: palettes.$green;
+}
+.great {
+  color: palettes.$yellow;
+}
+.ok {
+  color: palettes.$orange;
+}
+.bad {
+  color: palettes.$red;
+}
+
+mat-dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+}

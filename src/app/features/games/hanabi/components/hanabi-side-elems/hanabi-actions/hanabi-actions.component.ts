@@ -7,10 +7,10 @@ import {MatDialog} from "@angular/material/dialog";
 import {HanabiPreferencesDialogComponent} from "../hanabi-preferences-dialog/hanabi-preferences-dialog.component";
 import {HanabiPreferences} from "../../../models/hanabi-preferences.model";
 import {CommonModule} from "@angular/common";
-import {HanabiAssistant} from "../../../models/hanabi-assistant.model";
+import {HanabiAssistant} from "../../../models/hanabi-assistant/hanabi-assistant.model";
 import {MatTooltip} from "@angular/material/tooltip";
 import {Changes} from "../../../../../../core/utils/changes.model";
-import {HanabiHint} from "../../../models/hanabi-hint.model";
+import {HanabiHint} from "../../../models/hanabi-assistant/hanabi-hint.model";
 
 @Component({
   selector: 'app-hanabi-actions',

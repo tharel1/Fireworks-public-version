@@ -3,11 +3,13 @@ import {ValueObject} from "immutable";
 export class HanabiPreferences implements ValueObject {
 
   readonly showCritical: boolean;
+  readonly showTrash: boolean;
   readonly showMarkerWarnings: boolean;
   readonly markerCleaning: boolean;
 
   constructor(builder: Builder) {
     this.showCritical = builder.showCritical;
+    this.showTrash = builder.showTrash;
     this.showMarkerWarnings = builder.showMarkerWarnings;
     this.markerCleaning = builder.markerCleaning;
   }
@@ -23,6 +25,7 @@ export class HanabiPreferences implements ValueObject {
   static copy(copy: HanabiPreferences): Builder {
     return HanabiPreferences.builder()
       .withShowCritical(copy.showCritical)
+      .withShowTrash(copy.showTrash)
       .withShowMarkerWarnings(copy.showMarkerWarnings)
       .withMarkerCleaning(copy.markerCleaning);
   }
@@ -30,6 +33,7 @@ export class HanabiPreferences implements ValueObject {
   static fromJson(json: any): HanabiPreferences {
     return HanabiPreferences.builder()
       .withShowCritical(json.showCritical)
+      .withShowTrash(json.showTrash)
       .withShowMarkerWarnings(json.showMarkerWarnings)
       .withMarkerCleaning(json.markerCleaning)
       .build();
@@ -51,11 +55,17 @@ export namespace HanabiPreferences {
 class Builder {
 
   showCritical: boolean = false;
+  showTrash: boolean = false;
   showMarkerWarnings: boolean = false;
   markerCleaning: boolean = false;
 
   withShowCritical(showCritical: boolean): Builder {
     this.showCritical = showCritical;
+    return this;
+  }
+
+  withShowTrash(showTrash: boolean): Builder {
+    this.showTrash = showTrash;
     return this;
   }
 

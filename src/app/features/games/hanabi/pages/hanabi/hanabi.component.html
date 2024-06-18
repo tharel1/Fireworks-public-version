@@ -5,14 +5,14 @@
     <div id="game-root"
          class="game-root">
       <app-hanabi-state class="hanabi-state"
-                        [game]="game"
+                        [state]="gameOrHistory"
                         [history]="history"
                         [preferences]="preferences"
                         [infos]="infos"
                         [assistant]="assistant"
                         (command)="onCommand($event)"
                         (assistantUpdate)="onAssistant($event)"></app-hanabi-state>
-      <app-hanabi-side-elems [game]="game"
+      <app-hanabi-side-elems [game]="gameOrHistory"
                              [history]="history"
                              [preferences]="preferences"
                              [assistant]="assistant"
@@ -23,7 +23,7 @@
   </mat-sidenav-content>
 
   <mat-sidenav #side_sheet position="end" mode="side" class="type-side-sheet">
-    <app-hanabi-side-sheet [game]="game"
+    <app-hanabi-side-sheet [game]="gameOrHistory"
                            [infos]="infos"
                            [assistant]="assistant"
                            (assistantUpdate)="onAssistant($event)"></app-hanabi-side-sheet>

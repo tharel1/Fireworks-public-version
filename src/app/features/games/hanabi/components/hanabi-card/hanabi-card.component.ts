@@ -8,14 +8,14 @@ import {HanabiNumberPipe} from "../../pipes/hanabi-number.pipe";
 import {HanabiClueComponent} from "./hanabi-clue/hanabi-clue.component";
 import {CardAnimator} from "../../services/card-animator.service";
 import {List} from "immutable";
-import {HanabiHint} from "../../models/hanabi-hint.model";
+import {HanabiHint} from "../../models/hanabi-assistant/hanabi-hint.model";
 import {HanabiMarkersComponent} from "../hanabi-markers/hanabi-markers.component";
 import {HanabiSettings} from "../../models/hanabi-settings.model";
-import {HanabiMarker} from "../../models/hanabi-marker.model";
-import {HanabiCardInfos} from "../../models/hanabi-infos/hanabi-card-infos.model";
+import {HanabiMarker} from "../../models/hanabi-assistant/hanabi-marker.model";
 import {Changes} from "../../../../../core/utils/changes.model";
 import {HanabiCriticalComponent} from "./hanabi-critical/hanabi-critical.component";
 import {HanabiImpossibleCluesComponent} from "./hanabi-impossible-clues/hanabi-impossible-clues.component";
+import {HanabiTrashComponent} from "./hanabi-trash/hanabi-trash.component";
 
 @Component({
   selector: 'app-hanabi-card',
@@ -36,6 +36,7 @@ import {HanabiImpossibleCluesComponent} from "./hanabi-impossible-clues/hanabi-i
     HanabiCriticalComponent,
     HanabiImpossibleCluesComponent,
     NgOptimizedImage,
+    HanabiTrashComponent,
   ],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -43,7 +44,6 @@ import {HanabiImpossibleCluesComponent} from "./hanabi-impossible-clues/hanabi-i
 export class HanabiCardComponent implements OnInit, OnChanges {
   @Input() card: HanabiCard = HanabiCard.empty();
   @Input() settings: HanabiSettings = HanabiSettings.empty();
-  @Input() infos: HanabiCardInfos = HanabiCardInfos.empty();
   @Input() hint: HanabiHint = HanabiHint.empty();
   @Input() visible: boolean = true;
   @Input() clickable: boolean = false;
@@ -54,6 +54,7 @@ export class HanabiCardComponent implements OnInit, OnChanges {
 
   @Input() noClues: boolean = false;
   @Input() showCritical: boolean = false;
+  @Input() showTrash: boolean = false;
   @Input() showMarkers: boolean = false;
   @Input() showMarkerWarnings: boolean = false;
   @Input() showImpossibleClues: boolean = false;
@@ -65,7 +66,6 @@ export class HanabiCardComponent implements OnInit, OnChanges {
   @Output() hintUpdate: EventEmitter<HanabiHint> = new EventEmitter<HanabiHint>();
   @Output() selectedCardUpdate: EventEmitter<HanabiCard> = new EventEmitter<HanabiCard>();
 
-  protected isCritical = false;
   protected markerButtonVisible = false;
 
   protected classes: string[] = [];
@@ -82,10 +82,6 @@ export class HanabiCardComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: Changes<HanabiCardComponent>): void {
     this.computeClasses();
-
-    if (changes.infos) {
-      this.isCritical = this.infos.isCritical();
-    }
   }
 
   protected onPlay(): void {

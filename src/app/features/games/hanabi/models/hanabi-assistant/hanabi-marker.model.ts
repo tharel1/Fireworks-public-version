@@ -1,6 +1,6 @@
 import {ValueObject} from "immutable";
-import {HanabiCard} from "./hanabi-card.model";
-import {HanabiCardInfos} from "./hanabi-infos/hanabi-card-infos.model";
+import {HanabiCard} from "../hanabi-card.model";
+import {HanabiCardInfos} from "../hanabi-infos/hanabi-card-infos.model";
 
 export class HanabiMarker implements ValueObject {
 
@@ -78,8 +78,7 @@ export class HanabiMarker implements ValueObject {
 
   private checkClueWarning(card: HanabiCard): string {
 
-    if (card.valueClue.size > 0 && card.colorClue.size > 0
-      && (this.value !== card.value.toString() || this.color !== card.color))
+    if (card.isFullyClued() && (this.value !== card.value.toString() || this.color !== card.color))
       return `Card is '${card.color}${card.value}'`;
 
     if (this.value && card.valueClue.size > 0 && !card.valueClue.contains(+this.value))
@@ -111,7 +110,7 @@ export class HanabiMarker implements ValueObject {
     if (!this.isFull()) return '';
 
     if (isInPovHand && markerCardInfo.allVisible())
-      return `All '${this.color}${this.value}' are visible`
+      return `All '${this.color}${this.value}' are visible`;
 
     return '';
   }

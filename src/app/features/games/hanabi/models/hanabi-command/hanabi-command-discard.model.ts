@@ -8,12 +8,14 @@ export class HanabiCommandDiscard extends HanabiCommand {
   readonly source: HanabiPlayer;
   readonly card: HanabiCard;
   readonly index: number;
+  readonly draw: boolean;
 
   constructor(builder: Builder) {
     super(HanabiCommand.Type.DISCARD);
     this.source = builder.source;
     this.card = builder.card;
     this.index = builder.index;
+    this.draw = builder.draw;
   }
 
   static builder(): Builder {
@@ -28,7 +30,8 @@ export class HanabiCommandDiscard extends HanabiCommand {
     return HanabiCommandDiscard.builder()
       .withSource(copy.source)
       .withCard(copy.card)
-      .withIndex(copy.index);
+      .withIndex(copy.index)
+      .withDraw(copy.draw);
   }
 
   static override fromJson(json: any): HanabiCommandDiscard {
@@ -36,11 +39,14 @@ export class HanabiCommandDiscard extends HanabiCommand {
       .withSource(HanabiPlayer.fromJson(json.source))
       .withCard(HanabiCard.fromJson(json.card))
       .withIndex(json.index)
+      .withDraw(json.draw)
       .build();
   }
 
   fill(game: HanabiGame): HanabiCommandDiscard {
-    return this;
+    return HanabiCommandDiscard.copy(this)
+      .withDraw(!game.drawPile.isEmpty())
+      .build();
   }
 
   update(game: HanabiGame): HanabiGame {
@@ -54,25 +60,26 @@ export class HanabiCommandDiscard extends HanabiCommand {
             : p.cards.remove(this.index))
           : p.cards)
         .build()))
+      .withDrawPile(this.draw ? game.drawPile.remove(-1) : game.drawPile)
       .withDiscardPile(game.discardPile.push(this.card))
-      .withDrawPile(game.drawPile.remove(-1))
       .withClues(game.clues+1)
       .build()
       .nextTurn();
   }
 
   revert(game: HanabiGame): HanabiGame {
-    let cardToReturn = game.players.find(p => p.equals(this.source))?.cards.first();
-    if (!cardToReturn) throw new Error(`No card to return to draw pile`);
+    let cardToReturn = this.draw
+      ? game.players.find(p => p.equals(this.source))?.cards.first()
+      : undefined;
 
     return HanabiGame.copy(game)
       .withPlayers(game.players.map((p) => HanabiPlayer.copy(p)
         .withCards(p.equals(this.source)
-          ? p.cards.remove(0).insert(this.index, this.card)
+          ? (this.draw ? p.cards.remove(0) : p.cards).insert(this.index, this.card)
           : p.cards)
         .build()))
       .withDiscardPile(game.discardPile.remove(-1))
-      .withDrawPile(game.drawPile.push(cardToReturn))
+      .withDrawPile(cardToReturn ? game.drawPile.push(cardToReturn) : game.drawPile)
       .withClues(game.clues-1)
       .build()
       .previousTurn();
@@ -94,6 +101,7 @@ class Builder {
   source: HanabiPlayer = HanabiPlayer.empty();
   card: HanabiCard = HanabiCard.empty();
   index: number = 0;
+  draw: boolean = false;
 
   withSource(source: HanabiPlayer): Builder {
     this.source = source;
@@ -107,6 +115,11 @@ class Builder {
 
   withIndex(index: number): Builder {
     this.index = index;
+    return this;
+  }
+
+  withDraw(draw: boolean): Builder {
+    this.draw = draw;
     return this;
   }
 

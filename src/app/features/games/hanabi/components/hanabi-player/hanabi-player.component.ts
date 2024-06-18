@@ -9,7 +9,7 @@ import {HanabiCommandClueValue} from "../../models/hanabi-command/hanabi-command
 import {HanabiCommandPlay} from "../../models/hanabi-command/hanabi-command-play.model";
 import {HanabiCommandDiscard} from "../../models/hanabi-command/hanabi-command-discard.model";
 import {PlayerBarComponent} from "../../../../../shared/components/player-bar/player-bar.component";
-import {HanabiAssistant} from "../../models/hanabi-assistant.model";
+import {HanabiAssistant} from "../../models/hanabi-assistant/hanabi-assistant.model";
 import {HanabiPreferences} from "../../models/hanabi-preferences.model";
 import {HanabiSettings} from "../../models/hanabi-settings.model";
 import {HanabiInfos} from "../../models/hanabi-infos/hanabi-infos.model";

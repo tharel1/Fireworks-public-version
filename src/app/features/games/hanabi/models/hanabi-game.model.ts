@@ -3,6 +3,7 @@ import {HanabiPlayer} from "./hanabi-player.model";
 import {HanabiCard} from "./hanabi-card.model";
 import {HanabiSettings} from "./hanabi-settings.model";
 import {HanabiInfos} from "./hanabi-infos/internal";
+import {HanabiScore} from "./hanabi-score.model";
 
 export class HanabiGame implements ValueObject {
 
@@ -14,6 +15,8 @@ export class HanabiGame implements ValueObject {
   readonly board: List<HanabiCard>;
   readonly clues: number;
   readonly bombs: number;
+  readonly finished: boolean;
+  readonly finishPlayer?: HanabiPlayer;
 
   constructor(builder: Builder) {
     this.settings = builder.settings;
@@ -24,6 +27,8 @@ export class HanabiGame implements ValueObject {
     this.board = builder.board;
     this.clues = builder.clues;
     this.bombs = builder.bombs;
+    this.finished = builder.finished;
+    this.finishPlayer = builder.finishPlayer;
   }
 
   static builder(): Builder {
@@ -43,7 +48,9 @@ export class HanabiGame implements ValueObject {
       .withDiscardPile(copy.discardPile)
       .withBoard(copy.board)
       .withClues(copy.clues)
-      .withBombs(copy.bombs);
+      .withBombs(copy.bombs)
+      .withFinished(copy.finished)
+      .withFinishPlayer(copy.finishPlayer);
   }
 
   static fromJson(json: any): HanabiGame {
@@ -56,6 +63,8 @@ export class HanabiGame implements ValueObject {
       .withBoard(List(json.board).map(c => HanabiCard.fromJson(c)))
       .withClues(json.clues)
       .withBombs(json.bombs)
+      .withFinished(json.finished)
+      .withFinishPlayer(json.finishPlayer ? HanabiPlayer.fromJson(json.finishPlayer) : undefined)
       .build();
   }
 
@@ -67,8 +76,32 @@ export class HanabiGame implements ValueObject {
     return 0;
   }
 
+  isFinished(): boolean {
+    return this.hasMaxBombs()
+        || this.lastTurnPlayed()
+        || this.reachedMaxPossibleScore();
+  }
+
+  private hasMaxBombs(): boolean {
+    return this.bombs === this.settings.maxBombs;
+  }
+
+  private lastTurnPlayed(): boolean {
+    if (!this.finishPlayer) return false;
+    return this.finishPlayer.equals(this.currentPlayer());
+  }
+
+  private reachedMaxPossibleScore(): boolean {
+    return this.score() === this.maxPossibleScore();
+  }
+
   score(): number {
+    if (this.hasMaxBombs()) return 0;
     return this.board.size;
+  }
+
+  maxPossibleScore(): number {
+    return this.createInfos().maxValueByColor.reduce((score, value) => score+value, 0);
   }
 
   hasMaxClues(): boolean {
@@ -99,6 +132,8 @@ export class HanabiGame implements ValueObject {
         .withPlaying(p.equals(nextPlayer))
         .build()))
       .withTurn(this.turn+1)
+      .withFinished(this.isFinished())
+      .withFinishPlayer(this.finishPlayer ?? (this.drawPile.isEmpty() ? this.currentPlayer() : undefined))
       .build();
   }
 
@@ -110,6 +145,8 @@ export class HanabiGame implements ValueObject {
         .withPlaying(p.equals(previousPlayer))
         .build()))
       .withTurn(this.turn-1)
+      .withFinished(false)
+      .withFinishPlayer(this.drawPile.isEmpty() ? this.finishPlayer : undefined)
       .build();
   }
 
@@ -152,6 +189,17 @@ export class HanabiGame implements ValueObject {
     return HanabiInfos.fromGame(this);
   }
 
+  createScores(): List<HanabiScore> {
+    const score = this.score();
+    const rank = score === this.settings.maxScore() ? 1 : 0;
+
+    return this.players.map(p => HanabiScore.builder()
+      .withUser(p.user)
+      .withScore(score)
+      .withRank(rank)
+      .build());
+  }
+
 }
 
 export namespace HanabiGame {
@@ -168,6 +216,8 @@ class Builder {
   board: List<HanabiCard> = List.of();
   clues: number = 0;
   bombs: number = 0;
+  finished: boolean = false;
+  finishPlayer?: HanabiPlayer = undefined;
 
   withSettings(settings: HanabiSettings): Builder {
     this.settings = settings;
@@ -206,6 +256,16 @@ class Builder {
 
   withBombs(bombs: number): Builder {
     this.bombs = bombs;
+    return this;
+  }
+
+  withFinished(finished: boolean): Builder {
+    this.finished = finished;
+    return this;
+  }
+
+  withFinishPlayer(finishPlayer?: HanabiPlayer): Builder {
+    this.finishPlayer = finishPlayer;
     return this;
   }
 

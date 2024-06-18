@@ -2,15 +2,14 @@ import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, Outp
 import {MatIcon} from "@angular/material/icon";
 import {MatDivider} from "@angular/material/divider";
 import {MatIconButton} from "@angular/material/button";
-import {HanabiAssistant} from "../../models/hanabi-assistant.model";
+import {HanabiAssistant} from "../../models/hanabi-assistant/hanabi-assistant.model";
 import {Changes} from "../../../../../core/utils/changes.model";
-import {HanabiCardInfos} from "../../models/hanabi-infos/hanabi-card-infos.model";
-import {HanabiHint} from "../../models/hanabi-hint.model";
+import {HanabiHint} from "../../models/hanabi-assistant/hanabi-hint.model";
 import {HanabiGame} from "../../models/hanabi-game.model";
 import {HanabiCard} from "../../models/hanabi-card.model";
 import {MatCard, MatCardContent} from "@angular/material/card";
 import {CommonModule} from "@angular/common";
-import {HanabiMarker} from "../../models/hanabi-marker.model";
+import {HanabiMarker} from "../../models/hanabi-assistant/hanabi-marker.model";
 import {List} from "immutable";
 import {HanabiSettings} from "../../models/hanabi-settings.model";
 import {HanabiInfosFromPov} from "../../models/hanabi-infos/hanabi-infos-from-pov.model";
@@ -18,6 +17,11 @@ import {MatChipListbox} from "@angular/material/chips";
 import {HanabiMarkerChipComponent} from "../hanabi-markers/hanabi-marker-chip/hanabi-marker-chip.component";
 import {MatExpansionPanel, MatExpansionPanelHeader, MatExpansionPanelTitle} from "@angular/material/expansion";
 import {MatTooltip} from "@angular/material/tooltip";
+import {HanabiInfos} from "../../models/hanabi-infos/hanabi-infos.model";
+import {HanabiNumberPipe} from "../../pipes/hanabi-number.pipe";
+import {HanabiTinyCardComponent} from "../hanabi-card/hanabi-tiny-card/hanabi-tiny-card.component";
+import {TooltipInfoComponent} from "../../../../../shared/components/tooltip-info/tooltip-info.component";
+import {HanabiConstants} from "../../utils/hanabi-constants";
 
 @Component({
   selector: 'app-hanabi-side-sheet',
@@ -34,7 +38,10 @@ import {MatTooltip} from "@angular/material/tooltip";
     MatExpansionPanel,
     MatExpansionPanelHeader,
     MatExpansionPanelTitle,
-    MatTooltip
+    MatTooltip,
+    HanabiNumberPipe,
+    HanabiTinyCardComponent,
+    TooltipInfoComponent
   ],
   templateUrl: './hanabi-side-sheet.component.html',
   styleUrl: './hanabi-side-sheet.component.scss',
@@ -48,24 +55,35 @@ export class HanabiSideSheetComponent implements OnChanges {
   @Output() assistantUpdate: EventEmitter<HanabiAssistant> = new EventEmitter<HanabiAssistant>();
 
   protected card: HanabiCard = HanabiCard.empty();
-  protected cardInfos: HanabiCardInfos = HanabiCardInfos.empty();
   protected hint: HanabiHint = HanabiHint.empty();
 
   protected mainMarkerRows: List<List<HanabiMarker>> = List.of();
   protected otherMarkerRows: List<List<HanabiMarker>> = List.of();
-  protected isCritical = false;
+  protected showCritical: boolean = false;
+  protected showTrash: boolean = false;
+  protected trashType?: HanabiInfos.TrashType = undefined;
+  protected lostCard?: HanabiCard = undefined;
+
+  protected readonly TrashType = HanabiInfos.TrashType;
+  protected readonly HanabiConstants = HanabiConstants;
 
   ngOnChanges(changes: Changes<HanabiSideSheetComponent>): void {
     if (changes.game || changes.infos || changes.assistant) {
       if (this.assistant.selectedCardId === undefined) return;
 
       this.card = this.game.allCards().find(c => c.id === this.assistant.selectedCardId) ?? HanabiCard.empty();
-      this.cardInfos = this.infos.getCardInfoByCard(this.card);
       this.hint = this.assistant.hints.find(h => h.cardId === this.assistant.selectedCardId) ?? HanabiHint.empty();
 
       this.mainMarkerRows = this.buildMainMarkerRows(this.card, this.game.settings);
       this.otherMarkerRows = this.buildOtherMarkerRows(this.card, this.game.settings);
-      this.isCritical = this.cardInfos.isCritical();
+      this.showCritical = !this.hint.isInPovHand && this.infos.isCritical(this.card);
+      this.showTrash = this.infos.isKnownForTrash(this.card) || (!this.hint.isInPovHand && this.infos.isTrash(this.card));
+      this.trashType = this.infos.trashType(this.card);
+      if (this.trashType === HanabiInfos.TrashType.UNPLAYABLE)
+        this.lostCard = HanabiCard.builder()
+          .withColor(this.card.color)
+          .withValue((this.infos.maxValueByColor.get(this.card.color)??0) + 1)
+          .build();
     }
   }
 
@@ -108,7 +126,7 @@ export class HanabiSideSheetComponent implements OnChanges {
     let rows: List<List<HanabiMarker>> = List.of();
 
     if (card.isClued()) {
-      if (card.valueClue.size > 0 && card.colorClue.size > 0) rows = rows.push();
+      if (card.isFullyClued()) rows = rows.push();
       else if (card.valueClue.size > 0) rows = rows.push(this.markersByValue(card.valueClue.last(), settings));
       else if (card.colorClue.size > 0) rows = rows.push(this.markersByColor(card.colorClue.last(), settings));
     } else {
@@ -124,7 +142,7 @@ export class HanabiSideSheetComponent implements OnChanges {
     let rows: List<List<HanabiMarker>> = List.of();
 
     if (card.isClued()) {
-      if (card.valueClue.size > 0 && card.colorClue.size > 0) rows = rows.push(...this.allMarkers(settings));
+      if (card.isFullyClued()) rows = rows.push(...this.allMarkers(settings));
       else if (card.valueClue.size > 0) rows = rows.push(...this.allMarkersWithoutValue(card.valueClue.last(), settings));
       else if (card.colorClue.size > 0) rows = rows.push(...this.allMarkersWithoutColor(card.colorClue.last(), settings));
     }
@@ -175,7 +193,7 @@ export class HanabiSideSheetComponent implements OnChanges {
     return List.of(
       HanabiMarker.builder().withValue('✨').withSpecial(true).withDescription('Playable').build(),
       HanabiMarker.builder().withValue('📌').withSpecial(true).withDescription('Save').build(),
-      HanabiMarker.builder().withValue('🗑️').withSpecial(true).withDescription('Discard').build(),
+      HanabiMarker.builder().withValue('🗑️').withSpecial(true).withDescription('Trash').build(),
       HanabiMarker.builder().withValue('🔧').withSpecial(true).withDescription('Fix').build(),
       HanabiMarker.builder().withValue('💥').withSpecial(true).withDescription('Bomb').build()
     )

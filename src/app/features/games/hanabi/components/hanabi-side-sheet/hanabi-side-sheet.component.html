@@ -7,7 +7,7 @@
   <div class="hanabi-side-sheet-markers">
     <div class="hanabi-side-sheet-markers-title">
       <span>Markers</span>
-      <button mat-icon-button matTooltip="Remove all" (click)="onRemoveMarkers()"><mat-icon >delete</mat-icon></button>
+      <button mat-icon-button matTooltip="Clear" (click)="onRemoveMarkers()"><mat-icon >delete</mat-icon></button>
     </div>
     <div *ngFor="let markerRow of mainMarkerRows"
          class="hanabi-side-sheet-markers-chips">
@@ -16,25 +16,48 @@
                               [selected]="isSelected(marker)"
                               (click)="onMarkerChip(marker)"></app-hanabi-marker-chip>
     </div>
-    <mat-expansion-panel>
-      <mat-expansion-panel-header>
-        <mat-panel-title>Others</mat-panel-title>
-      </mat-expansion-panel-header>
-      <div *ngFor="let markerRow of otherMarkerRows"
-           class="hanabi-side-sheet-markers-chips">
-        <app-hanabi-marker-chip *ngFor="let marker of markerRow"
-                                [marker]="marker"
-                                [selected]="isSelected(marker)"
-                                (click)="onMarkerChip(marker)"></app-hanabi-marker-chip>
-      </div>
-    </mat-expansion-panel>
   </div>
 
-  <mat-divider *ngIf="isCritical && !hint.isInPovHand"></mat-divider>
-  <mat-card *ngIf="isCritical && !hint.isInPovHand" class="color-error-inverse">
-    <mat-card-content class="hanabi-side-sheet-critical">
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>Others</mat-panel-title>
+    </mat-expansion-panel-header>
+    <div *ngFor="let markerRow of otherMarkerRows"
+         class="hanabi-side-sheet-markers-chips">
+      <app-hanabi-marker-chip *ngFor="let marker of markerRow"
+                              [marker]="marker"
+                              [selected]="isSelected(marker)"
+                              (click)="onMarkerChip(marker)"></app-hanabi-marker-chip>
+    </div>
+  </mat-expansion-panel>
+
+  <mat-divider *ngIf="showCritical"></mat-divider>
+  <mat-card *ngIf="showCritical" class="color-error">
+    <mat-card-content class="hanabi-side-sheet-card">
       <mat-icon>error</mat-icon>
-      <span>This card is critical</span>
+      <span>
+        Critical card
+        <app-tooltip-info [info]="HanabiConstants.DESCRIPTION_CRITICAL_CARD"></app-tooltip-info>
+      </span>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-divider *ngIf="showTrash"></mat-divider>
+  <mat-card *ngIf="showTrash" class="color-secondary">
+    <mat-card-content class="hanabi-side-sheet-card">
+      <mat-icon>delete</mat-icon>
+      <span class="hanabi-side-sheet-trash">
+        Trash card
+        <app-tooltip-info [info]="HanabiConstants.DESCRIPTION_TRASH_CARD"></app-tooltip-info>
+        (
+        <ng-container [ngSwitch]="trashType">
+          <ng-container *ngSwitchCase="TrashType.ALREADY_PLAYED">Already played</ng-container>
+          <ng-container *ngSwitchCase="TrashType.UNPLAYABLE"><app-hanabi-tiny-card *ngIf="lostCard" [card]="lostCard"></app-hanabi-tiny-card> is lost</ng-container>
+          <ng-container *ngSwitchCase="TrashType.TRASH_COLOR"><b [class]="card.color">{{ card.color | titlecase }}</b>are trash</ng-container>
+          <ng-container *ngSwitchCase="TrashType.TRASH_VALUE"><b>{{ card.value }}s</b>are trash</ng-container>
+        </ng-container>
+        )
+      </span>
     </mat-card-content>
   </mat-card>
 </div>

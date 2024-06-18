@@ -4,6 +4,7 @@ import {HanabiGame} from "./hanabi-game.model";
 import {User} from "../../../users/models/user.model";
 import {RandomUtil} from "../../../../core/utils/random.util";
 import {HanabiPlayer} from "./hanabi-player.model";
+import {ArrayUtil} from "../../../../core/utils/array.util";
 
 export class HanabiSettings implements ValueObject {
 
@@ -57,7 +58,7 @@ export class HanabiSettings implements ValueObject {
   }
 
   values(): List<number> {
-    return List(Array.from(Array(this.maxValue).keys())).map(i => i+1);
+    return ArrayUtil.range(1, this.maxValue);
   }
 
   maxScore(): number {

@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {CommonModule} from "@angular/common";
 import {MatTooltip} from "@angular/material/tooltip";
 import {MatCard} from "@angular/material/card";
@@ -16,5 +16,4 @@ import {MatCard} from "@angular/material/card";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HanabiCriticalComponent {
-  @Input() isCritical: boolean = false;
 }

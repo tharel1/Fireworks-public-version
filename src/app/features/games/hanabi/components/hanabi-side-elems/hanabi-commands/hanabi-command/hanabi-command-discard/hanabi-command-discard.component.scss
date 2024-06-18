@@ -1,9 +1,9 @@
 .hanabi-command-discard {
   display: flex;
+  align-items: baseline;
   gap: 5px;
 
   app-hanabi-tiny-card {
     height: 0;
-    transform: translateY(-5px);
   }
 }

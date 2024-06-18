@@ -1,9 +1,9 @@
-import {Set} from "immutable";
+import {Map, Set} from "immutable";
 import {HanabiPlayer} from "../hanabi-player.model";
 import {HanabiGame} from "../hanabi-game.model";
 import {HanabiCardInfos, HanabiInfos} from "./internal";
-import {HanabiAssistant} from "../hanabi-assistant.model";
-import {HanabiHint} from "../hanabi-hint.model";
+import {HanabiAssistant} from "../hanabi-assistant/hanabi-assistant.model";
+import {HanabiHint} from "../hanabi-assistant/hanabi-hint.model";
 import {HanabiCard} from "../hanabi-card.model";
 
 export class HanabiInfosFromPov extends HanabiInfos {
@@ -27,6 +27,10 @@ export class HanabiInfosFromPov extends HanabiInfos {
     return HanabiInfosFromPov.builder()
       .withGame(copy.game)
       .withCards(copy.cards)
+      .withMaxValueByColor(copy.maxValueByColor)
+      .withBoardValueByColor(copy.boardValueByColor)
+      .withTrashValues(copy.trashValues)
+      .withTrashColors(copy.trashColors)
       .withPov(copy.pov);
   }
 
@@ -34,6 +38,10 @@ export class HanabiInfosFromPov extends HanabiInfos {
     return HanabiInfosFromPov.builder()
       .withGame(HanabiGame.fromJson(json.game))
       .withCards(Set(json.cards).map(c => HanabiCardInfos.fromJson(c)))
+      .withMaxValueByColor(Map<HanabiCard.Color, number>(json.maxValueByColor))
+      .withBoardValueByColor(Map<HanabiCard.Color, number>(json.boardValueByColor))
+      .withTrashValues(Set(json.trashValues))
+      .withTrashColors(Set(json.trashColors))
       .withPov(HanabiPlayer.fromJson(json.pov))
       .build();
   }
@@ -70,6 +78,10 @@ class Builder {
 
   game: HanabiGame = HanabiGame.empty();
   cards: Set<HanabiCardInfos> = Set.of();
+  maxValueByColor: Map<HanabiCard.Color, number> = Map();
+  boardValueByColor: Map<HanabiCard.Color, number> = Map();
+  trashValues: Set<number> = Set.of();
+  trashColors: Set<HanabiCard.Color> = Set.of();
   pov: HanabiPlayer = HanabiPlayer.empty();
 
   withGame(game: HanabiGame): Builder {
@@ -79,6 +91,26 @@ class Builder {
 
   withCards(cards: Set<HanabiCardInfos>): Builder {
     this.cards = cards;
+    return this;
+  }
+
+  withMaxValueByColor(maxValueByColor: Map<HanabiCard.Color, number>): Builder {
+    this.maxValueByColor = maxValueByColor;
+    return this;
+  }
+
+  withBoardValueByColor(boardValueByColor: Map<HanabiCard.Color, number>): Builder {
+    this.boardValueByColor = boardValueByColor;
+    return this;
+  }
+
+  withTrashValues(trashValues: Set<number>): Builder {
+    this.trashValues = trashValues;
+    return this;
+  }
+
+  withTrashColors(trashColors: Set<HanabiCard.Color>): Builder {
+    this.trashColors = trashColors;
     return this;
   }
 

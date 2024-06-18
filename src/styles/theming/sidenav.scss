@@ -1,7 +1,7 @@
 @use "@angular/material";
 @use "sass:map";
 
-@mixin sidenav-color($theme) {
+@mixin color($theme) {
   .mat-sidenav.mat-drawer {
     &.type-side-sheet {
       padding: 24px;

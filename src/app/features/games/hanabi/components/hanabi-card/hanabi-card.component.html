@@ -32,8 +32,9 @@
                         (markersUpdate)="onMarkersUpdate($event)"
                         (selectedCardUpdate)="onSelectedCardUpdate()"></app-hanabi-markers>
 
-    <app-hanabi-critical *ngIf="showCritical"
-                         [isCritical]="isCritical"></app-hanabi-critical>
+    <app-hanabi-critical *ngIf="showCritical"></app-hanabi-critical>
+
+    <app-hanabi-trash *ngIf="showTrash"></app-hanabi-trash>
 
     <app-hanabi-impossible-clues *ngIf="showImpossibleClues"
                                  [card]="card"

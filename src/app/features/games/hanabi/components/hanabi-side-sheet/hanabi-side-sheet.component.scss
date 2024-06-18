@@ -1,3 +1,5 @@
+@use "styles/variables/hanabi";
+
 .hanabi-side-sheet {
   display: flex;
   flex-direction: column;
@@ -17,21 +19,49 @@
     gap: 5px;
 
     .hanabi-side-sheet-markers-title {
+      font-size: large;
+
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
-
-    .hanabi-side-sheet-markers-chips {
-      display: flex;
-      justify-content: center;
-      gap: 2px;
-    }
   }
 
-  .hanabi-side-sheet-critical {
+  .hanabi-side-sheet-markers-chips {
+    display: flex;
+    justify-content: center;
+    gap: 2px;
+  }
+
+  .hanabi-side-sheet-card {
     display: flex;
     align-items: center;
     gap: 10px;
+
+    .hanabi-side-sheet-trash {
+      display: flex;
+      gap: 5px;
+
+      .red {
+        color: hanabi.$red;
+      }
+      .yellow {
+        color: hanabi.$yellow;
+      }
+      .green {
+        color: hanabi.$green;
+      }
+      .blue {
+        color: hanabi.$blue;
+      }
+      .purple {
+        color: hanabi.$purple;
+      }
+
+      app-hanabi-tiny-card {
+        transform: translateY(-5px);
+        height: 0;
+      }
+    }
   }
 }

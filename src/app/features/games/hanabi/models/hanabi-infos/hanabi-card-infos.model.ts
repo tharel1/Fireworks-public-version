@@ -76,9 +76,9 @@ export class HanabiCardInfos implements ValueObject {
       .build();
   }
 
-  isCritical(): boolean {
+  isLost(): boolean {
     return this.played === 0
-        && this.remaining === 1;
+        && this.remaining === 0;
   }
 
   allVisible(): boolean {
@@ -87,7 +87,7 @@ export class HanabiCardInfos implements ValueObject {
 
 }
 
-export namespace HanabiCardStats {
+export namespace HanabiCardInfos {
 }
 
 class Builder {

@@ -1,7 +1,7 @@
 import {Set, ValueObject} from "immutable";
 import {HanabiHint} from "./hanabi-hint.model";
-import {HanabiInfosFromPov} from "./hanabi-infos/hanabi-infos-from-pov.model";
-import {HanabiCard} from "./hanabi-card.model";
+import {HanabiInfosFromPov} from "../hanabi-infos/hanabi-infos-from-pov.model";
+import {HanabiCard} from "../hanabi-card.model";
 
 export class HanabiAssistant implements ValueObject {
 
@@ -50,10 +50,11 @@ export class HanabiAssistant implements ValueObject {
     return HanabiAssistant.copy(this)
       .withHints(this.hints.map(h => {
         const card = infos.game.allCards().find(c => c.id === h.cardId) ?? HanabiCard.empty();
+        const isInPovHand = infos.pov.cards.some(c => c.equals(card));
 
         return HanabiHint.copy(h)
-          .withIsInPovHand(infos.pov.cards.some(c => c.equals(card)))
-          .withMarkers(h.markers.map(m => m.applyWarnings(card, infos.getCardInfoByMarker(m), h.isInPovHand)))
+          .withIsInPovHand(isInPovHand)
+          .withMarkers(h.markers.map(m => m.applyWarnings(card, infos.getCardInfoByMarker(m), isInPovHand)))
           .build()
       }))
       .build();

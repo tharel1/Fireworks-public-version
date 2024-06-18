@@ -10,6 +10,7 @@ export class HanabiCommandPlay extends HanabiCommand {
   readonly index: number;
   readonly isBomb: boolean;
   readonly gainClue: boolean;
+  readonly draw: boolean;
 
   constructor(builder: Builder) {
     super(HanabiCommand.Type.PLAY);
@@ -18,6 +19,7 @@ export class HanabiCommandPlay extends HanabiCommand {
     this.index = builder.index;
     this.isBomb = builder.isBomb;
     this.gainClue = builder.gainClue;
+    this.draw = builder.draw;
   }
 
   static builder(): Builder {
@@ -34,7 +36,8 @@ export class HanabiCommandPlay extends HanabiCommand {
       .withCard(copy.card)
       .withIndex(copy.index)
       .withIsBomb(copy.isBomb)
-      .withGainClue(copy.gainClue);
+      .withGainClue(copy.gainClue)
+      .withDraw(copy.draw);
   }
 
   static override fromJson(json: any): HanabiCommandPlay {
@@ -44,6 +47,7 @@ export class HanabiCommandPlay extends HanabiCommand {
       .withIndex(json.index)
       .withIsBomb(json.isBomb)
       .withGainClue(json.gainClue)
+      .withDraw(json.draw)
       .build();
   }
 
@@ -54,6 +58,7 @@ export class HanabiCommandPlay extends HanabiCommand {
     return HanabiCommandPlay.copy(this)
       .withIsBomb(isBomb)
       .withGainClue(!isBomb && isHighestCard && !game.hasMaxClues())
+      .withDraw(!game.drawPile.isEmpty())
       .build();
   }
 
@@ -69,7 +74,7 @@ export class HanabiCommandPlay extends HanabiCommand {
           : p.cards)
         .build()))
       .withBoard(this.isBomb ? game.board : game.board.push(this.card))
-      .withDrawPile(game.drawPile.remove(-1))
+      .withDrawPile(this.draw ? game.drawPile.remove(-1) : game.drawPile)
       .withDiscardPile(this.isBomb ? game.discardPile.push(this.card) : game.discardPile)
       .withClues(game.clues + (this.gainClue ? 1 : 0))
       .withBombs(game.bombs + (this.isBomb ? 1 : 0))
@@ -78,17 +83,18 @@ export class HanabiCommandPlay extends HanabiCommand {
   }
 
   revert(game: HanabiGame): HanabiGame {
-    const cardToReturn = game.players.find(p => p.equals(this.source))?.cards.first();
-    if (!cardToReturn) throw new Error(`No card to return to draw pile`);
+    let cardToReturn = this.draw
+      ? game.players.find(p => p.equals(this.source))?.cards.first()
+      : undefined;
 
     return HanabiGame.copy(game)
       .withPlayers(game.players.map((p) => HanabiPlayer.copy(p)
         .withCards(p.equals(this.source)
-          ? p.cards.remove(0).insert(this.index, this.card)
+          ? (this.draw ? p.cards.remove(0) : p.cards).insert(this.index, this.card)
           : p.cards)
         .build()))
       .withBoard(this.isBomb ? game.board : game.board.remove(-1))
-      .withDrawPile(game.drawPile.push(cardToReturn))
+      .withDrawPile(cardToReturn ? game.drawPile.push(cardToReturn) : game.drawPile)
       .withDiscardPile(this.isBomb ? game.discardPile.remove(-1) : game.discardPile)
       .withClues(game.clues - (this.gainClue ? 1 : 0))
       .withBombs(game.bombs - (this.isBomb ? 1 : 0))
@@ -110,8 +116,9 @@ class Builder {
   source: HanabiPlayer = HanabiPlayer.empty();
   card: HanabiCard = HanabiCard.empty();
   index: number = 0;
-  isBomb = false;
-  gainClue = false;
+  isBomb: boolean = false;
+  gainClue: boolean = false;
+  draw: boolean = false;
 
   withSource(source: HanabiPlayer): Builder {
     this.source = source;
@@ -135,6 +142,11 @@ class Builder {
 
   withGainClue(gainClue: boolean): Builder {
     this.gainClue = gainClue;
+    return this;
+  }
+
+  withDraw(draw: boolean): Builder {
+    this.draw = draw;
     return this;
   }
 

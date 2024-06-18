@@ -3,13 +3,12 @@ import {CommonModule} from '@angular/common';
 import {HanabiCardComponent} from "../hanabi-card/hanabi-card.component";
 import {List} from "immutable";
 import {HanabiCard} from "../../models/hanabi-card.model";
-import {HanabiAssistant} from "../../models/hanabi-assistant.model";
+import {HanabiAssistant} from "../../models/hanabi-assistant/hanabi-assistant.model";
 import {Changes} from "../../../../../core/utils/changes.model";
-import {HanabiHint} from "../../models/hanabi-hint.model";
+import {HanabiHint} from "../../models/hanabi-assistant/hanabi-hint.model";
 import {HanabiPreferences} from "../../models/hanabi-preferences.model";
 import {HanabiSettings} from "../../models/hanabi-settings.model";
 import {HanabiInfos} from "../../models/hanabi-infos/hanabi-infos.model";
-import {HanabiCardInfos} from "../../models/hanabi-infos/hanabi-card-infos.model";
 
 @Component({
   selector: 'app-hanabi-hand',
@@ -36,12 +35,15 @@ export class HanabiHandComponent implements OnChanges {
   protected cardsWithInfos: List<CardWithInfos> = List.of();
 
   ngOnChanges(changes: Changes<HanabiHandComponent>) {
-    if (changes.hand || changes.assistant) {
+    if (changes.hand || changes.infos || changes.preferences || changes.assistant || changes.visible) {
       this.cardsWithInfos = this.hand.map(c => ({
         card: c,
-        infos: this.infos.getCardInfoByCard(c),
         hint: this.assistant.hints.find(h => h.cardId === c.id) ?? HanabiHint.empty(),
-        selected: this.assistant.selectedCardId === c.id
+        selected: this.assistant.selectedCardId === c.id,
+        critical: this.preferences.showCritical && this.visible && this.infos.isCritical(c),
+        trash: this.preferences.showTrash && (
+          this.infos.isKnownForTrash(c) || (this.visible && this.infos.isTrash(c))
+        )
       }));
     }
   }
@@ -77,7 +79,8 @@ export class HanabiHandComponent implements OnChanges {
 
 interface CardWithInfos {
   readonly card: HanabiCard,
-  readonly infos: HanabiCardInfos,
   readonly hint: HanabiHint,
-  readonly selected: boolean
+  readonly selected: boolean,
+  readonly critical: boolean,
+  readonly trash: boolean
 }

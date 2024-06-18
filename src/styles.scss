@@ -2,6 +2,7 @@
 @use "styles/palettes";
 @use "styles/theming/button";
 @use "styles/theming/card";
+@use "styles/theming/expansion-panel";
 @use "styles/theming/sidenav";
 @use "styles/theming/toolbar";
 
@@ -39,17 +40,19 @@ $light-theme: material.define-theme((
 :root {
   @include material.core-theme($dark-theme);
   @include material.all-component-themes($dark-theme);
-  @include button.button-color($dark-theme);
-  @include card.card-color($dark-theme);
-  @include sidenav.sidenav-color($dark-theme);
-  @include toolbar.toolbar-color($dark-theme);
+  @include button.color($dark-theme);
+  @include card.color($dark-theme);
+  @include expansion-panel.color($dark-theme);
+  @include sidenav.color($dark-theme);
+  @include toolbar.color($dark-theme);
 
   .light-theme {
     @include material.core-color($light-theme);
     @include material.all-component-colors($light-theme);
-    @include button.button-color($light-theme);
-    @include card.card-color($light-theme);
-    @include sidenav.sidenav-color($light-theme);
-    @include toolbar.toolbar-color($light-theme);
+    @include button.color($light-theme);
+    @include card.color($light-theme);
+    @include expansion-panel.color($light-theme);
+    @include sidenav.color($light-theme);
+    @include toolbar.color($light-theme);
   }
 }

@@ -1,7 +1,10 @@
 <div class="hanabi-infos">
   <span>Turn: {{game.turn}}</span>
 
-  <span>Score: {{score}}/{{maxScore}}</span>
+  <span>
+    Score: {{score}}/{{maxScore}}
+    <app-tooltip-info [info]="'Max : ' + maxPossibleScore" position="right"></app-tooltip-info>
+  </span>
 
   <mat-card matTooltip="{{game.clues}} clues left"
             matTooltipPosition="right">

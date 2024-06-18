@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output} from '@
 import {HanabiMarkerComponent} from "./hanabi-marker/hanabi-marker.component";
 import {HanabiMarkerButtonComponent} from "./hanabi-marker-button/hanabi-marker-button.component";
 import {List} from "immutable";
-import {HanabiMarker} from "../../models/hanabi-marker.model";
+import {HanabiMarker} from "../../models/hanabi-assistant/hanabi-marker.model";
 import {CommonModule} from "@angular/common";
 
 @Component({

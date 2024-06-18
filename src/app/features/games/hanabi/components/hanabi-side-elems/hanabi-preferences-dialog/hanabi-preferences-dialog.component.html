@@ -8,7 +8,11 @@
     <div class="preferences-checkbox-list">
       <mat-checkbox class="preferences-checkbox" [formControl]="formGroup.controls.showCritical">
         Show critical cards&nbsp;
-        <app-tooltip-info [info]="'Shows the cards that must be played but are only present in one copy.'"></app-tooltip-info>
+        <app-tooltip-info [info]="HanabiConstants.DESCRIPTION_CRITICAL_CARD"></app-tooltip-info>
+      </mat-checkbox>
+      <mat-checkbox class="preferences-checkbox" [formControl]="formGroup.controls.showTrash">
+        Show trash cards&nbsp;
+        <app-tooltip-info [info]="HanabiConstants.DESCRIPTION_TRASH_CARD"></app-tooltip-info>
       </mat-checkbox>
       <mat-checkbox class="preferences-checkbox" [formControl]="formGroup.controls.showMarkerWarnings">
         Show inconsistent markers&nbsp;

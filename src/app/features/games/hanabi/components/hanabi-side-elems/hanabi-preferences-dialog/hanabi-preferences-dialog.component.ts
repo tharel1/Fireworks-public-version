@@ -12,6 +12,7 @@ import {FormBuilder, ReactiveFormsModule} from "@angular/forms";
 import {MatCheckbox} from "@angular/material/checkbox";
 import {TooltipInfoComponent} from "../../../../../../shared/components/tooltip-info/tooltip-info.component";
 import {MatIcon} from "@angular/material/icon";
+import {HanabiConstants} from "../../../utils/hanabi-constants";
 
 @Component({
   selector: 'app-hanabi-preferences-dialog',
@@ -35,9 +36,12 @@ export class HanabiPreferencesDialogComponent {
 
   protected formGroup = this.fb.group({
     showCritical: this.fb.control<boolean>(false),
+    showTrash: this.fb.control<boolean>(false),
     showMarkerWarnings: this.fb.control<boolean>(false),
     markerCleaning: this.fb.control<boolean>(false),
   });
+
+  protected readonly HanabiConstants = HanabiConstants;
 
   constructor(
     private fb: FormBuilder,
@@ -45,6 +49,7 @@ export class HanabiPreferencesDialogComponent {
   ) {
     this.formGroup.patchValue({
       showCritical: this.preferences.showCritical,
+      showTrash: this.preferences.showTrash,
       showMarkerWarnings: this.preferences.showMarkerWarnings,
       markerCleaning: this.preferences.markerCleaning,
     })
@@ -57,6 +62,7 @@ export class HanabiPreferencesDialogComponent {
 
     return HanabiPreferences.builder()
       .withShowCritical(value.showCritical ?? false)
+      .withShowTrash(value.showTrash ?? false)
       .withShowMarkerWarnings(value.showMarkerWarnings ?? false)
       .withMarkerCleaning(value.markerCleaning ?? false)
       .build();
