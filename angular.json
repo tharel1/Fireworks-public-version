@@ -35,8 +35,7 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss",
-              "src/styles/globals/snack-bar.scss"
+              "src/styles.scss"
             ],
             "scripts": []
           },
@@ -101,8 +100,7 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss",
-              "src/styles/globals/snack-bar.scss"
+              "src/styles.scss"
             ],
             "scripts": []
           }

@@ -124,7 +124,7 @@ export class HanabiComponent implements OnInit, OnDestroy, AfterViewInit {
 
   protected onPreferences(preferences: HanabiPreferences): void {
     this.preferences = preferences;
-    this.snackBarService.success(`Your preferences were successfully saved.`);
+    this.snackBarService.success(`Preferences successfully saved.`);
   }
 
   protected onAssistant(assistant: HanabiAssistant): void {

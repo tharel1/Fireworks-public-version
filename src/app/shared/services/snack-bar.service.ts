@@ -11,16 +11,12 @@ export class SnackBarService {
    ) { }
 
   private open(message: string, panelClass: string): void {
-    this.matSnackBar.open(message, 'Close', {
+    this.matSnackBar.open(message, '', {
       duration: 3000,
       horizontalPosition: 'center',
       verticalPosition: 'top',
       panelClass: [panelClass]
     });
-  }
-
-  info(message: string): void {
-    this.open(message, 'info');
   }
 
   success(message: string): void {

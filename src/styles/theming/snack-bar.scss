@@ -1,0 +1,66 @@
+@use "@angular/material";
+@use "sass:map";
+
+@mixin color($theme) {
+
+  .mat-mdc-snack-bar-container {
+    &.success {
+      @if material.get-theme-type($theme) == dark {
+        .mdc-snackbar__surface {
+          background-color: material.get-theme-color($theme, tertiary, 80);
+        }
+        .mdc-snackbar__label, .mat-mdc-button.mat-mdc-snack-bar-action.mdc-snackbar__action {
+          color: material.get-theme-color($theme, tertiary, 20);
+        }
+      } @else {
+        .mdc-snackbar__surface {
+          background-color: material.get-theme-color($theme, tertiary, 40);
+        }
+        .mdc-snackbar__label, .mat-mdc-button.mat-mdc-snack-bar-action.mdc-snackbar__action {
+          color: material.get-theme-color($theme, tertiary, 100);
+        }
+      }
+    }
+  }
+
+  .mat-mdc-snack-bar-container {
+    &.warn {
+      @if material.get-theme-type($theme) == dark {
+        .mdc-snackbar__surface {
+          background-color: material.get-theme-color($theme, primary, 80);
+        }
+        .mdc-snackbar__label, .mat-mdc-button.mat-mdc-snack-bar-action.mdc-snackbar__action {
+          color: material.get-theme-color($theme, primary, 20);
+        }
+      } @else {
+        .mdc-snackbar__surface {
+          background-color: material.get-theme-color($theme, primary, 40);
+        }
+        .mdc-snackbar__label, .mat-mdc-button.mat-mdc-snack-bar-action.mdc-snackbar__action {
+          color: material.get-theme-color($theme, primary, 100);
+        }
+      }
+    }
+  }
+
+  .mat-mdc-snack-bar-container {
+    &.error {
+      @if material.get-theme-type($theme) == dark {
+        .mdc-snackbar__surface {
+          background-color: material.get-theme-color($theme, error, 80);
+        }
+        .mdc-snackbar__label, .mat-mdc-button.mat-mdc-snack-bar-action.mdc-snackbar__action {
+          color: material.get-theme-color($theme, error, 20);
+        }
+      } @else {
+        .mdc-snackbar__surface {
+          background-color: material.get-theme-color($theme, error, 40);
+        }
+        .mdc-snackbar__label, .mat-mdc-button.mat-mdc-snack-bar-action.mdc-snackbar__action {
+          color: material.get-theme-color($theme, error, 100);
+        }
+      }
+    }
+  }
+
+}

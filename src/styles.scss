@@ -4,6 +4,7 @@
 @use "styles/theming/card";
 @use "styles/theming/expansion-panel";
 @use "styles/theming/sidenav";
+@use "styles/theming/snack-bar";
 @use "styles/theming/toolbar";
 
 html, body { height: 100%; }
@@ -44,6 +45,7 @@ $light-theme: material.define-theme((
   @include card.color($dark-theme);
   @include expansion-panel.color($dark-theme);
   @include sidenav.color($dark-theme);
+  @include snack-bar.color($dark-theme);
   @include toolbar.color($dark-theme);
 
   .light-theme {
@@ -53,6 +55,7 @@ $light-theme: material.define-theme((
     @include card.color($light-theme);
     @include expansion-panel.color($light-theme);
     @include sidenav.color($light-theme);
+    @include snack-bar.color($light-theme);
     @include toolbar.color($light-theme);
   }
 }
