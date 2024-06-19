@@ -1,12 +1,28 @@
 <mat-card>
   <mat-card-content class="hanabi-indicators">
+
     <div class="hanabi-indicators-column">
-      <span class="item">Efficiency<app-tooltip-info info="TODO: explain Efficiency" position="above"></app-tooltip-info>:</span>
-      <span class="item">Pace<app-tooltip-info info="The number of card you can still discard to reach max score" position="below"></app-tooltip-info>:</span>
+      <span class="item">
+        Req efficiency
+        <app-tooltip-info [info]='HanabiConstants.DESCRIPTION_REQUIRED_EFFICIENCY' position="above"></app-tooltip-info>
+        :
+      </span>
+      <span class="item">
+        Pace
+        <app-tooltip-info [info]='HanabiConstants.DESCRIPTION_PACE' position="below"></app-tooltip-info>
+        :
+      </span>
     </div>
+
     <div class="hanabi-indicators-column">
-      <span class="item">{{ (efficiency | number: '1.2-2') ?? '-' }}</span>
-      <span class="item">{{ pace }}</span>
+      <span class="item">
+        {{ (requiredEfficiency | number: '1.2-2') ?? '-' }}
+        <app-tooltip-info [info]='efficiencyDetails' position="above"></app-tooltip-info>
+      </span>
+      <span class="item">
+        {{ pace }}
+      </span>
     </div>
+
   </mat-card-content>
 </mat-card>
