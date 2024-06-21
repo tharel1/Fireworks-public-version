@@ -1,0 +1,16 @@
+<mat-card [class]="color">
+  <mat-card-header class="roadmap-feature-header">
+    <mat-card-title class="roadmap-feature-title">
+      <mat-icon> {{ isWip
+        ? (((beat$ | async)??0)%2===0 ? icon : '')
+        : icon }} </mat-icon>
+      {{ feature.title }}
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <p [innerHTML]="feature.description"> {{ feature.description }} </p>
+    <ul>
+      <li *ngFor="let elem of feature.features"> {{ elem }} </li>
+    </ul>
+  </mat-card-content>
+</mat-card>

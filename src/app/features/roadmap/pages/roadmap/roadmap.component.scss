@@ -1,0 +1,31 @@
+@use "styles/variables/roadmap";
+
+.roadmap-title, .roadmap-description {
+  display: flex;
+  justify-content: center;
+}
+
+.roadmap-chart {
+  padding: 20px;
+
+  display: flex;
+  justify-content: center;
+
+  .roadmap-branch {
+    width: 0;
+    align-self: stretch;
+    position: relative;
+    left: (roadmap.$feature-width - roadmap.$branch-width) * 0.5;
+
+    mat-card {
+      width: roadmap.$branch-width;
+      height: 100%;
+    }
+  }
+
+  .roadmap-feature-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+}

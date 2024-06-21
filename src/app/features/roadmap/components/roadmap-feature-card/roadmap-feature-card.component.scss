@@ -1,0 +1,10 @@
+.roadmap-feature-header {
+  display: flex;
+  align-items: center;
+
+  .roadmap-feature-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+}

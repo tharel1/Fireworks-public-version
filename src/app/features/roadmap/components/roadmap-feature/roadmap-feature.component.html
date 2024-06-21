@@ -1,0 +1,22 @@
+<div class="roadmap-feature" [class]="direction">
+
+  <div class="roadmap-feature-big-node">
+    <mat-card class="color-inverse"></mat-card>
+  </div>
+
+  <div class="roadmap-feature-node">
+    <mat-card [class]="color"
+              matTooltip=" {{ (feature.releaseDate ?? '') | date: 'longDate' }} "
+              [matTooltipPosition]="direction === 'left' ? 'right' : 'left'">
+      <div class="roadmap-feature-node-pin">
+        <mat-icon *ngIf="isWip">location_pin</mat-icon>
+      </div>
+    </mat-card>
+  </div>
+
+  <div class="roadmap-feature-branch">
+    <mat-card [class]="color"></mat-card>
+  </div>
+
+  <app-roadmap-feature-card [feature]="feature"></app-roadmap-feature-card>
+</div>

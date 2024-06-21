@@ -1,0 +1,74 @@
+@use "styles/variables/roadmap";
+
+.roadmap-feature {
+  display: flex;
+  align-items: center;
+
+  .roadmap-feature-big-node {
+    width: 0;
+    position: relative;
+    left: 0.5 * roadmap.$feature-width - roadmap.$big-node-width;
+
+    mat-card {
+      padding: roadmap.$big-node-width;
+      border-radius: roadmap.$big-node-width;
+    }
+  }
+
+  .roadmap-feature-node {
+    width: 0;
+    z-index: 2;
+    position: relative;
+    left: 0.5 * roadmap.$feature-width - roadmap.$node-width;
+
+    mat-card {
+      padding: roadmap.$node-width;
+      border-radius: roadmap.$node-width;
+
+      display: flex;
+      align-items: center;
+    }
+
+    .roadmap-feature-node-pin {
+      height: 0;
+
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  .roadmap-feature-branch {
+    width: 0;
+    z-index: 1;
+    position: relative;
+
+    mat-card {
+      width: roadmap.$feature-width;
+      height: roadmap.$feature-branch-height;
+    }
+  }
+
+  app-roadmap-feature-card {
+    z-index: 2;
+    width: roadmap.$feature-width;
+    position: relative;
+  }
+
+  &.left {
+    .roadmap-feature-branch {
+      left: -0.5 * roadmap.$feature-width;
+    }
+    app-roadmap-feature-card {
+      left: -0.75 * roadmap.$feature-width;
+    }
+  }
+
+  &.right {
+    .roadmap-feature-branch {
+      left: 0.5 * roadmap.$feature-width;
+    }
+    app-roadmap-feature-card {
+      left: 0.75 * roadmap.$feature-width;
+    }
+  }
+}
