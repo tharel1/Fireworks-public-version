@@ -2,6 +2,7 @@ import {HanabiGame} from "../hanabi-game.model";
 import {HanabiPlayer} from "../hanabi-player.model";
 import {HanabiCommand} from "./internal";
 import {HanabiCard} from "../hanabi-card.model";
+import {JsonType} from "../../../../../core/utils/plain-json.model";
 
 export class HanabiCommandClueValue extends HanabiCommand {
 
@@ -37,6 +38,15 @@ export class HanabiCommandClueValue extends HanabiCommand {
       .withTarget(HanabiPlayer.fromJson(json.target))
       .withValue(json.value)
       .build();
+  }
+
+  override toJson(): JsonType<HanabiCommandClueValue> {
+    return {
+      type: this.type,
+      source: this.source.toJson(),
+      target: this.target.toJson(),
+      value: this.value
+    };
   }
 
   fill(game: HanabiGame): HanabiCommandClueValue {

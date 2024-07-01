@@ -4,8 +4,9 @@ import {HanabiCard} from "./hanabi-card.model";
 import {HanabiSettings} from "./hanabi-settings.model";
 import {HanabiInfos} from "./hanabi-infos/internal";
 import {HanabiScore} from "./hanabi-score.model";
+import {JsonType, PlainJson} from "../../../../core/utils/plain-json.model";
 
-export class HanabiGame implements ValueObject {
+export class HanabiGame implements ValueObject, PlainJson<HanabiGame> {
 
   readonly settings: HanabiSettings;
   readonly turn: number;
@@ -66,6 +67,21 @@ export class HanabiGame implements ValueObject {
       .withFinished(json.finished)
       .withFinishPlayer(json.finishPlayer ? HanabiPlayer.fromJson(json.finishPlayer) : undefined)
       .build();
+  }
+
+  toJson(): JsonType<HanabiGame> {
+    return {
+      settings: this.settings.toJson(),
+      turn: this.turn,
+      players: this.players.map(p => p.toJson()).toArray(),
+      drawPile: this.drawPile.map(c => c.toJson()).toArray(),
+      discardPile: this.discardPile.map(c => c.toJson()).toArray(),
+      board: this.board.map(c => c.toJson()).toArray(),
+      clues: this.clues,
+      bombs: this.bombs,
+      finished: this.finished,
+      finishPlayer: this.finishPlayer?.toJson() ?? null
+    }
   }
 
   equals(other: unknown): boolean {

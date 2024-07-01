@@ -1,0 +1,49 @@
+.login-container {
+  padding: 0 20px;
+
+  display: flex;
+  flex-direction: column;
+
+  .login-title, .login-description {
+    display: flex;
+    justify-content: center;
+  }
+
+  .login-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap-reverse;
+
+    .login-img {
+      flex: 1;
+
+      display: flex;
+      justify-content: center;
+    }
+
+    .login-card-container {
+      flex: 1;
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 40px;
+
+      .login-card {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+
+        .login-card-content {
+          min-width: 250px;
+
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+        }
+      }
+    }
+  }
+}

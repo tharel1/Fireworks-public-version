@@ -1,18 +1,14 @@
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
-import {HanabiHandComponent} from "../../../features/games/hanabi/components/hanabi-hand/hanabi-hand.component";
 import {MatCard} from "@angular/material/card";
-import {AsyncPipe, NgForOf, NgIf} from "@angular/common";
+import {CommonModule} from "@angular/common";
 import {Observable, timer} from "rxjs";
 
 @Component({
   selector: 'app-player-bar',
   standalone: true,
   imports: [
-    HanabiHandComponent,
-    MatCard,
-    NgIf,
-    AsyncPipe,
-    NgForOf
+    CommonModule,
+    MatCard
   ],
   templateUrl: './player-bar.component.html',
   styleUrl: './player-bar.component.scss',

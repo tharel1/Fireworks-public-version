@@ -2,6 +2,7 @@ import {HanabiGame} from "../hanabi-game.model";
 import {HanabiPlayer} from "../hanabi-player.model";
 import {HanabiCommand} from "./internal";
 import {HanabiCard} from "../hanabi-card.model";
+import {JsonType} from "../../../../../core/utils/plain-json.model";
 
 export class HanabiCommandDiscard extends HanabiCommand {
 
@@ -41,6 +42,16 @@ export class HanabiCommandDiscard extends HanabiCommand {
       .withIndex(json.index)
       .withDraw(json.draw)
       .build();
+  }
+
+  override toJson(): JsonType<HanabiCommandDiscard> {
+    return {
+      type: this.type,
+      source: this.source.toJson(),
+      card: this.card.toJson(),
+      index: this.index,
+      draw: this.draw
+    };
   }
 
   fill(game: HanabiGame): HanabiCommandDiscard {

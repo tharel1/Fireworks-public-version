@@ -1,5 +1,6 @@
 .hanabi-command-play {
-  display: flex;
+  display: inline-flex;
+  flex-wrap: wrap;
   align-items: baseline;
   gap: 5px;
 

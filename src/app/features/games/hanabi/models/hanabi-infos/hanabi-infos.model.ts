@@ -4,7 +4,7 @@ import {HanabiCard} from "../hanabi-card.model";
 import {HanabiSettings} from "../hanabi-settings.model";
 import {HanabiGame} from "../hanabi-game.model";
 import {HanabiPlayer} from "../hanabi-player.model";
-import {User} from "../../../../users/models/user.model";
+import {User} from "../../../../../core/models/user.model";
 import {HanabiMarker} from "../hanabi-assistant/hanabi-marker.model";
 import {ArrayUtil} from "../../../../../core/utils/array.util";
 

@@ -1,12 +1,13 @@
-import {List, ValueObject} from "immutable";
+import {List, Set, ValueObject} from "immutable";
 import {HanabiCard} from "./hanabi-card.model";
 import {HanabiGame} from "./hanabi-game.model";
-import {User} from "../../../users/models/user.model";
+import {User} from "../../../../core/models/user.model";
 import {RandomUtil} from "../../../../core/utils/random.util";
 import {HanabiPlayer} from "./hanabi-player.model";
 import {ArrayUtil} from "../../../../core/utils/array.util";
+import {JsonType, PlainJson} from "../../../../core/utils/plain-json.model";
 
-export class HanabiSettings implements ValueObject {
+export class HanabiSettings implements ValueObject, PlainJson<HanabiSettings> {
 
   readonly playersNumber: number;
   readonly maxValue: number;
@@ -49,6 +50,16 @@ export class HanabiSettings implements ValueObject {
       .build();
   }
 
+  toJson(): JsonType<HanabiSettings> {
+    return {
+      playersNumber: this.playersNumber,
+      maxValue: this.maxValue,
+      colors: this.colors.toArray(),
+      maxClues: this.maxClues,
+      maxBombs: this.maxBombs
+    }
+  }
+
   equals(other: unknown): boolean {
     return false;
   }
@@ -65,7 +76,7 @@ export class HanabiSettings implements ValueObject {
     return this.maxValue * this.colors.size;
   }
 
-  createGame(users: List<User>): HanabiGame {
+  createGame(users: Set<User>): HanabiGame {
     const firstPlayerIndex = RandomUtil.random(users.size);
 
     let cards = RandomUtil.shuffle(this.colors
@@ -77,7 +88,7 @@ export class HanabiSettings implements ValueObject {
         .withPlayersNumber(users.size)
         .build())
       .withTurn(1)
-      .withPlayers(users.map((u: User, i: number) => {
+      .withPlayers(RandomUtil.shuffle(users.toList()).map((u: User, i: number) => {
         const hand = cards.slice(0, 5);
         cards = cards.slice(5);
 

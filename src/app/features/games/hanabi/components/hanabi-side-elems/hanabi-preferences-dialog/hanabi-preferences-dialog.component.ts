@@ -52,7 +52,7 @@ export class HanabiPreferencesDialogComponent {
       showTrash: this.preferences.showTrash,
       showMarkerWarnings: this.preferences.showMarkerWarnings,
       markerCleaning: this.preferences.markerCleaning,
-    })
+    });
   }
 
   onSave(): HanabiPreferences | undefined {

@@ -1,0 +1,48 @@
+.signup-container {
+  padding: 0 20px;
+
+  display: flex;
+  flex-direction: column;
+
+  .signup-title, .signup-description {
+    display: flex;
+    justify-content: center;
+  }
+
+  .signup-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+
+    .signup-img {
+      flex: 1;
+
+      display: flex;
+      justify-content: center;
+    }
+
+    .signup-card-container {
+      flex: 1;
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 40px;
+
+      .signup-card-content {
+        display: flex;
+        gap: 20px;
+
+        .signup-card-content-column {
+          min-width: 0;
+
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+        }
+      }
+    }
+  }
+}

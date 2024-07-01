@@ -2,6 +2,7 @@ import {HanabiGame} from "../hanabi-game.model";
 import {HanabiPlayer} from "../hanabi-player.model";
 import {HanabiCommand} from "./internal";
 import {HanabiCard} from "../hanabi-card.model";
+import {JsonType} from "../../../../../core/utils/plain-json.model";
 
 export class HanabiCommandClueColor extends HanabiCommand {
 
@@ -37,6 +38,15 @@ export class HanabiCommandClueColor extends HanabiCommand {
       .withTarget(HanabiPlayer.fromJson(json.target))
       .withColor(json.color)
       .build();
+  }
+
+  override toJson(): JsonType<HanabiCommandClueColor> {
+    return {
+      type: this.type,
+      source: this.source.toJson(),
+      target: this.target.toJson(),
+      color: this.color
+    };
   }
 
   fill(game: HanabiGame): HanabiCommandClueColor {

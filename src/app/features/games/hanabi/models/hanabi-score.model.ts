@@ -1,5 +1,5 @@
 import {ValueObject} from "immutable";
-import {User} from "../../../users/models/user.model";
+import {User} from "../../../../core/models/user.model";
 import {HanabiGame} from "./hanabi-game.model";
 
 export class HanabiScore implements ValueObject {

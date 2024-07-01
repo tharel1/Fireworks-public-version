@@ -1,0 +1,64 @@
+<div class="login-container">
+  <section>
+    <h1 class="login-title">Welcome to Fireworks !</h1>
+    <p class="login-description">A place to play unpublished and original card games !</p>
+  </section>
+
+  <form [formGroup]="formGroup">
+    <section class="login-section">
+      <div class="login-img">
+        <img [ngSrc]="'assets/images/svg/card-game.svg'" alt="" width="750" height="750" priority>
+      </div>
+      <div class="login-card-container">
+        <mat-card>
+          <mat-card-header><mat-card-title>Login</mat-card-title></mat-card-header>
+          <mat-card-content class="login-card">
+            <div class="login-card-content">
+              <p>Connect with your email :</p>
+              <mat-form-field appearance="outline">
+                <mat-label>Email</mat-label>
+                <input matInput
+                       [formControl]="formGroup.controls.email"
+                       (blur)="updateEmailError()">
+                <mat-icon matSuffix>alternate_email</mat-icon>
+                <mat-error> {{ emailError }} </mat-error>
+              </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-label>Password</mat-label>
+                <input matInput
+                       type="password"
+                       [formControl]="formGroup.controls.password"
+                       (blur)="updatePasswordError()">
+                <mat-icon matSuffix>key</mat-icon>
+                <mat-error> {{ passwordError }} </mat-error>
+              </mat-form-field>
+              <button class="login-cards-action"
+                      mat-flat-button
+                      (click)="onLogin()">Login</button>
+              <mat-error *ngIf="authError"> {{ authError }} </mat-error>
+            </div>
+            <mat-divider [vertical]="true"></mat-divider>
+            <div class="login-card-content">
+              <p>OR, connect with :</p>
+              <button class="login-cards-action"
+                      mat-stroked-button
+                      (click)="onSignupWithGoogle()">Google</button>
+            </div>
+          </mat-card-content>
+        </mat-card>
+
+        <mat-card>
+          <mat-card-header><mat-card-title>No account yet ?</mat-card-title></mat-card-header>
+          <mat-card-content class="login-card">
+            <div class="login-card-content">
+              <p>Sign up now :</p>
+              <button mat-flat-button
+                      [routerLink]="'/auth/signup'">Create an account and play right now !</button>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </section>
+  </form>
+
+</div>

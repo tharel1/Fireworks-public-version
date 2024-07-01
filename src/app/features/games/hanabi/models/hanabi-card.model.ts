@@ -1,6 +1,7 @@
 import {hash, is, List, ValueObject} from "immutable";
+import {JsonType, PlainJson} from "../../../../core/utils/plain-json.model";
 
-export class HanabiCard implements ValueObject {
+export class HanabiCard implements ValueObject, PlainJson<HanabiCard> {
 
   readonly id: number;
   readonly value: number;
@@ -49,6 +50,18 @@ export class HanabiCard implements ValueObject {
       .withImpossibleValues(List(json.impossibleValues))
       .withImpossibleColors(List(json.impossibleColors))
       .build();
+  }
+
+  toJson(): JsonType<HanabiCard> {
+    return {
+      id: this.id,
+      value: this.value,
+      color: this.color,
+      valueClue: this.valueClue.toArray(),
+      colorClue: this.colorClue.toArray(),
+      impossibleValues: this.impossibleValues.toArray(),
+      impossibleColors: this.impossibleColors.toArray()
+    };
   }
 
   equals(other: unknown): boolean {

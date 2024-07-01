@@ -2,6 +2,6 @@
   <i>{{ command.source.user.name }}</i>
   played
   <app-hanabi-tiny-card [card]="command.card"></app-hanabi-tiny-card>
-  <b *ngIf="command.isBomb">(+1 💥)</b>
-  <b *ngIf="command.gainClue">(+1 💡)</b>
+  <div *ngIf="command.isBomb">(+1 💥)</div>
+  <div *ngIf="command.gainClue">(+1 💡)</div>
 </span>

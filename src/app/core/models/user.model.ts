@@ -1,6 +1,7 @@
 import {hash, is, ValueObject} from "immutable";
+import {JsonType, PlainJson} from "../utils/plain-json.model";
 
-export class User implements ValueObject {
+export class User implements ValueObject, PlainJson<User> {
 
   readonly id: string;
   readonly name: string;
@@ -29,6 +30,13 @@ export class User implements ValueObject {
       .withId(json.id)
       .withName(json.name)
       .build();
+  }
+
+  toJson(): JsonType<User> {
+    return {
+      id: this.id,
+      name: this.name
+    };
   }
 
   equals(other: unknown): boolean {

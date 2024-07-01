@@ -37,7 +37,7 @@ export class HanabiHistory implements ValueObject {
 
   static fromJson(json: any): HanabiHistory {
     return HanabiHistory.builder()
-      .withState(HanabiGame.fromJson(json.game))
+      .withGame(HanabiGame.fromJson(json.game))
       .withState(HanabiGame.fromJson(json.state))
       .withCommands(List(json.commands).map(c => HanabiCommand.fromJson(c)))
       .withIndex(json.index)

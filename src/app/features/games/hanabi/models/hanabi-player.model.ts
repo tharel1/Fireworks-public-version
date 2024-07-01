@@ -1,8 +1,9 @@
 import {hash, List, ValueObject} from "immutable";
 import {HanabiCard} from "./hanabi-card.model";
-import {User} from "../../../users/models/user.model";
+import {User} from "../../../../core/models/user.model";
+import {JsonType, PlainJson} from "../../../../core/utils/plain-json.model";
 
-export class HanabiPlayer implements ValueObject {
+export class HanabiPlayer implements ValueObject, PlainJson<HanabiPlayer> {
 
   readonly user: User;
   readonly playing: boolean;
@@ -35,6 +36,14 @@ export class HanabiPlayer implements ValueObject {
       .withPlaying(json.playing)
       .withCards(List(json.cards).map(c => HanabiCard.fromJson(c)))
       .build();
+  }
+
+  toJson(): JsonType<HanabiPlayer> {
+    return {
+      user: this.user.toJson(),
+      playing: this.playing,
+      cards: this.cards.map(c => c.toJson()).toArray()
+    };
   }
 
   equals(other: unknown): boolean {

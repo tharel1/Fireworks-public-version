@@ -1,8 +1,9 @@
 import {HanabiGame} from "../hanabi-game.model";
 import {ValueObject} from "immutable";
 import {HanabiCommandPlay, HanabiCommandClueColor, HanabiCommandClueValue, HanabiCommandDiscard} from "./internal";
+import {JsonType, PlainJson} from "../../../../../core/utils/plain-json.model";
 
-export abstract class HanabiCommand implements ValueObject {
+export abstract class HanabiCommand implements ValueObject, PlainJson<HanabiCommand> {
 
   readonly type: HanabiCommand.Type;
 
@@ -22,6 +23,8 @@ export abstract class HanabiCommand implements ValueObject {
         return HanabiCommandClueValue.fromJson(json);
     }
   }
+
+  abstract toJson(): JsonType<HanabiCommand>;
 
   equals(other: unknown): boolean {
     return false;
