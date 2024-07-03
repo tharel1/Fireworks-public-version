@@ -98,6 +98,7 @@ export class HanabiComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.initialized = false;
     this.cardAnimator.resetCardPositions();
     this.watcher.unsubscribe();
   }
@@ -137,6 +138,8 @@ export class HanabiComponent implements OnInit, OnDestroy {
 
     this.animateForward(this.game, command);
     if (this.game.finished) this.finishGame();
+    const warnMessage = this.game.warnMessage();
+    if (warnMessage) this.snackBarService.warn(warnMessage);
   }
 
   private finishGame(): void {
@@ -169,6 +172,8 @@ export class HanabiComponent implements OnInit, OnDestroy {
     switch (this.history.lastAction) {
       case HanabiHistory.Action.GO_FORWARD:
         this.animateForward(this.gameOrHistory, this.history.lastCommand());
+        const warnMessage = this.gameOrHistory.warnMessage();
+        if (warnMessage) this.snackBarService.warn(warnMessage);
         return;
       case HanabiHistory.Action.GO_BACKWARD:
         this.animateBackward(this.gameOrHistory, this.history.lastCommand());

@@ -1,0 +1,14 @@
+.hanabi-state-other-turn-container {
+  display: flex;
+  flex-direction: column;
+
+  .hanabi-state-other-turn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .hanabi-state-other-turn-info {
+    font-size: x-small;
+  }
+}

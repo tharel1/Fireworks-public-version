@@ -1,0 +1,14 @@
+.hanabi-state-self-turn-container {
+  display: flex;
+  flex-direction: column;
+
+  .hanabi-state-self-turn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .hanabi-state-self-turn-info {
+    font-size: x-small;
+  }
+}

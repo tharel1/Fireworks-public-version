@@ -1,0 +1,18 @@
+.hanabi-state-finished-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  .hanabi-state-finished {
+    width: 100%;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .hanabi-state-finished-score {
+      margin-top: -10px;
+      margin-bottom: -10px;
+    }
+  }
+}

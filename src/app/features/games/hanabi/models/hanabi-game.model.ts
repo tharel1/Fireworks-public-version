@@ -17,7 +17,7 @@ export class HanabiGame implements ValueObject, PlainJson<HanabiGame> {
   readonly clues: number;
   readonly bombs: number;
   readonly finished: boolean;
-  readonly finishPlayer?: HanabiPlayer;
+  readonly lastTurn?: number;
 
   constructor(builder: Builder) {
     this.settings = builder.settings;
@@ -29,7 +29,7 @@ export class HanabiGame implements ValueObject, PlainJson<HanabiGame> {
     this.clues = builder.clues;
     this.bombs = builder.bombs;
     this.finished = builder.finished;
-    this.finishPlayer = builder.finishPlayer;
+    this.lastTurn = builder.lastTurn;
   }
 
   static builder(): Builder {
@@ -51,7 +51,7 @@ export class HanabiGame implements ValueObject, PlainJson<HanabiGame> {
       .withClues(copy.clues)
       .withBombs(copy.bombs)
       .withFinished(copy.finished)
-      .withFinishPlayer(copy.finishPlayer);
+      .withLastTurn(copy.lastTurn);
   }
 
   static fromJson(json: any): HanabiGame {
@@ -65,7 +65,7 @@ export class HanabiGame implements ValueObject, PlainJson<HanabiGame> {
       .withClues(json.clues)
       .withBombs(json.bombs)
       .withFinished(json.finished)
-      .withFinishPlayer(json.finishPlayer ? HanabiPlayer.fromJson(json.finishPlayer) : undefined)
+      .withLastTurn(json.lastTurn)
       .build();
   }
 
@@ -80,7 +80,7 @@ export class HanabiGame implements ValueObject, PlainJson<HanabiGame> {
       clues: this.clues,
       bombs: this.bombs,
       finished: this.finished,
-      finishPlayer: this.finishPlayer?.toJson() ?? null
+      lastTurn: this.lastTurn ?? null
     }
   }
 
@@ -98,17 +98,40 @@ export class HanabiGame implements ValueObject, PlainJson<HanabiGame> {
         || this.reachedMaxPossibleScore();
   }
 
+  infoMessage(): string | undefined {
+    return `Play/Discard a card or give a clue to a player.`;
+  }
+
+  warnMessage(): string | undefined {
+    if (this.finished) return `Game finished !`;
+    if (!this.lastTurn) return undefined;
+
+    const turnsLeft = this.turnsLeft();
+    if (turnsLeft === this.settings.playersNumber)
+      return `Empty deck: ${turnsLeft} turns left!`;
+    else if (turnsLeft === 1)
+      return `Last turn!`;
+    else if (turnsLeft === 0)
+      return undefined;
+    else
+      return `${turnsLeft} turns left!`;
+  }
+
   private hasMaxBombs(): boolean {
     return this.bombs === this.settings.maxBombs;
   }
 
   private lastTurnPlayed(): boolean {
-    if (!this.finishPlayer) return false;
-    return this.finishPlayer.equals(this.currentPlayer());
+    return this.turn === this.lastTurn;
   }
 
   private reachedMaxPossibleScore(): boolean {
     return this.score() === this.maxPossibleScore();
+  }
+
+  turnsLeft(): number | undefined {
+    if (!this.lastTurn) return undefined;
+    return (1+this.lastTurn) - this.turn;
   }
 
   score(): number {
@@ -149,7 +172,9 @@ export class HanabiGame implements ValueObject, PlainJson<HanabiGame> {
         .build()))
       .withTurn(this.turn+1)
       .withFinished(this.isFinished())
-      .withFinishPlayer(this.finishPlayer ?? (this.drawPile.isEmpty() ? this.currentPlayer() : undefined))
+      .withLastTurn(this.lastTurn ?? (this.drawPile.isEmpty()
+        ? (this.turn+this.settings.playersNumber)
+        : undefined))
       .build();
   }
 
@@ -162,7 +187,9 @@ export class HanabiGame implements ValueObject, PlainJson<HanabiGame> {
         .build()))
       .withTurn(this.turn-1)
       .withFinished(false)
-      .withFinishPlayer(this.drawPile.isEmpty() ? this.finishPlayer : undefined)
+      .withLastTurn(this.drawPile.isEmpty()
+        ? this.lastTurn
+        : undefined)
       .build();
   }
 
@@ -218,7 +245,7 @@ class Builder {
   clues: number = 0;
   bombs: number = 0;
   finished: boolean = false;
-  finishPlayer?: HanabiPlayer = undefined;
+  lastTurn?: number = undefined;
 
   withSettings(settings: HanabiSettings): Builder {
     this.settings = settings;
@@ -265,8 +292,8 @@ class Builder {
     return this;
   }
 
-  withFinishPlayer(finishPlayer?: HanabiPlayer): Builder {
-    this.finishPlayer = finishPlayer;
+  withLastTurn(lastTurn?: number): Builder {
+    this.lastTurn = lastTurn;
     return this;
   }
 

@@ -1,18 +1,3 @@
 .hanabi-state {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-
-  .hanabi-state-finished {
-    width: 100%;
-
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    .hanabi-state-score-button {
-      margin-top: -10px;
-      margin-bottom: -10px;
-    }
-  }
+  height: 78px;
 }

@@ -1,0 +1,9 @@
+<mat-card class="color-primary-inverse">
+  <mat-card-content class="hanabi-state-self-turn-container">
+    <div class="hanabi-state-self-turn">
+      <mat-icon> {{ ((beat$ | async)??0)%2===0 ? 'hourglass_bottom' : 'hourglass_top' }}</mat-icon>
+      <span>Your turn to play:</span>
+    </div>
+    <p class="hanabi-state-self-turn-info">{{ infoMessage }}</p>
+  </mat-card-content>
+</mat-card>
